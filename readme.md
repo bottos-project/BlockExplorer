@@ -5,5 +5,5 @@
 # Design
 
 <div align="center">
-<img src="https://github.com/bottos-project/BlockExplorer/blob/master/bottos-explorer.png"  >
+<img src="https://github.com/bottos-project/BlockExplorer/blob/master/block-explorer.png"  >
  </div>
