@@ -4,4 +4,4 @@
 
 # Design
 
-![image](./bottos-explorer.png)
+![image](./bottos-explorer.png =2000x3000)
