@@ -4,4 +4,4 @@
 
 # Design
 
-[]!(../bottos-explorer.png)
+![image](./bottos-explorer.png)
