@@ -4,6 +4,6 @@
 
 # Design
 
-<div align="left">
+<div align="center">
 <img src="https://github.com/bottos-project/BlockExplorer/blob/master/block-explorer.png" height="330" width="190" >
  </div>
