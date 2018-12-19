@@ -94,7 +94,8 @@
             blockNum:this.custId
           }
           queryBlockDetail(para).then(response => {
-            this.Detail = response.data
+              console.log({response})
+            this.Detail = response
           }).catch(error => {
             this.$message({
                 message: this.$i18n.t('tips.error'),

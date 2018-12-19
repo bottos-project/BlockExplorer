@@ -11,7 +11,7 @@ import (
 
 func AccountList(c *gin.Context) {
 	var params module.ReqAccountList
-	var accounts []module.DBAccounts
+	var accounts []module.ResAccountList
 
 	if err := c.BindJSON(&params); err != nil {
 		common.ResponseErr(c, "params error", err)
@@ -24,7 +24,7 @@ func AccountList(c *gin.Context) {
 	accountModule := module.AccountCollection()
 	fmt.Println(accountModule)
 
-	if err := accountModule.Find(bson.M{}).Skip(start * length).Limit(length).All(&accounts); err != nil {
+	if err := accountModule.Find(bson.M{}).Skip(start).Limit(length).All(&accounts); err != nil {
 		common.ResponseErr(c, "accounts find failed", err)
 		return
 	}
@@ -40,7 +40,7 @@ func AccountList(c *gin.Context) {
 
 func AccountDetail(c *gin.Context) {
 	var params module.ReqAccountInfo
-	var account module.DBAccounts
+	var account module.ResAccountDetail
 
 	if err := c.BindJSON(&params); err != nil {
 		common.ResponseErr(c, "params error", err)
@@ -53,7 +53,23 @@ func AccountDetail(c *gin.Context) {
 		return
 	}
 
-	common.ResponseSuccess(c, "account find success", account)
+	// transactions
+	trxModule := module.TransactionCollection()
+	// transaction out count
+	out := bson.M{"method": "transfer", "param.from": params.AccountName}
+	send, _ := trxModule.Find(out).Count()
+	// transaction in
+	in := bson.M{"method": "transfer", "param.to": params.AccountName}
+	receiveCount, _ := trxModule.Find(in).Count()
+
+	// set account info
+	account.SendCount = send
+	account.ReceiveCount = receiveCount
+	account.TradeCount = send
+	res := module.ResDataStruct{
+		Data: account,
+	}
+	common.ResponseSuccess(c, "account find success", res)
 }
 
 // 查询账户实时总数

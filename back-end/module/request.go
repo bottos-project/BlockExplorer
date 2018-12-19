@@ -13,7 +13,7 @@ type ReqAccountList struct {
 
 // GetBlockDetail
 type ReqBlockDetail struct {
-	BlockNum uint64 `json:"block_num"`
+	BlockNum string `json:"blockNum"`
 }
 
 // get block detail by blockhash
@@ -28,12 +28,13 @@ type ReqGetTransaction struct {
 
 // GetAccountInfo
 type ReqAccountInfo struct {
-	AccountName string `json:"account_name"`
+	AccountName string `json:"accountName"`
 }
 
 // GetTransactionList
 type ReqTransactionList struct {
-	BlockNum int `json:"block_number"`
-	Start    int `json:"start"`
-	Length   int `json:"length"`
+	AccountName string `json:"accountName"`
+	BlockNum    string `json:"blockNum"`
+	Start       int    `json:"start"`
+	Length      int    `json:"length"`
 }

@@ -1,0 +1,5 @@
+/back-end/BlockExplorer
+/back-end/doc/
+
+front-end/node_modules
+front-end/package-lock.json

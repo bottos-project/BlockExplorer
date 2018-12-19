@@ -5,11 +5,6 @@ import (
 	mgo "gopkg.in/mgo.v2"
 )
 
-func UserCollection() *mgo.Collection {
-	mongo := db.GetMongoDB()
-	return mongo.C("users")
-}
-
 func BlockCollection() *mgo.Collection {
 	mongo := db.GetMongoDB()
 	return mongo.C("Blocks")

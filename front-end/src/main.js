@@ -67,10 +67,10 @@ require('moment/locale/zh-cn');
 moment.locale(lang());
 Vue.filter('dateformat', function(dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
   //return moment(dataStr).format(pattern)
-  return moment(dataStr).startOf('second').fromNow();
+  return moment(dataStr * 1000).startOf('second').fromNow();
 })
 Vue.filter('dateformatNow', function(dataStr, pattern = 'YYYY/MM/DD HH:mm:ss') {
-  return moment(dataStr).format(pattern)
+  return moment(dataStr * 1000).format(pattern)
   //return moment(dataStr).startOf('hour').fromNow();
 })
 

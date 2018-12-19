@@ -71,8 +71,8 @@ import {queryBlockList} from '@/api/blockchain_blocks'
             length:this.listQuery.length
           };
           queryBlockList(para).then(response => {
-            this.tableData = response.data.data
-            this.listQuery.iTotalDisplayRecords = response.data.iTotalDisplayRecords
+            this.tableData = response.data
+            this.listQuery.iTotalDisplayRecords = response.iTotalDisplayRecords
             this.listLoading = false
           }).catch(function(error){
             this.$message({

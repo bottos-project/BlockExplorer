@@ -25,7 +25,7 @@
         </el-table-column>
         <el-table-column prop="availableAmount" :label="$t('accounts.table2')" min-width="180">
           <template slot-scope="scope">
-            {{scope.row.availableAmount}} {{scope.row.currency}} 
+            {{scope.row.availableAmount / Math.pow(10,8)}} {{scope.row.currency}} 
           </template>
         </el-table-column>
         <el-table-column prop="holdRate" :label="$t('accounts.table3')" min-width="150">
@@ -80,7 +80,8 @@ import {queryCustList,queryCustSummary} from '@/api/blockchain_accounts'
             length:this.listQuery.length
           };
           queryCustSummary(para).then(response => {
-            this.CustSummary = response.data.rtCustCount
+            console.log({responsesdfssdfds:response})
+            this.CustSummary = response.rtCustCount
           }).catch(function(error){
             this.$message({
               message: this.$i18n.t('tips.error'),
@@ -88,8 +89,9 @@ import {queryCustList,queryCustSummary} from '@/api/blockchain_accounts'
             });
           })
           queryCustList(para).then(response => {
-            this.tableData = response.data.data
-            this.listQuery.iTotalDisplayRecords = response.data.iTotalDisplayRecords
+            console.log({response})
+            this.tableData = response.data
+            this.listQuery.iTotalDisplayRecords = response.iTotalDisplayRecords
             this.listLoading = false
           }).catch(function(error){
             this.$message({

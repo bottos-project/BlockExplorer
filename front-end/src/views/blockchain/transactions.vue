@@ -81,7 +81,7 @@ import {queryTradeList} from '@/api/blockchain_transactions'
             length:this.listQuery.length
           }
           queryTradeList(para).then(response => {
-            this.tableData = response.data.data
+            this.tableData = response.data
             this.listQuery.iTotalDisplayRecords = response.data.iTotalDisplayRecords
             this.listLoading = false
           }).catch(function(error){

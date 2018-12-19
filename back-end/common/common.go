@@ -8,7 +8,7 @@ import (
 
 func ResponseSuccess(c *gin.Context, message string, result interface{}) {
 	c.JSON(http.StatusOK, gin.H{
-		"result":  result,
+		"data":    result,
 		"message": message,
 		"success": true,
 	})
@@ -16,7 +16,7 @@ func ResponseSuccess(c *gin.Context, message string, result interface{}) {
 
 func ResponseErr(c *gin.Context, message string, err error) {
 	c.JSON(http.StatusOK, gin.H{
-		"result":  err,
+		"data":    err,
 		"message": message,
 		"success": false,
 	})

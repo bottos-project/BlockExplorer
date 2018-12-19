@@ -22,16 +22,16 @@ service.interceptors.request.use(config => {
 // respone拦截器
 service.interceptors.response.use(
     response => {
-      const res = response.data.result
+      const res = response.data
       if (res.success !== true) {
         Message({
-          message: res.message,
+          message: response.message,
           type: 'error',
           duration: 5 * 1000
         })
         return Promise.reject('error')
       } else {
-        return response.data.result
+        return response.data.data
       }
     },
     error => {

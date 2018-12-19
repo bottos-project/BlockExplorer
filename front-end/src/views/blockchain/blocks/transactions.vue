@@ -60,8 +60,8 @@ export default {
           length:this.listQuery.length
         };
         queryTradeList(para).then(response => {
-          this.tableData = response.data.data
-          this.listQuery.iTotalDisplayRecords = response.data.iTotalDisplayRecords
+          this.tableData = response.data
+          this.listQuery.iTotalDisplayRecords = response.iTotalDisplayRecords
           this.listLoading = false
         }).catch(function(error){
           console.log('加载出错……');

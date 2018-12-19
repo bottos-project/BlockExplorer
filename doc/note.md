@@ -1,5 +1,0 @@
-- [Gin - 高性能 Golang Web 框架的介绍和使用](https://www.yoytang.com/go-gin-doc.html)
-- [Golang 微框架 Gin 简介](https://www.jianshu.com/p/a31e4ee25305)
-- [Golang网站微框架Gin](https://www.itfanr.cc/2017/07/30/golang-web-framework-gin/)
-- [golang几种post请求方式](https://www.cnblogs.com/mafeng/p/7068837.html)
-- [golang post请求常用的几种方式](https://blog.csdn.net/mofiu/article/details/79925994)

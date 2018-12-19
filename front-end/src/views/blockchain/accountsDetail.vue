@@ -11,7 +11,8 @@
               <li class="row">
                   <div class="tit">{{$t('accountsDetail.balance')}}</div>
                   <div class="con">
-                    {{currencyAmount}}
+                    {{Detail.balance}}
+                    <!--{{currencyAmount}}-->
                     <!-- <select v-model="currencyAmount" class="select">
                       <option v-for="option in currencyAmountOptions" v-bind:value="option.availableAmount">
                         {{ option.currency }}
@@ -74,7 +75,6 @@
       },
       created(){
         this.fetchData()
-        
       },
       methods:{
         fetchData() {
@@ -84,7 +84,7 @@
           queryCustDetail(para).then(response => {
             this.Detail = response.data
             this.currencyAmountOptions = response.data.currencyList
-            this.currencyAmount = this.currencyAmountOptions[0].availableAmount;
+            this.currencyAmount = response.balance
           }).catch(error => {
             this.$message({
                 message: this.$i18n.t('tips.error'),

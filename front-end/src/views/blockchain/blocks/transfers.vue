@@ -25,6 +25,9 @@
         </template>
       </el-table-column>
       <el-table-column prop="tradeAmount" :label="$t('transfers.table5')" width="160">
+        <template slot-scope="scope">
+          {{scope.row.tradeAmount / Math.pow(10,8)}}
+        </template>
       </el-table-column>
     </el-table>
 
@@ -75,8 +78,8 @@ import {queryTransferlList} from '@/api/blockchain_blocks'
             length:this.listQuery.length
           };
           queryTransferlList(para).then(response => {
-            this.tableData = response.data.data
-            this.listQuery.iTotalDisplayRecords = response.data.iTotalDisplayRecords
+            this.tableData = response.data
+            this.listQuery.iTotalDisplayRecords = response.iTotalDisplayRecords
             this.listLoading = false
           }).catch(function(error){
             console.log('加载出错……');
