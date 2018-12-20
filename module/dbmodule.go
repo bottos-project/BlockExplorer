@@ -39,7 +39,6 @@ type DBBlocks struct {
 type DBTransaction struct {
 	ID            bson.ObjectId          `bson:"_id"`
 	BlockNumber   uint64                 `bson:"block_number"`
-	TrxHash       string                 `bson:"trx_hash"`
 	TransactionID string                 `bson:"transaction_id"`
 	SequenceNum   int32                  `bson:"sequence_num"`
 	BlockHash     string                 `bson:"block_hash"`

@@ -100,6 +100,7 @@ import {queryTradeDetail} from '@/api/blockchain_transactions'
             transactionId:this.custId
           }
           queryTradeDetail(para).then(response => {
+            //   console.log({response})
             this.Detail = response.data
             this.inputdata = this.syntaxHighlight(response.data.param)
           }).catch(error => {

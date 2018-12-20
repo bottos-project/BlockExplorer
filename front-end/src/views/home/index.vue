@@ -9,7 +9,7 @@
             <button @click="searchData"><img src="../../assets/icon_view.png" width="26" height="26" /></button>
           </div>
         </div>
-        <div class="homeStats">
+        <!-- <div class="homeStats">
           <el-row>
             <el-col :xs="24" :sm="6" :md="6" :lg="6" :xl="6">
              1
@@ -24,7 +24,7 @@
               4
             </el-col>
           </el-row>
-        </div>
+        </div> -->
         <div class="homeStats">
           <el-row>
             <el-col :xs="24" :sm="6" :md="6" :lg="6" :xl="6">
@@ -145,6 +145,7 @@ export default {
           if(response.message === "搜索成功"){
             if(response.data.resultType === "block"){
               console.log('区块高度跳转')
+              console.log(response.data.blockNum)
               this.$router.push('/blockchain/blocksDetail/'+response.data.blockNum);
             }
             if(response.data.resultType === "trade"){
@@ -166,6 +167,7 @@ export default {
       PrimarySummaryData() {
         let para = {}
         PrimarySummary(para).then(response => {
+          console.log({response})
           this.PrimarySummary = response.data
         }).catch(error => {
           this.$message({

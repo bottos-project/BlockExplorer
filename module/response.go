@@ -1,15 +1,29 @@
 package module
 
+// response success
+type ResSuccess struct {
+	Data    interface{} `json:"data"`
+	Message string      `json:"message"`
+	Success bool        `json:"success"`
+}
+
+type ResErr struct {
+	Data    error  `json:"data"`
+	Message string `json:"message"`
+	Success bool   `json:"success"`
+}
+
+// response data struct
 type ResDataStruct struct {
 	Data interface{} `json:"data"`
 }
 
 // home statistic
 type ResTotalCount struct {
-	TransactionCount string `json:"lastTradeCount"`
+	TransactionCount int    `json:"lastTradeCount"`
 	NodeCount        string `json:"nodeCount"`
 	BlockNumber      uint64 `json:"blockNum"`
-	Accounts         int64  `json:"rtCustCount"`
+	Accounts         int    `json:"rtCustCount"`
 }
 
 type ResPageList struct {
@@ -63,6 +77,7 @@ type ResBlockDetail struct {
 	TimeStamp        int64  `bson:"timestamp" json:"tradeDate"`
 	Delegate         string `bson:"delegate" json:"delegate"`
 	TransactionCount int    `bson:"transaction_count" json:"transCount"`
+	ResultType       string `json:"resultType"`
 }
 
 // account detail
@@ -72,4 +87,18 @@ type ResAccountDetail struct {
 	SendCount    int    `json:"sendCount"`
 	TradeCount   int    `json:"tradeCount"`
 	Balance      string `bson:"balance" json:"balance"`
+	ResultType   string `json:"resultType"`
+}
+
+// transfer detail
+type ResTransferDetail struct {
+	BlockNumber   uint64                 `bson:"block_number" json:"blockNum"`
+	TransactionID string                 `bson:"transaction_id" json:"transactionId"`
+	Sender        string                 `bson:"sender" json:"sender"`
+	Contract      string                 `bson:"contract" json:"contract"`
+	Method        string                 `bson:"method" json:"method"`
+	Param         map[string]interface{} `bson:"param" json:"param"`
+	TimeStamp     int64                  `bson:"timestamp" json:"tradeDate"`
+	TradeStatus   string                 `json:"tradeStatus"`
+	ResultType    string                 `json:"resultType"`
 }

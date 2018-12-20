@@ -44,7 +44,7 @@ export default {
           length:20
         }
         queryTransferlList(para).then(response => {
-          this.tableList = response.data.data
+          this.tableList = response.data
           if(response.data.data.length === 0){
             
           }

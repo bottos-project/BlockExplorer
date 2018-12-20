@@ -10,6 +10,7 @@ func Routes(router *gin.Engine) {
 	rExplorer := router.Group("/")
 	// Home
 	rExplorer.POST("/comm/queryMajSummaryAuto", controller.HomeGetTotalCount) // 首页统计
+	rExplorer.POST("/common/queryFuzzyInfoAuto", controller.HomeSearch)       // 首页搜索
 
 	// total
 	rExplorer.POST("/cust/queryCustSummaryAuto", controller.AccountTotal) // 账户实时总数

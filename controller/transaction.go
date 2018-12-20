@@ -36,7 +36,7 @@ func TrxTransactionList(c *gin.Context) {
 		common.ResponseErr(c, "transactions search error", err)
 		return
 	}
-	totalCount, _ := trxModule.Count()
+	totalCount, _ := trxModule.Find(findInfo).Count()
 
 	res := module.ResPageList{
 		Data:          transactions,
@@ -89,7 +89,7 @@ func TrxTransferList(c *gin.Context) {
 		resTransferList = append(resTransferList, tempT)
 	}
 
-	totalCount, _ := transferModule.Find(bson.M{"method": "transfer"}).Count()
+	totalCount, _ := transferModule.Find(findInfo).Count()
 	res := module.ResPageList{
 		Data:          resTransferList,
 		TotalRecordes: totalCount,
@@ -100,7 +100,7 @@ func TrxTransferList(c *gin.Context) {
 // 交易详情
 func TrxTransactionDetail(c *gin.Context) {
 	var params module.ReqGetTransaction
-	var trx module.DBTransaction
+	var trx module.ResTransferDetail
 
 	if err := c.BindJSON(&params); err != nil {
 		common.ResponseErr(c, "params error", err)
@@ -108,12 +108,19 @@ func TrxTransactionDetail(c *gin.Context) {
 	}
 
 	trxModule := module.TransactionCollection()
-	if err := trxModule.Find(bson.M{"transaction_hash": params.TrxHash}).One(&trx); err != nil {
+	if err := trxModule.Find(bson.M{"transaction_id": params.TransactionID}).One(&trx); err != nil {
 		common.ResponseErr(c, "transaction detail find failed", err)
 		return
 	}
 
-	common.ResponseSuccess(c, "transaction detail find success", trx)
+	trx.TradeStatus = "已确认"
+	trx.ResultType = "trade"
+
+	res := module.ResDataStruct{
+		Data: trx,
+	}
+
+	common.ResponseSuccess(c, "transaction detail find success", res)
 }
 
 // personal transfer list

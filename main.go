@@ -22,7 +22,7 @@ func main() {
 	}
 
 	router.Use(cors.Default())
-	db.InitMongoDB("test")
+	db.InitMongoDB("blockchainbowser")
 	routers.Routes(router)
 	s.ListenAndServe()
 }

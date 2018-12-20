@@ -78,6 +78,7 @@ import {queryTransferlList} from '@/api/blockchain_blocks'
             length:this.listQuery.length
           };
           queryTransferlList(para).then(response => {
+            console.log({queryTransferlList:response})
             this.tableData = response.data
             this.listQuery.iTotalDisplayRecords = response.iTotalDisplayRecords
             this.listLoading = false

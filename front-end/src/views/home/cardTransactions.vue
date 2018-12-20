@@ -38,10 +38,10 @@ export default {
           })
           this.drawColumnChart()
         }).catch(error => {
-          this.$message({
-            message: this.$i18n.t('tips.error'),
-            type: 'error'
-          });
+          // this.$message({
+          //   message: this.$i18n.t('tips.error'),
+          //   type: 'error'
+          // });
         })
       },
       drawColumnChart() {

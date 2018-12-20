@@ -23,7 +23,7 @@ type ReqBlockDetailByHash struct {
 
 // GetTransaction
 type ReqGetTransaction struct {
-	TrxHash string `json:"trx_hash"`
+	TransactionID string `json:"transactionId"`
 }
 
 // GetAccountInfo
@@ -37,4 +37,9 @@ type ReqTransactionList struct {
 	BlockNum    string `json:"blockNum"`
 	Start       int    `json:"start"`
 	Length      int    `json:"length"`
+}
+
+// Home search by account、blockNum、transactionID、blockHash
+type ReqHomeSearch struct {
+	Condition string `json:"condition"`
 }

@@ -65,6 +65,7 @@ func BlockDetail(c *gin.Context) {
 	}
 
 	block.BlockStatus = "已确认"
+	block.ResultType = "block"
 
 	common.ResponseSuccess(c, "block detail find success", block)
 }
