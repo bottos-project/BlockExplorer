@@ -167,7 +167,6 @@ export default {
       PrimarySummaryData() {
         let para = {}
         PrimarySummary(para).then(response => {
-          console.log({response})
           this.PrimarySummary = response.data
         }).catch(error => {
           this.$message({

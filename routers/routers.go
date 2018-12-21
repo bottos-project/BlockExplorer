@@ -26,4 +26,8 @@ func Routes(router *gin.Engine) {
 	rExplorer.POST("/block/queryBlockDetailAuto", controller.BlockDetail)          // 区块详情
 	rExplorer.POST("/trade/queryTradeDetailAuto", controller.TrxTransactionDetail) // 交易详情
 	rExplorer.POST("/cust/queryCustDetailAuto", controller.AccountDetail)          // 账户详情
+
+	// Statistics
+	rExplorer.POST("/trade/queryLastFTTradeSummaryAuto", controller.StatisticTransaction) // transaction statistic
+	rExplorer.POST("/cust/queryRigiterSummaryAuto", controller.StatisticAccount)          // account increase
 }

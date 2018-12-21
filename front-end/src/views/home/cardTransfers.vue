@@ -49,10 +49,10 @@ export default {
             
           }
         }).catch(error => {
-          this.$message({
-            message: this.$i18n.t('tips.error'),
-            type: 'error'
-          });
+        //   this.$message({
+        //     message: this.$i18n.t('tips.error'),
+        //     type: 'error'
+        //   });
         })
       }, 
     },
