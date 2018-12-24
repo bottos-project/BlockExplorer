@@ -30,4 +30,7 @@ func Routes(router *gin.Engine) {
 	// Statistics
 	rExplorer.POST("/trade/queryLastFTTradeSummaryAuto", controller.StatisticTransaction) // transaction statistic
 	rExplorer.POST("/cust/queryRigiterSummaryAuto", controller.StatisticAccount)          // account increase
+
+	// statistic
+	rExplorer.POST("/test/accountstatistic", controller.TestStatisticAccount)
 }

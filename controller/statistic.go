@@ -1,9 +1,12 @@
 package controller
 
 import (
+	"fmt"
+
 	"github.com/BlockExplorer/common"
 	"github.com/BlockExplorer/module"
 	"github.com/gin-gonic/gin"
+	"gopkg.in/mgo.v2/bson"
 )
 
 // transaction statistics
@@ -55,4 +58,20 @@ func StatisticAccount(c *gin.Context) {
 	}
 
 	common.ResponseSuccess(c, "account statistic search success", res)
+}
+
+func TestStatisticAccount(c *gin.Context) {
+	var accounts []module.DBAccounts
+	accountModule := module.AccountCollection()
+	m := []bson.M{
+		{"$match": bson.M{"timestamp": bson.M{"$gte": 1545389205, "$lte": 1545389205}}},
+	}
+
+	if err := accountModule.Pipe(m).All(&accounts); err != nil {
+		fmt.Println("TestStatisticAccount failed")
+		fmt.Println(err)
+		common.ResponseErr(c, "statistic account failed", err)
+		return
+	}
+	common.ResponseSuccess(c, "statistic account success", accounts)
 }

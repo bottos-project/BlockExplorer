@@ -1,19 +1,23 @@
 package module
 
 import (
+	"time"
+
 	"gopkg.in/mgo.v2/bson"
 )
 
 type DBAccounts struct {
-	AccountName        string `bson:"account_name"`
-	PubKey             string `bson:"pubkey"`
-	Balance            string `bson:"balance"`
-	StakedBalance      string `bson:"staked_balance"`
-	StakedSpaceBalance string `bson:"staked_space_balance"`
-	StakedTimeBalance  string `bson:"staked_time_balance"`
-	UnStakingBalance   string `bson:"unStaking_balance"`
-	UnStakdingTime     uint64 `bson:"unStaking_time"`
-	Vote               DBVote `bson:"vote"`
+	AccountName        string    `bson:"account_name"`
+	PubKey             string    `bson:"pubkey"`
+	Balance            string    `bson:"balance"`
+	TimeStamp          int64     `bson:"timestamp"`
+	CreateTime         time.Time `bson:"create_time"`
+	StakedBalance      string    `bson:"staked_balance"`
+	StakedSpaceBalance string    `bson:"staked_space_balance"`
+	StakedTimeBalance  string    `bson:"staked_time_balance"`
+	UnStakingBalance   string    `bson:"unStaking_balance"`
+	UnStakdingTime     uint64    `bson:"unStaking_time"`
+	Vote               DBVote    `bson:"vote"`
 }
 
 type DBVote struct {
