@@ -42,12 +42,14 @@ type ResBlockList struct {
 
 // transactions
 type ResTransactions struct {
-	BlockNumber   uint64 `bson:"block_number" json:"blockNum"`
-	TransactionID string `bson:"transaction_id" json:"transactionId"`
-	Sender        string `bson:"sender" json:"sender"`
-	Contract      string `bson:"contract" json:"contract"`
-	Method        string `bson:"method" json:"method"`
-	TimeStamp     int64  `bson:"timestamp" json:"tradeDate"`
+	BlockNumber    uint64 `bson:"block_number" json:"blockNum"`
+	TransactionID  string `bson:"transaction_id" json:"transactionId"`
+	Sender         string `bson:"sender" json:"sender"`
+	Contract       string `bson:"contract" json:"contract"`
+	Method         string `bson:"method" json:"method"`
+	TimeStamp      int64  `bson:"timestamp" json:"tradeDate"`
+	SpaceTokenCost int32  `bson:"space_token_cost" json:"space_token_cost"`
+	TimeTokenCost  int32  `bson:"time_token_cost" json:"time_token_cost"`
 }
 
 // transfers
