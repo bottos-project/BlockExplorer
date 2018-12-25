@@ -32,12 +32,12 @@
         </el-table-column> -->
         <el-table-column :label="$t('transactions.computing_resource')" min-width="100">
           <template slot-scope="scope">
-            1 ms 760 µs
+            {{scope.row.time_token_cost}} µs
           </template>
         </el-table-column>
         <el-table-column :label="$t('transactions.network_resource')" min-width="100">
           <template slot-scope="scope">
-            18 B
+            {{scope.row.space_token_cost}} B
           </template>
         </el-table-column>
       </el-table>

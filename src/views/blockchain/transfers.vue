@@ -3,13 +3,13 @@
     <div class="border">
       <div class="title">
         <h3><span>{{$t('transfers.title')}}</span></h3>
-        <div class="selectd">
+        <!-- <div class="selectd">
           <select v-model="currency">
             <option value="BTO">BTO</option>
             <option value="BTC">BTC</option>
             <option value="ETH">ETH</option>
           </select>
-        </div>
+        </div> -->
       </div>
       <el-table :data="tableData" size="medium" v-loading="listLoading" :row-class-name="tableRowClassName" class="tables">
         <el-table-column prop="" width="40">

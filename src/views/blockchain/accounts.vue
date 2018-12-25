@@ -29,6 +29,9 @@
           </template>
         </el-table-column>
         <el-table-column prop="holdRate" :label="$t('accounts.table3')" min-width="150">
+          <template slot-scope="scope">
+            {{scope.row.availableAmount / Math.pow(10,18) * 100}} %
+          </template>
         </el-table-column>
       </el-table>
 

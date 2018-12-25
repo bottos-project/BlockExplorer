@@ -29,6 +29,9 @@
           </template>
         </el-table-column>
         <el-table-column prop="" :label="$t('blocks.table6')" min-width="160">
+          <template slot-scope="scope">
+            2.28310501 BTO
+          </template>
         </el-table-column>
       </el-table>
 
