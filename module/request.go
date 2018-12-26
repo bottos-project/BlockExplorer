@@ -43,3 +43,8 @@ type ReqTransactionList struct {
 type ReqHomeSearch struct {
 	Condition string `json:"condition"`
 }
+
+// super node detail
+type ReqNodeSuperDetail struct {
+	NodeName string `json:"nodeName"`
+}

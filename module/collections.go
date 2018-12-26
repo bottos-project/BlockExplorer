@@ -19,3 +19,13 @@ func TransactionCollection() *mgo.Collection {
 	mongo := db.GetMongoDB()
 	return mongo.C("Transactions")
 }
+
+func NodeServiceCollection() *mgo.Collection {
+	mongo := db.GetMongoDB()
+	return mongo.C("NodeService")
+}
+
+func NodeSuperCollection() *mgo.Collection {
+	mongo := db.GetMongoDB()
+	return mongo.C("NodeSuper")
+}

@@ -33,4 +33,9 @@ func Routes(router *gin.Engine) {
 
 	// statistic
 	rExplorer.POST("/test/accountstatistic", controller.TestStatisticAccount)
+
+	// nodes
+	rExplorer.POST("/superNode/queryNodeListAuto", controller.NodeProductList)   // 生产节点
+	rExplorer.POST("/node/queryNodeRankAuto", controller.NodeServiceList)        // 服务节点
+	rExplorer.POST("/superNode/queryNodeDetailAuto", controller.NodeSuperDetail) // 服务节点
 }
