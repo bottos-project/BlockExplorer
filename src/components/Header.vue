@@ -29,9 +29,9 @@
               </li>
             </ul>
           </li>
-          <li>
+          <!-- <li>
             <router-link to="/contracts">{{$t('menus.contracts')}}</router-link>
-          </li>
+          </li> -->
           <li>
             <router-link to="/nodes">{{$t('menus.nodes')}}</router-link>
           </li>
