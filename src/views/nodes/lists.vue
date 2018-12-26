@@ -39,27 +39,28 @@
           </el-table-column>
           <el-table-column :label="$t('nodes.table1')" min-width="250" :show-overflow-tooltip="true">
             <template slot-scope="scope">
-              <router-link :to="'/nodes/detail/'+scope.row.table1">
+              {{scope.row.node_type}}
+              <!-- <router-link :to="'/nodes/detail/'+scope.row.table1">
               {{scope.row.table1}}
               </router-link>
               <br />
               <a :href="scope.row.url" target="_blank">
                 {{scope.row.url}}
-              </a>
+              </a> -->
             </template>
           </el-table-column>
          
-          <el-table-column :label="$t('nodes.table2')" min-width="100">
+          <el-table-column :label="$t('nodes.table2')" min-width="150">
             <template slot-scope="scope">
-              {{scope.row.table2}}
+              {{scope.row.node_country}}
             </template>
           </el-table-column>
-          <el-table-column :label="$t('nodes.table3')" min-width="100">
+          <el-table-column :label="$t('nodes.table3')" min-width="150">
             <template slot-scope="scope">
-              {{scope.row.table3}}
+              {{scope.row.ip}}
             </template>
           </el-table-column>
-          <el-table-column :label="$t('nodes.table4')" min-width="100">
+          <!-- <el-table-column :label="$t('nodes.table4')" min-width="100">
             <template slot-scope="scope">
               {{scope.row.table4}}
             </template>
@@ -75,7 +76,7 @@
                 {{scope.row.table6}}
               </a>
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
 
         <div v-show="!listLoading" class="pagination-container">
@@ -120,7 +121,7 @@
       },
       created(){
         this.statisticsData()
-        //this.fetchData()
+        this.fetchData()
       },
       methods:{
         statisticsData(){
@@ -137,7 +138,8 @@
         fetchData() {
           let para = {}
           queryNodeRank(para).then(response => {
-            this.tableData = response.data.rankList
+            console.log({response})
+            this.tableData = response
             this.listLoading = false
           }).catch(function(error){
             this.$message({

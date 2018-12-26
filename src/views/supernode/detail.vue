@@ -10,7 +10,7 @@
             <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
               <div class="box bg">
                 <dl>
-                  <dd>{{Detail.accountName}}</dd>
+                  <dd>{{Detail.nodeName}}</dd>
                   <dd><a href="#">{{Detail.nodeUrl}}</a></dd>
                   <dd><span class="icon_position">{{Detail.city}},{{Detail.country}}</span></dd>
                 </dl>
@@ -106,7 +106,8 @@
             nodeName:this.custId
           }
           queryNodeDetail(para).then(response => {
-            this.Detail = response.data
+            console.log({response})
+            this.Detail = response
           }).catch(error => {
             this.$message({
                 message: this.$i18n.t('tips.error'),

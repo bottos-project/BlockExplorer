@@ -40,9 +40,9 @@
                 <div class="ranking">{{item.rank}}</div>
                 <div class="box">
                   <div class="tit">
-                    <router-link :to="'/supernode/detail/'+item.nodeName">
+                    <!-- <router-link :to="'/supernode/detail/'+item.nodeName"> -->
                     {{item.nodeName}}
-                    </router-link>
+                    <!-- </router-link> -->
                   </div>
                   <div class="progress">
                     <span class="progress-bar" :style="'width:'+item.votesRate+'%'"></span>
@@ -63,7 +63,7 @@
                 </div>
                 <div class="des">
                   {{item.nodeDesc}}  
-                  <router-link :to="'/supernode/detail/'+item.nodeName" class="more">{{$t('supernode.lists_more')}}</router-link>
+                  <!-- <router-link :to="'/supernode/detail/'+item.nodeName" class="more">{{$t('supernode.lists_more')}}</router-link> -->
                 </div>
               </div>
             </el-col>
@@ -106,7 +106,7 @@ import {queryNodeSummary,queryNodeList} from '@/api/supernode'
         fetchData() {
           let para = {}
           queryNodeList(para).then(response => {
-            this.tableData = response.data.nodeList
+            this.tableData = response
           }).catch(function(error){
             this.$message({
               message: this.$i18n.t('tips.error'),
