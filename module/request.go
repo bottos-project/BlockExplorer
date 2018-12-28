@@ -48,3 +48,12 @@ type ReqHomeSearch struct {
 type ReqNodeSuperDetail struct {
 	NodeName string `json:"nodeName"`
 }
+
+// person transaction search list
+type ReqPersonTransactionByMethod struct {
+	AccountName string `json:"accountName"`
+	BlockNum    string `json:"blockNum"`
+	Start       int    `json:"start"`
+	Length      int    `json:"length"`
+	Method      string `json:"method"`
+}

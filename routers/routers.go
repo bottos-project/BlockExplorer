@@ -16,11 +16,12 @@ func Routes(router *gin.Engine) {
 	rExplorer.POST("/cust/queryCustSummaryAuto", controller.AccountTotal) // 账户实时总数
 
 	// List
-	rExplorer.POST("/block/queryBlockListAuto", controller.BlockList)                               // BlockList
-	rExplorer.POST("/cust/queryCustListAuto", controller.AccountList)                               // account 列表
-	rExplorer.POST("/trade/queryTradeListAuto", controller.TrxTransactionList)                      // 交易列表
-	rExplorer.POST("/transferl/queryTransferlListAuto", controller.TrxTransferList)                 // 转账列表
-	rExplorer.POST("/transferl/queryPersonalTransferlListAuto", controller.TrxPersonalTransferList) // 个人转账列表
+	rExplorer.POST("/block/queryBlockListAuto", controller.BlockList)                                        // BlockList
+	rExplorer.POST("/cust/queryCustListAuto", controller.AccountList)                                        // account 列表
+	rExplorer.POST("/trade/queryTradeListAuto", controller.TrxTransactionList)                               // 交易列表
+	rExplorer.POST("/transferl/queryTransferlListAuto", controller.TrxTransferList)                          // 转账列表
+	rExplorer.POST("/transferl/queryPersonalTransferlListAuto", controller.TrxPersonalTransferList)          // 个人转账列表
+	rExplorer.POST("/transaction/queryPersonalTransactionByMethod", controller.TexPersonTransactionByMethod) // 根据方法名查询列表
 
 	// Detail
 	rExplorer.POST("/block/queryBlockDetailAuto", controller.BlockDetail)          // 区块详情

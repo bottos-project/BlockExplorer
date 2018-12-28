@@ -117,3 +117,20 @@ type ResStatisticAccount struct {
 	RegDate       string `json:"regDate"`
 	TotalRegCount int    `json:"totalRegCount"`
 }
+
+type ResPersonalTransactionByMethod struct {
+	BlockNumber   uint64                 `bson:"block_number" json:"blockNum"`
+	TransactionID string                 `bson:"transaction_id" json:"transactionId"`
+	SequenceNum   int32                  `bson:"sequence_num" json:"sequenceNum"`
+	BlockHash     string                 `bson:"block_hash" json:"blockHash"`
+	CursorNum     uint32                 `bson:"cursor_num" json:"cursonNum"`
+	CursorLabel   uint32                 `bson:"cursor_label" json:"cursorLabel"`
+	LifeTime      uint64                 `bson:"lifetime" json:"lifeTime"`
+	Sender        string                 `bson:"sender" json:"sender"`
+	Contract      string                 `bson:"contract" json:"contract"`
+	Method        string                 `bson:"method" json:"method"`
+	Param         map[string]interface{} `bson:"param" json:"param"`
+	SigAlg        uint32                 `bson:"sig_alg" json:"sigAlg"`
+	Signature     string                 `bson:"signature" json:"signature"`
+	TimeStamp     int64                  `bson:"timestamp" json:"timestamp"`
+}

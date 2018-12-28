@@ -1,8 +1,6 @@
 package controller
 
 import (
-	"fmt"
-
 	"github.com/BlockExplorer/common"
 	"github.com/BlockExplorer/module"
 	"github.com/gin-gonic/gin"
@@ -140,7 +138,6 @@ func TrxPersonalTransferList(c *gin.Context) {
 	if length == 0 {
 		length = 20
 	}
-	fmt.Println(params)
 
 	trxModule := module.TransactionCollection()
 	findInfo := bson.M{"method": "transfer", "$or": []bson.M{bson.M{"param.from": params.AccountName}, bson.M{"param.to": params.AccountName}}}
@@ -170,4 +167,35 @@ func TrxPersonalTransferList(c *gin.Context) {
 	}
 
 	common.ResponseSuccess(c, "find personal transfer success", res)
+}
+
+func TexPersonTransactionByMethod(c *gin.Context) {
+	var params module.ReqPersonTransactionByMethod
+	var transferList []module.ResPersonalTransactionByMethod
+
+	if err := c.BindJSON(&params); err != nil {
+		common.ResponseErr(c, "params error", err)
+		return
+	}
+
+	start := params.Start
+	length := params.Length
+
+	if length == 0 {
+		length = 20
+	}
+
+	if params.Method == "" {
+		params.Method = "transfer"
+	}
+
+	trxModule := module.TransactionCollection()
+	findInfo := bson.M{"method": params.Method, "sender": params.AccountName}
+	if err := trxModule.Find(findInfo).Sort("-block_number").Skip(start).Limit(length).All(&transferList); err != nil {
+		common.ResponseErr(c, "find personal transfers failed", err)
+		return
+	}
+
+	common.ResponseSuccess(c, "find personal transfers success", transferList)
+
 }
