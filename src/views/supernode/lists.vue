@@ -27,12 +27,12 @@
     <div class="border">
       <div class="title"><h3><span>{{$t('supernode.title')}}</span></h3></div>
       <div class="supernode">
-        <div class="searchs">
+        <!-- <div class="searchs">
           <div class="input-group">
             <input type="text" v-model="searchVal" class="input" clearable :placeholder="$t('supernode.searchs')" value="">
             <a class="clearInput" @click="clearInput">X</a>
           </div>
-        </div>
+        </div> -->
         <div class="lists">
           <el-row :gutter="20" v-if="list.length > 0">
             <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" v-for="item in list" key="item.id">

@@ -11,7 +11,7 @@
               <li class="row">
                   <div class="tit">{{$t('accountsDetail.balance')}}</div>
                   <div class="con">
-                    {{Detail.balance}}
+                    {{Detail.balance / Math.pow(10,8)}}
                     <!--{{currencyAmount}}-->
                     <!-- <select v-model="currencyAmount" class="select">
                       <option v-for="option in currencyAmountOptions" v-bind:value="option.availableAmount">

@@ -15,7 +15,7 @@
                     </div>
                     <div class="fr">
                         <span class="icon"><img src="../../assets/icon_transfers.png" width="20" height="20" /></span>
-                        {{item.tradeAmount}}
+                        {{item.tradeAmount / Math.pow(10,8)}}
                     </div>
                 </div>
                 </router-link>
