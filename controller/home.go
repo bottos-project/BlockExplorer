@@ -24,7 +24,7 @@ func HomeGetTotalCount(c *gin.Context) {
 
 	totalCount := module.ResTotalCount{
 		BlockNumber:      block.BlockNumber,
-		NodeCount:        "29",
+		NodeCount:        "49",
 		Accounts:         accounts,
 		TransactionCount: transactionCount,
 	}

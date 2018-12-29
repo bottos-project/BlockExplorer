@@ -24,7 +24,7 @@ func AccountList(c *gin.Context) {
 	accountModule := module.AccountCollection()
 	fmt.Println(accountModule)
 
-	if err := accountModule.Find(bson.M{}).Skip(start).Limit(length).All(&accounts); err != nil {
+	if err := accountModule.Find(bson.M{}).Sort("timestamp").Skip(start).Limit(length).All(&accounts); err != nil {
 		common.ResponseErr(c, "accounts find failed", err)
 		return
 	}
