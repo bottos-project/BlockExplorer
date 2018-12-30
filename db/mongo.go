@@ -11,14 +11,15 @@ var session *mgo.Session
 var mongo *mgo.Database
 
 func GetMongoDB() *mgo.Database {
-	return mongo
+	return InitMongoDB("blockchainbowser")
 }
 
-func InitMongoDB(dbname string) {
+func InitMongoDB(dbname string) *mgo.Database {
 	session, _ = mgo.Dial(URL)
 	//切换到数据库
 	db := session.DB(dbname)
 	mongo = db
+	return db
 }
 
 // 切换collection
