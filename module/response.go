@@ -107,14 +107,14 @@ type ResTransferDetail struct {
 
 // transaction statistic
 type ResStatisticTransaction struct {
-	DailyTransCount int    `json:"dailyTransCount"`
-	TradeDate       string `json:"tradeDate"`
+	DailyTransCount int    `bson:"trx_count" json:"dailyTransCount"`
+	TradeDate       string `bson:"day" json:"tradeDate"`
 }
 
 // account statistic
 type ResStatisticAccount struct {
-	DailyRegCount int    `json:"dailyRegCount"`
-	RegDate       string `json:"regDate"`
+	DailyRegCount int    `bson:"account_count" json:"dailyRegCount"`
+	RegDate       string `bson:"day" json:"regDate"`
 	TotalRegCount int    `json:"totalRegCount"`
 }
 

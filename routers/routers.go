@@ -32,9 +32,6 @@ func Routes(router *gin.Engine) {
 	rExplorer.POST("/trade/queryLastFTTradeSummaryAuto", controller.StatisticTransaction) // transaction statistic
 	rExplorer.POST("/cust/queryRigiterSummaryAuto", controller.StatisticAccount)          // account increase
 
-	// statistic
-	rExplorer.POST("/test/accountstatistic", controller.TestStatisticAccount)
-
 	// nodes
 	rExplorer.POST("/superNode/queryNodeListAuto", controller.NodeProductList)   // 生产节点
 	rExplorer.POST("/node/queryNodeRankAuto", controller.NodeServiceList)        // 服务节点

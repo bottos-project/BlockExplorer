@@ -20,6 +20,11 @@ func TransactionCollection() *mgo.Collection {
 	return mongo.C("Transactions")
 }
 
+func StatisticCollection() *mgo.Collection {
+	mongo := db.GetMongoDB()
+	return mongo.C("Statistic")
+}
+
 func NodeServiceCollection() *mgo.Collection {
 	mongo := db.GetMongoDB()
 	return mongo.C("NodeService")
