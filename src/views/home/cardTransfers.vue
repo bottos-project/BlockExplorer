@@ -45,9 +45,6 @@ export default {
         }
         queryTransferlList(para).then(response => {
           this.tableList = response.data
-          if(response.data.data.length === 0){
-            
-          }
         }).catch(error => {
         //   this.$message({
         //     message: this.$i18n.t('tips.error'),
