@@ -7,26 +7,28 @@ import (
 )
 
 type DBAccounts struct {
-	AccountName        string    `bson:"account_name"`
-	PubKey             string    `bson:"pubkey"`
-	Balance            string    `bson:"balance"`
-	TimeStamp          int64     `bson:"timestamp"`
-	CreateTime         time.Time `bson:"create_time"`
-	StakedBalance      string    `bson:"staked_balance"`
-	StakedSpaceBalance string    `bson:"staked_space_balance"`
-	StakedTimeBalance  string    `bson:"staked_time_balance"`
-	UnStakingBalance   string    `bson:"unStaking_balance"`
-	UnStakdingTime     uint64    `bson:"unStaking_time"`
-	Vote               DBVote    `bson:"vote"`
+	AccountName           string    `bson:"account_name"`
+	PubKey                string    `bson:"pubkey"`
+	Balance               string    `bson:"balance"`
+	TimeStamp             int64     `bson:"timestamp"`
+	CreateTime            time.Time `bson:"create_time"`
+	StakedBalance         string    `bson:"staked_balance"`
+	StakedSpaceBalance    string    `bson:"staked_space_balance"`
+	StakedTimeBalance     string    `bson:"staked_time_balance"`
+	UnStakingBalance      string    `bson:"unStaking_balance"`
+	UnStakdingTimestamp   uint64    `bson:"unStaking_timestamp"`
+	AvailableSpaceBalance uint64    `bson:"available_space_balance"`
+	UsedSpaceBalance      uint64    `bson:"used_space_balance"`
+	AvailableTimeBalance  uint64    `bson:"available_time_balance"`
+	UsedTimeBalance       uint64    `bson:"used_time_balance"`
+	UnClaimedReward       string    `bson:"un_claimed_reward"` // 出块奖励
+	DeployContractList    string    `bson:"deploy_contract_list"`
+	Vote                  DBVote    `bson:"vote"`
 }
 
 type DBVote struct {
-	Delegate              string `bson:"delegate"`
-	Votes                 string `bson:"votes"`
-	AvailableSpaceBalance uint64 `bson:"available_space_balance"`
-	UsedSpaceBalance      uint64 `bson:"used_space_balance"`
-	AvailableTimeBalance  uint64 `bson:"available_time_balance"`
-	UsedTimeBalance       uint64 `bson:"used_time_balance"`
+	Delegate string `bson:"delegate"`
+	Votes    string `bson:"votes"`
 }
 
 type DBBlocks struct {
