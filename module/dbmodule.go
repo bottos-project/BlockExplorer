@@ -76,5 +76,6 @@ type DBNodeSuper struct {
 	Delegate            string `bson:"delegate" json:"delegate"`
 	StakedBalance       string `bson:"staked_balance" json:"stakedBalance"`
 	ProducedBlocksCount string `bson:"produced_blocks" json:"producedBlocksCount"`
-	VotePercent         string `bson:"percent" json:"votePercent"`
+	StateOfDelegate     bool `bson:"state_of_delegate" json:"stateOfDelegate"`
+	AllTransitVotes     string `bson:"all_transit_votes" json:"allTransitVotes"`
 }
