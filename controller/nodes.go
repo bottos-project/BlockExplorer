@@ -1,10 +1,11 @@
 package controller
 
 import (
-	"github.com/BlockExplorer/common"
-	"github.com/BlockExplorer/module"
+	"github.com/bottos-project/BlockExplorer/common"
+	"github.com/bottos-project/BlockExplorer/module"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/mgo.v2/bson"
+	"log"
 )
 
 // Node product list
@@ -38,6 +39,7 @@ func NodeSuperDetail(c *gin.Context) {
 
 	nodeModule := module.NodeSuperCollection()
 	if err := nodeModule.Find(bson.M{"node_name": params.NodeName}).One(&node); err != nil {
+		log.Fatalf("super node detail search failed: %v", err)
 		common.ResponseErr(c, "super node detail search failed", err)
 		return
 	}

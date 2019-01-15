@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"github.com/BlockExplorer/controller"
+	"github.com/bottos-project/BlockExplorer/controller"
 	"github.com/gin-gonic/gin"
 )
 

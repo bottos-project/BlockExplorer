@@ -1,7 +1,7 @@
 package module
 
 import (
-	db "github.com/BlockExplorer/db"
+	"github.com/bottos-project/BlockExplorer/db"
 	mgo "gopkg.in/mgo.v2"
 )
 

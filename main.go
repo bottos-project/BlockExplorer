@@ -1,14 +1,13 @@
 package main
 
 import (
+	"github.com/bottos-project/BlockExplorer/db"
+	"github.com/bottos-project/BlockExplorer/routers"
 	"net/http"
 	"time"
 
-	"github.com/BlockExplorer/db"
-	"github.com/BlockExplorer/routers"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {

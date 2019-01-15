@@ -1,8 +1,9 @@
 package controller
 
 import (
-	"github.com/BlockExplorer/common"
-	module "github.com/BlockExplorer/module"
+
+	module "github.com/bottos-project/BlockExplorer/module"
+	"github.com/bottos-project/BlockExplorer/common"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/mgo.v2/bson"
 )

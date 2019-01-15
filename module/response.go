@@ -89,6 +89,7 @@ type ResAccountDetail struct {
 	SendCount    int    `json:"sendCount"`
 	TradeCount   int    `json:"tradeCount"`
 	Balance      string `bson:"balance" json:"balance"`
+	StakedBalance string `bson:"staked_balance" json:"stakedBalance"`
 	ResultType   string `json:"resultType"`
 }
 
