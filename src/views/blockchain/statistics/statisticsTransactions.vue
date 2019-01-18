@@ -10,7 +10,7 @@ export default {
     data(){
       return {
         listQuery:{
-          startDate:moment().subtract(365, 'days').format('YYYY-MM-DD'),
+          startDate:moment().subtract(1, 'days').format('YYYY-MM-DD'),
           endDate:moment().format('YYYY-MM-DD')
         },
         chartColumn: null,
@@ -30,10 +30,10 @@ export default {
           endDate:this.listQuery.endDate
         }
         queryLastFTTradeSummary(para).then(response => {
-          this.chartData.tradeDate = response.data.summaryTradeList.map(function (item) {
+          this.chartData.tradeDate = response.map(function (item) {
             return item.tradeDate
           })
-          this.chartData.dailyTransCount = response.data.summaryTradeList.map(function (item) {
+          this.chartData.dailyTransCount = response.map(function (item) {
             return item.dailyTransCount
           })
           this.drawColumnChart()

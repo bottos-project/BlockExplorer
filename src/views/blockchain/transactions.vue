@@ -30,12 +30,12 @@
         </el-table-column>
         <!-- <el-table-column prop="method" :label="$t('transactions.method_name')" min-width="100">
         </el-table-column> -->
-        <el-table-column :label="$t('transactions.computing_resource')" min-width="100">
+        <el-table-column :label="$t('transactions.time_resource')" min-width="100">
           <template slot-scope="scope">
             {{scope.row.time_token_cost}} µs
           </template>
         </el-table-column>
-        <el-table-column :label="$t('transactions.network_resource')" min-width="100">
+        <el-table-column :label="$t('transactions.space_resource')" min-width="100">
           <template slot-scope="scope">
             {{scope.row.space_token_cost}} B
           </template>

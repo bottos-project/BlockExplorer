@@ -30,10 +30,10 @@ export default {
           endDate:this.listQuery.endDate
         }
         queryRigiterSummary(para).then(response => {
-          this.chartData.regDate = response.data.regSummaryList.map(function (item) {
+          this.chartData.regDate = response.map(function (item) {
             return item.regDate
           })
-          this.chartData.totalRegCount = response.data.regSummaryList.map(function (item) {
+          this.chartData.totalRegCount = response.map(function (item) {
             return item.totalRegCount
           })
           this.drawColumnChart()

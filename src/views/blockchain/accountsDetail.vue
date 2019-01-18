@@ -32,6 +32,10 @@
                     <img src="../../assets/arrow_s.png" width="16" /> {{Detail.sendCount}}
                   </div>
               </li>
+              <li>
+                  <div class="tit">{{$t('accountsDetail.AllReword')}}</div>
+                  <div class="con">{{Detail.unClaimedReward / Math.pow(10,8)}}</div>
+              </li>
           </ul>
         </div>
     </div>

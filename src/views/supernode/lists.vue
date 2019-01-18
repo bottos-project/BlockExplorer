@@ -4,21 +4,21 @@
       <div class="Stats">
         <el-row>
           <el-col :xs="24" :sm="8" :md="8" :lg="8" :xl="8">
-            <div class="item">
-              <div class="con">{{statistics.nodeCount}}</div>
+            <div class="item"> 
               <div class="tit">{{$t('supernode.stats1')}}</div>
+              <div class="con">{{statistics.delegateCount}}</div>
             </div>
           </el-col>
           <el-col :xs="24" :sm="8" :md="8" :lg="8" :xl="8">
-            <div class="item">
-              <div class="con">{{statistics.voteCount}}</div>
+            <div class="item">             
               <div class="tit">{{$t('supernode.stats2')}}</div>
+              <div class="con">{{statistics.voteCustCount}}</div>
             </div>
           </el-col>
           <el-col :xs="24" :sm="8" :md="8" :lg="8" :xl="8">
             <div class="item">
-              <div class="con">{{statistics.voteCustCount}}</div>
               <div class="tit">{{$t('supernode.stats3')}}</div>
+              <div class="con">{{statistics.allTransitVotes}}</div>
             </div>
           </el-col>
         </el-row>
@@ -53,7 +53,7 @@
                   <div class="url"><a :href="item.nodeUrl" target="_blank">{{item.nodeUrl}}</a></div>
                   <div class="fr">
                     <div class="ticket">
-                      {{item.voteCount}} {{$t('supernode.lists_ticket')}}<br />
+                      {{item.voteCount / Math.pow(10,8)}} {{$t('supernode.lists_ticket')}}<br />
                       {{item.voteCustCount}} {{$t('supernode.lists_throw')}}
                     </div>
                   </div>
@@ -63,7 +63,7 @@
                 </div>
                 <div class="des">
                   {{item.nodeDesc}}  
-                  <!-- <router-link :to="'/supernode/detail/'+item.nodeName" class="more">{{$t('supernode.lists_more')}}</router-link> -->
+                  <router-link :to="'/supernode/detail/'+item.delegate" class="more">{{$t('supernode.lists_more')}}</router-link>
                 </div>
               </div>
             </el-col>

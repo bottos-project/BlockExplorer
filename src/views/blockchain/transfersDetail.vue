@@ -31,13 +31,13 @@
                     </div>
                 </li>
                 <li>
-                    <div class="tit">{{$t('transactionsDetail.computing_resource')}}</div>
+                    <div class="tit">{{$t('transactionsDetail.time_resource')}}</div>
                     <div class="con">
                          1 ms 760 µs
                     </div>
                 </li>
                 <li class="row">
-                    <div class="tit">{{$t('transactionsDetail.network_resource')}}</div>
+                    <div class="tit">{{$t('transactionsDetail.space_resource')}}</div>
                     <div class="con">
                         18 B
                     </div>
