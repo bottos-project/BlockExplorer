@@ -84,13 +84,14 @@ type ResBlockDetail struct {
 
 // account detail
 type ResAccountDetail struct {
-	AccountName  string `bson:"account_name" json:"accountName"`
-	ReceiveCount int    `json:"receiveCount"`
-	SendCount    int    `json:"sendCount"`
-	TradeCount   int    `json:"tradeCount"`
-	Balance      string `bson:"balance" json:"balance"`
-	StakedBalance string `bson:"staked_balance" json:"stakedBalance"`
-	ResultType   string `json:"resultType"`
+	AccountName     string `bson:"account_name" json:"accountName"`
+	ReceiveCount    int    `json:"receiveCount"`
+	SendCount       int    `json:"sendCount"`
+	TradeCount      int    `json:"tradeCount"`
+	Balance         string `bson:"balance" json:"balance"`
+	StakedBalance   string `bson:"staked_balance" json:"stakedBalance"`
+	ResultType      string `json:"resultType"`
+	UnClaimedReward string `bson:"un_claimed_reward" json:"unClaimedReward"`
 }
 
 // transfer detail
@@ -134,4 +135,10 @@ type ResPersonalTransactionByMethod struct {
 	SigAlg        uint32                 `bson:"sig_alg" json:"sigAlg"`
 	Signature     string                 `bson:"signature" json:"signature"`
 	TimeStamp     int64                  `bson:"timestamp" json:"timestamp"`
+}
+
+type ResNodeSuperSummary struct {
+	DelegateCount   int32  `json:"delegateCount"`
+	VoteCustCount   int32  `json:"voteCustCount"`
+	AllTransitVotes string `json:"allTransitVotes"`
 }

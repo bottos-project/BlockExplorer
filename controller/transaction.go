@@ -5,6 +5,7 @@ import (
 	"github.com/bottos-project/BlockExplorer/module"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/mgo.v2/bson"
+	"log"
 )
 
 // transaction list
@@ -20,21 +21,34 @@ func TrxTransactionList(c *gin.Context) {
 	length := params.Length
 	blockNum, _ := common.String2Int(params.BlockNum)
 
+	log.Print(blockNum)
 	if length == 0 {
 		length = 20
 	}
 	findInfo := bson.M{}
 	if blockNum != 0 {
-		findInfo["block_number"] = blockNum
+		findInfo["block_number"] = int64(blockNum)
+	}
+	if params.AccountName != "" {
+		findInfo["sender"] = params.AccountName
 	}
 
 	trxModule := module.TransactionCollection()
-	selectInfo := bson.M{"block_number": 1, "transaction_id": 1, "sender": 1, "contract": 1, "method": 1, "timestamp": 1}
-	if err := trxModule.Find(findInfo).Select(selectInfo).Sort("-block_number").Skip(start).Limit(length).All(&transactions); err != nil {
+
+	log.Print(findInfo)
+	if err := trxModule.Find(findInfo).Sort("-block_number").All(&transactions); err != nil {
 		common.ResponseErr(c, "transactions search error", err)
 		return
 	}
-	totalCount, _ := trxModule.Find(findInfo).Count()
+	var totalCount int
+	if len(transactions) > length {
+		totalCount = length
+		transactions = transactions[start : start+length]
+	} else {
+		totalCount = len(transactions)
+	}
+
+	//totalCount, _ := trxModule.Find(findInfo).Count()
 
 	res := module.ResPageList{
 		Data:          transactions,

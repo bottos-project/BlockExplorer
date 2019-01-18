@@ -1,9 +1,8 @@
 package controller
 
 import (
-
-	module "github.com/bottos-project/BlockExplorer/module"
 	"github.com/bottos-project/BlockExplorer/common"
+	"github.com/bottos-project/BlockExplorer/module"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -23,8 +22,12 @@ func BlockList(c *gin.Context) {
 		length = 20
 	}
 
+	selectInfo := bson.M{"block_hash": 1, "block_number": 1, "delegate": 1, "timestamp": 1, "transaction_count": 1}
+	if params.DelegateName != "" {
+		selectInfo["delegate"] = params.DelegateName
+	}
 	dbBlock := module.BlockCollection()
-	if err := dbBlock.Find(bson.M{}).Select(bson.M{"block_hash": 1, "block_number": 1, "delegate": 1, "timestamp": 1, "transaction_count": 1}).Sort("-block_number").Skip(start).Limit(length).All(&blockList); err != nil {
+	if err := dbBlock.Find(bson.M{}).Select(selectInfo).Sort("-block_number").Skip(start).Limit(length).All(&blockList); err != nil {
 		common.ResponseErr(c, "failed to select block list", err)
 		return
 	}

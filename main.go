@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/bottos-project/BlockExplorer/db"
 	"github.com/bottos-project/BlockExplorer/routers"
+	"log"
 	"net/http"
 	"time"
 
@@ -23,5 +24,8 @@ func main() {
 	router.Use(cors.Default())
 	db.InitMongoDB("blockchainbowser")
 	routers.Routes(router)
-	s.ListenAndServe()
+	err := s.ListenAndServe()
+	if err != nil {
+		log.Fatalf("Linsten and Serve err: %v", err)
+	}
 }

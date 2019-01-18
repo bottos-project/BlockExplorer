@@ -62,10 +62,12 @@ func AccountDetail(c *gin.Context) {
 	in := bson.M{"method": "transfer", "param.to": params.AccountName}
 	receiveCount, _ := trxModule.Find(in).Count()
 
+	sender := bson.M{"sender": params.AccountName}
+	trxCount, _ := trxModule.Find(sender).Count()
 	// set account info
 	account.SendCount = send
 	account.ReceiveCount = receiveCount
-	account.TradeCount = send
+	account.TradeCount = trxCount
 	res := module.ResDataStruct{
 		Data: account,
 	}

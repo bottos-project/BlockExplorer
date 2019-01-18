@@ -8,6 +8,7 @@ import (
 )
 
 func StatisticTransaction(c *gin.Context) {
+	//var params module.ReqQueryStaticInfo
 	var trxStatistics []module.ResStatisticTransaction
 	sModule := module.StatisticCollection()
 	if err := sModule.Find(bson.M{}).Limit(14).All(&trxStatistics); err != nil {
@@ -18,6 +19,7 @@ func StatisticTransaction(c *gin.Context) {
 }
 
 func StatisticAccount(c *gin.Context) {
+	//var params module.ReqQueryStaticInfo
 	var accountStatistic []module.ResStatisticAccount
 	sModule := module.StatisticCollection()
 	if err := sModule.Find(bson.M{}).Limit(7).All(&accountStatistic); err != nil {
