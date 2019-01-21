@@ -1,11 +1,12 @@
 package main
 
 import (
-	"github.com/bottos-project/BlockExplorer/db"
-	"github.com/bottos-project/BlockExplorer/routers"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/bottos-project/BlockExplorer/db"
+	"github.com/bottos-project/BlockExplorer/routers"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -14,7 +15,7 @@ import (
 func main() {
 	router := gin.Default()
 	s := &http.Server{
-		Addr:           ":8080",
+		Addr:           ":8088",
 		Handler:        router,
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
