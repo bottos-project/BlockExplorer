@@ -1,8 +1,6 @@
 package controller
 
 import (
-	"errors"
-
 	"github.com/bottos-project/BlockExplorer/common"
 	"github.com/bottos-project/BlockExplorer/module"
 	"github.com/gin-gonic/gin"
@@ -16,6 +14,11 @@ func TrxTransactionList(c *gin.Context) {
 	if err := c.BindJSON(&params); err != nil {
 		common.ResponseErr(c, "params error", err)
 		return
+	}
+
+	res := module.ResPageList{
+		Data:          &transactions,
+		TotalRecordes: 0,
 	}
 
 	start := params.Start
@@ -33,6 +36,7 @@ func TrxTransactionList(c *gin.Context) {
 	trxModule := module.TransactionCollection()
 
 	trxCount, err := trxModule.Find(findInfo).Count()
+	res.TotalRecordes = trxCount
 	if err != nil {
 		common.ResponseErr(c, "transactions search error", err)
 		return
@@ -40,17 +44,12 @@ func TrxTransactionList(c *gin.Context) {
 
 	start, length = paging(start, length, trxCount)
 	if length <= 0 {
-		common.ResponseErr(c, "find personal transfers failed", errors.New("params err"))
+		common.ResponseSuccess(c, "transfer list find success", module.ResPageList{TotalRecordes: trxCount})
 		return
 	}
 	if err := trxModule.Find(findInfo).Skip(start).Limit(length).All(&transactions); err != nil {
 		common.ResponseErr(c, "transactions search error", err)
 		return
-	}
-
-	res := module.ResPageList{
-		Data:          transactions,
-		TotalRecordes: trxCount,
 	}
 
 	common.ResponseSuccess(c, "transaction list find success", res)
@@ -61,6 +60,12 @@ func TrxTransferList(c *gin.Context) {
 	var params module.ReqTransactionList
 	var transferList []module.DBTransaction
 	var resTransferList []module.ResTransfers
+
+	res := module.ResPageList{
+		Data:          &resTransferList,
+		TotalRecordes: 0,
+	}
+
 	if err := c.BindJSON(&params); err != nil {
 		common.ResponseErr(c, "params error", err)
 		return
@@ -82,10 +87,11 @@ func TrxTransferList(c *gin.Context) {
 		common.ResponseErr(c, "transactions search error", err)
 		return
 	}
+	res.TotalRecordes = transferCount
 
 	start, length = paging(start, length, transferCount)
 	if length <= 0 {
-		common.ResponseErr(c, "transfer list find failed", errors.New("params err"))
+		common.ResponseSuccess(c, "transfer list find success", res)
 		return
 	}
 	if err := transferModule.Find(findInfo).Skip(start).Limit(length).All(&transferList); err != nil {
@@ -107,10 +113,6 @@ func TrxTransferList(c *gin.Context) {
 		resTransferList = append(resTransferList, tempT)
 	}
 
-	res := module.ResPageList{
-		Data:          resTransferList,
-		TotalRecordes: transferCount,
-	}
 	common.ResponseSuccess(c, "transfer list find success", res)
 }
 
@@ -146,6 +148,11 @@ func TrxPersonalTransferList(c *gin.Context) {
 	var transferList []module.DBTransaction
 	var resTransferList []module.ResTransfers
 
+	res := module.ResPageList{
+		Data:          &resTransferList,
+		TotalRecordes: 0,
+	}
+
 	if err := c.BindJSON(&params); err != nil {
 		common.ResponseErr(c, "params error", err)
 		return
@@ -168,10 +175,11 @@ func TrxPersonalTransferList(c *gin.Context) {
 		common.ResponseErr(c, "transactions search error", err)
 		return
 	}
+	res.TotalRecordes = trxCount
 
 	start, length = paging(start, length, trxCount)
 	if length <= 0 {
-		common.ResponseErr(c, "find personal transfers failed", errors.New("params err"))
+		common.ResponseSuccess(c, "transfer list find success", res)
 		return
 	}
 	if err := trxModule.Find(findInfo).Skip(start).Limit(length).All(&transferList); err != nil {
@@ -191,11 +199,6 @@ func TrxPersonalTransferList(c *gin.Context) {
 			TimeStamp:     t.TimeStamp,
 		}
 		resTransferList = append(resTransferList, tempT)
-	}
-
-	res := module.ResPageList{
-		Data:          resTransferList,
-		TotalRecordes: trxCount,
 	}
 
 	common.ResponseSuccess(c, "find personal transfer success", res)
@@ -229,7 +232,7 @@ func TrxPersonTransactionByMethod(c *gin.Context) {
 
 	start, length = paging(start, length, trxCount)
 	if length <= 0 {
-		common.ResponseErr(c, "find personal transfers failed", errors.New("params err"))
+		common.ResponseSuccess(c, "transfer list find success", transferList)
 		return
 	}
 	if err := trxModule.Find(findInfo).Skip(start).Limit(length).All(&transferList); err != nil {
