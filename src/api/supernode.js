@@ -31,7 +31,7 @@ export function queryNodeDetail(data) {
 //出块列表
 export function queryBlockList(data) {
   return request({
-    url: 'superNode/queryBlockListAuto',
+    url: 'block/queryBlockListAuto',
     method: 'post',
     data
   })
