@@ -1,10 +1,13 @@
 package db
 
 import (
-	"gopkg.in/mgo.v2"
+	mgo "gopkg.in/mgo.v2"
 )
 
-const URL string = "mongodb://125.94.44.19:27018"
+// const URL string = "mongodb://118.184.215.41:27018"
+// const URL string = "mongodb://125.94.34.23:27018"
+
+const URL string = "mongodb://127.0.0.1:27017"
 
 var c *mgo.Collection
 var session *mgo.Session

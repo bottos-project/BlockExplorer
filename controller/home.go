@@ -2,6 +2,8 @@ package controller
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/bottos-project/BlockExplorer/common"
 	"github.com/bottos-project/BlockExplorer/module"
 
@@ -9,21 +11,26 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// HomeGetTotalCount home page detail info
 func HomeGetTotalCount(c *gin.Context) {
-	var block module.DBBlocks
 	dbBlock := module.BlockCollection()
 	accountModule := module.AccountCollection()
 	transactionModule := module.TransactionCollection()
-	if err := dbBlock.Find(bson.M{}).Sort("-block_number").One(&block); err != nil {
+	blockCount, err := dbBlock.Count()
+	if err != nil {
 		common.ResponseErr(c, "failed to find lastest block number", err)
 		return
 	}
 
 	accounts, _ := accountModule.Count()
-	transactionCount, _ := transactionModule.Count()
+	timeDate := time.Now()
+	timeDate = timeDate.AddDate(0, 0, -1)
+	timestamp := timeDate.Unix()
+
+	transactionCount, _ := transactionModule.Find(bson.M{"timestamp": bson.M{"$gte": timestamp}}).Count()
 
 	totalCount := module.ResTotalCount{
-		BlockNumber:      block.BlockNumber,
+		BlockNumber:      uint64(blockCount),
 		NodeCount:        "49",
 		Accounts:         accounts,
 		TransactionCount: transactionCount,
@@ -36,7 +43,7 @@ func HomeGetTotalCount(c *gin.Context) {
 	common.ResponseSuccess(c, "find success", res)
 }
 
-// Home search
+// HomeSearch Home search
 func HomeSearch(c *gin.Context) {
 	var params module.ReqHomeSearch
 	var blockDetail module.ResBlockDetail

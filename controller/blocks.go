@@ -16,23 +16,25 @@ func BlockList(c *gin.Context) {
 		return
 	}
 
-	start := params.Start
-	length := params.Length
-	if length == 0 {
-		length = 20
-	}
-
 	selectInfo := bson.M{"block_hash": 1, "block_number": 1, "delegate": 1, "timestamp": 1, "transaction_count": 1}
 	if params.DelegateName != "" {
 		selectInfo["delegate"] = params.DelegateName
 	}
 	dbBlock := module.BlockCollection()
-	if err := dbBlock.Find(bson.M{}).Select(selectInfo).Sort("-block_number").Skip(start).Limit(length).All(&blockList); err != nil {
-		common.ResponseErr(c, "failed to select block list", err)
+	blockCount, err := dbBlock.Count()
+	if err != nil {
+		common.ResponseErr(c, "failed to select block list than get block count", err)
 		return
 	}
 
-	totalCount, _ := dbBlock.Count()
+	start := params.Start
+	length := params.Length
+	start, length = paging(start, length, blockCount)
+
+	if err := dbBlock.Find(bson.M{}).Select(selectInfo).Skip(start).Limit(length).All(&blockList); err != nil {
+		common.ResponseErr(c, "failed to select block list", err)
+		return
+	}
 
 	type resStruct struct {
 		Data         interface{} `json:"data"`
@@ -41,7 +43,7 @@ func BlockList(c *gin.Context) {
 
 	response := resStruct{
 		Data:         blockList,
-		TotalRecords: totalCount,
+		TotalRecords: blockCount,
 	}
 	common.ResponseSuccess(c, "selected block list success", response)
 }
