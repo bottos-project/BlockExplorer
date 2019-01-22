@@ -57,6 +57,8 @@ func HomeSearch(c *gin.Context) {
 
 	condition := params.Condition
 	length := len(condition)
+	fmt.Printf(condition)
+	fmt.Println(length)
 
 	if length == 64 {
 		// condition is hash
@@ -92,7 +94,8 @@ func HomeSearch(c *gin.Context) {
 		blockModule := module.BlockCollection()
 		accountModule := module.AccountCollection()
 		blockNum, _ := common.String2Int(condition)
-		if err := blockModule.Find(bson.M{"block_number": blockNum}).One(&blockDetail); err != nil {
+
+		if blockNum == 0 { // accountName
 			if err := accountModule.Find(bson.M{"account_name": condition}).One(&accountDetail); err != nil {
 				common.ResponseErr(c, "search failed", err)
 				return
@@ -106,17 +109,23 @@ func HomeSearch(c *gin.Context) {
 				}
 				common.ResponseSuccess(c, "搜索成功", res)
 			}
-		} else {
-			// block number
-			blockDetail.ResultType = "block"
-			blockDetail.BlockStatus = "已确认"
-			res := module.ResSuccess{
-				Data:    blockDetail,
-				Message: "搜索成功",
-				Success: true,
+		} else { // block number
+			if err := blockModule.Find(bson.M{"block_number": blockNum}).One(&blockDetail); err != nil {
+				common.ResponseErr(c, "search failed", err)
+				return
+			} else {
+				// block number
+				blockDetail.ResultType = "block"
+				blockDetail.BlockStatus = "已确认"
+				res := module.ResSuccess{
+					Data:    blockDetail,
+					Message: "搜索成功",
+					Success: true,
+				}
+				common.ResponseSuccess(c, "搜索成功", res)
 			}
-			common.ResponseSuccess(c, "搜索成功", res)
 		}
+
 	}
 
 }
