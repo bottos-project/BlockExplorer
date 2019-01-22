@@ -61,7 +61,7 @@ export default {
         };
         queryTradeList(para).then(response => {
           console.log({transactionsresponse:response})
-          this.tableData = response.data
+          this.tableData = window.sortData(response.data)
           this.listQuery.iTotalDisplayRecords = response.iTotalDisplayRecords
           this.listLoading = false
         }).catch(function(error){

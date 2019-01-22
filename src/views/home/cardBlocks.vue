@@ -38,7 +38,7 @@ export default {
           length:20
         }
         queryBlockList(para).then(response => {
-          this.tableList = response.data
+          this.tableList = window.sortData(response.data)
         }).catch(error => {
           this.$message({
             message: this.$i18n.t('tips.error'),
