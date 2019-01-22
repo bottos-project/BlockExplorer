@@ -63,7 +63,7 @@
                 </div>
                 <div class="des">
                   {{item.nodeDesc}}  
-                  <router-link :to="'/supernode/detail/'+item.delegate" class="more">{{$t('supernode.lists_more')}}</router-link>
+                  <!-- <router-link :to="'/supernode/detail/'+item.delegate" class="more">{{$t('supernode.lists_more')}}</router-link> -->
                 </div>
               </div>
             </el-col>

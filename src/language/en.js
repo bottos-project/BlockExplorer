@@ -209,7 +209,7 @@ const messagesEn = {
     },
     aboutUS:{
         weChat:"WeChat",
-        technologyDevelopmentZone:"Technology Development Zone"
+        technologyDevelopmentZone:"Dev.Zone"
     },
     ...enLocale
 }
