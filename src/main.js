@@ -29,6 +29,16 @@ const i18n = new VueI18n({
   messages
 })
 
+window.sortData = function(dataArr){
+  let tempArr = []
+  let length = dataArr.length
+  for(let i = 0;i<length;i++){
+    tempArr[i] = dataArr[length - i - 1]
+  }
+  return tempArr
+}
+
+
 
 import locale from 'element-ui/lib/locale';
 import {Row,Col,Table,TableColumn,pagination,Loading,Tabs,TabPane} from 'element-ui';
@@ -73,6 +83,16 @@ Vue.filter('dateformatNow', function(dataStr, pattern = 'YYYY/MM/DD HH:mm:ss') {
   return moment(dataStr * 1000).format(pattern)
   //return moment(dataStr).startOf('hour').fromNow();
 })
+
+// // 排序
+// Vue.filter("sortData",function(dataArr){
+//   let tempArr = []
+//   let length = dataArr.length
+//   for(let i = 0;i<length;i++){
+//     tempArr[i] = dataArr[length - i - 1]
+//   }
+//   return tempArr
+// })
 
 
 /* eslint-disable no-new */
