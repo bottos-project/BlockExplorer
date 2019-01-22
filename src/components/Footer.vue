@@ -5,7 +5,7 @@
       <div class="contact">
         <span><a href="https://github.com/bottos-project" target="_black"><img src="../assets/footer_github.png" /><div>GitHub</div></a></span>
         <span>
-          <a href="javascript:;"><img src="../assets/footer_official.png" /><div>官方微信</div>
+          <a href="javascript:;"><img src="../assets/footer_official.png" /><div>{{$t('aboutUS.weChat')}}</div>
           <div class="Popup">
             <i></i>
             <img src="../assets/qrcode_official.jpg" width="200" height="200" />
@@ -13,7 +13,7 @@
           </a>
         </span>
         <span>
-          <a href="javascript:;"><img src="../assets/footer_technology.png" /><div>技术开发群</div>
+          <a href="javascript:;"><img src="../assets/footer_technology.png" /><div>{{$t('aboutUS.technologyDevelopmentZone')}}</div>
           <div class="Popup">
             <i></i>
             <img src="../assets/qrcode_technology.jpg" width="200" height="200" />

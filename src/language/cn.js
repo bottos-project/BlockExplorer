@@ -207,6 +207,10 @@ const messagesCn = {
         table7:"本节点投票占比",
         table8:"整网投票占比"
     },
+    aboutUS:{
+        weChat:"官方微信",
+        technologyDevelopmentZone:"技术开发群"
+    },
     ...zhLocale
 }
 

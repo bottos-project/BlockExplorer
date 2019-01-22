@@ -207,6 +207,10 @@ const messagesEn = {
         table7:"This Node Voting Ratio",
         table8:"Overall Voting Share"
     },
+    aboutUS:{
+        weChat:"WeChat",
+        technologyDevelopmentZone:"Technology Development Zone"
+    },
     ...enLocale
 }
 
