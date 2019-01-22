@@ -1,14 +1,15 @@
 package controller
 
 import (
+	"log"
+
 	"github.com/bottos-project/BlockExplorer/common"
 	"github.com/bottos-project/BlockExplorer/module"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/mgo.v2/bson"
-	"log"
 )
 
-// Node product list
+//NodeProductList Node product list
 func NodeProductList(c *gin.Context) {
 	var nodes []module.DBNodeSuper
 	nodeModule := module.NodeSuperCollection()

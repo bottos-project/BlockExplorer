@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/bottos-project/BlockExplorer/common"
 	"github.com/bottos-project/BlockExplorer/module"
 
@@ -22,13 +21,17 @@ func AccountList(c *gin.Context) {
 	length := params.Length
 
 	accountModule := module.AccountCollection()
-	fmt.Println(accountModule)
+	totalCount, _ := accountModule.Count()
+	start, length = paging(start, length, totalCount)
+	if length <= 0 {
+		common.ResponseSuccess(c, "accounts find success", module.ResPageList{TotalRecordes: totalCount})
+		return
+	}
 
-	if err := accountModule.Find(bson.M{}).Sort("timestamp").Skip(start).Limit(length).All(&accounts); err != nil {
+	if err := accountModule.Find(bson.M{}).Skip(start).Limit(length).All(&accounts); err != nil {
 		common.ResponseErr(c, "accounts find failed", err)
 		return
 	}
-	totalCount, _ := accountModule.Count()
 
 	res := module.ResPageList{
 		Data:          accounts,

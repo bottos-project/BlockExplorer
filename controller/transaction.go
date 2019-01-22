@@ -1,14 +1,15 @@
 package controller
 
 import (
+	"errors"
+
 	"github.com/bottos-project/BlockExplorer/common"
 	"github.com/bottos-project/BlockExplorer/module"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/mgo.v2/bson"
-	"log"
 )
 
-// transaction list
+//TrxTransactionList transaction list
 func TrxTransactionList(c *gin.Context) {
 	var transactions []module.ResTransactions
 	var params module.ReqTransactionList
@@ -21,10 +22,6 @@ func TrxTransactionList(c *gin.Context) {
 	length := params.Length
 	blockNum, _ := common.String2Int(params.BlockNum)
 
-	log.Print(blockNum)
-	if length == 0 {
-		length = 20
-	}
 	findInfo := bson.M{}
 	if blockNum != 0 {
 		findInfo["block_number"] = int64(blockNum)
@@ -35,30 +32,31 @@ func TrxTransactionList(c *gin.Context) {
 
 	trxModule := module.TransactionCollection()
 
-	log.Print(findInfo)
-	if err := trxModule.Find(findInfo).Sort("-block_number").All(&transactions); err != nil {
+	trxCount, err := trxModule.Find(findInfo).Count()
+	if err != nil {
 		common.ResponseErr(c, "transactions search error", err)
 		return
 	}
-	var totalCount int
-	if len(transactions) > length {
-		totalCount = length
-		transactions = transactions[start : start+length]
-	} else {
-		totalCount = len(transactions)
-	}
 
-	//totalCount, _ := trxModule.Find(findInfo).Count()
+	start, length = paging(start, length, trxCount)
+	if length <= 0 {
+		common.ResponseErr(c, "find personal transfers failed", errors.New("params err"))
+		return
+	}
+	if err := trxModule.Find(findInfo).Skip(start).Limit(length).All(&transactions); err != nil {
+		common.ResponseErr(c, "transactions search error", err)
+		return
+	}
 
 	res := module.ResPageList{
 		Data:          transactions,
-		TotalRecordes: totalCount,
+		TotalRecordes: trxCount,
 	}
 
 	common.ResponseSuccess(c, "transaction list find success", res)
 }
 
-// 转账
+//TrxTransferList 转账
 func TrxTransferList(c *gin.Context) {
 	var params module.ReqTransactionList
 	var transferList []module.DBTransaction
@@ -72,17 +70,25 @@ func TrxTransferList(c *gin.Context) {
 	start := params.Start
 	length := params.Length
 
-	if length == 0 {
-		length = 20
-	}
-
 	findInfo := bson.M{"method": "transfer"}
 	if blockNum != 0 {
 		findInfo["block_number"] = blockNum
 	}
 
 	transferModule := module.TransactionCollection()
-	if err := transferModule.Find(findInfo).Sort("-block_number").Skip(start).Limit(length).All(&transferList); err != nil {
+
+	transferCount, err := transferModule.Find(findInfo).Count()
+	if err != nil {
+		common.ResponseErr(c, "transactions search error", err)
+		return
+	}
+
+	start, length = paging(start, length, transferCount)
+	if length <= 0 {
+		common.ResponseErr(c, "transfer list find failed", errors.New("params err"))
+		return
+	}
+	if err := transferModule.Find(findInfo).Skip(start).Limit(length).All(&transferList); err != nil {
 		common.ResponseErr(c, "transfer list find failed", err)
 		return
 	}
@@ -101,15 +107,14 @@ func TrxTransferList(c *gin.Context) {
 		resTransferList = append(resTransferList, tempT)
 	}
 
-	totalCount, _ := transferModule.Find(findInfo).Count()
 	res := module.ResPageList{
 		Data:          resTransferList,
-		TotalRecordes: totalCount,
+		TotalRecordes: transferCount,
 	}
 	common.ResponseSuccess(c, "transfer list find success", res)
 }
 
-// 交易详情
+//TrxTransactionDetail 交易详情
 func TrxTransactionDetail(c *gin.Context) {
 	var params module.ReqGetTransaction
 	var trx module.ResTransferDetail
@@ -135,7 +140,7 @@ func TrxTransactionDetail(c *gin.Context) {
 	common.ResponseSuccess(c, "transaction detail find success", res)
 }
 
-// personal transfer list
+//TrxPersonalTransferList personal transfer list
 func TrxPersonalTransferList(c *gin.Context) {
 	var params module.ReqTransactionList
 	var transferList []module.DBTransaction
@@ -149,13 +154,27 @@ func TrxPersonalTransferList(c *gin.Context) {
 	start := params.Start
 	length := params.Length
 
-	if length == 0 {
-		length = 20
+	trxModule := module.TransactionCollection()
+	findInfo := bson.M{
+		"method": "transfer",
+		"$or": []bson.M{
+			bson.M{"param.from": params.AccountName},
+			bson.M{"param.to": params.AccountName},
+		},
 	}
 
-	trxModule := module.TransactionCollection()
-	findInfo := bson.M{"method": "transfer", "$or": []bson.M{bson.M{"param.from": params.AccountName}, bson.M{"param.to": params.AccountName}}}
-	if err := trxModule.Find(findInfo).Sort("-block_number").Skip(start).Limit(length).All(&transferList); err != nil {
+	trxCount, err := trxModule.Find(findInfo).Count()
+	if err != nil {
+		common.ResponseErr(c, "transactions search error", err)
+		return
+	}
+
+	start, length = paging(start, length, trxCount)
+	if length <= 0 {
+		common.ResponseErr(c, "find personal transfers failed", errors.New("params err"))
+		return
+	}
+	if err := trxModule.Find(findInfo).Skip(start).Limit(length).All(&transferList); err != nil {
 		common.ResponseErr(c, "find personal transfers failed", err)
 		return
 	}
@@ -174,16 +193,16 @@ func TrxPersonalTransferList(c *gin.Context) {
 		resTransferList = append(resTransferList, tempT)
 	}
 
-	totalCount, _ := trxModule.Find(findInfo).Count()
 	res := module.ResPageList{
 		Data:          resTransferList,
-		TotalRecordes: totalCount,
+		TotalRecordes: trxCount,
 	}
 
 	common.ResponseSuccess(c, "find personal transfer success", res)
 }
 
-func TexPersonTransactionByMethod(c *gin.Context) {
+//TrxPersonTransactionByMethod  personal transfer list by method
+func TrxPersonTransactionByMethod(c *gin.Context) {
 	var params module.ReqPersonTransactionByMethod
 	var transferList []module.ResPersonalTransactionByMethod
 
@@ -195,17 +214,25 @@ func TexPersonTransactionByMethod(c *gin.Context) {
 	start := params.Start
 	length := params.Length
 
-	if length == 0 {
-		length = 20
-	}
-
 	if params.Method == "" {
 		params.Method = "transfer"
 	}
 
 	trxModule := module.TransactionCollection()
 	findInfo := bson.M{"method": params.Method, "sender": params.AccountName}
-	if err := trxModule.Find(findInfo).Sort("-block_number").Skip(start).Limit(length).All(&transferList); err != nil {
+
+	trxCount, err := trxModule.Find(findInfo).Count()
+	if err != nil {
+		common.ResponseErr(c, "transactions search error", err)
+		return
+	}
+
+	start, length = paging(start, length, trxCount)
+	if length <= 0 {
+		common.ResponseErr(c, "find personal transfers failed", errors.New("params err"))
+		return
+	}
+	if err := trxModule.Find(findInfo).Skip(start).Limit(length).All(&transferList); err != nil {
 		common.ResponseErr(c, "find personal transfers failed", err)
 		return
 	}

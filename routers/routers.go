@@ -21,7 +21,7 @@ func Routes(router *gin.Engine) {
 	rExplorer.POST("/trade/queryTradeListAuto", controller.TrxTransactionList)                               // 交易列表
 	rExplorer.POST("/transferl/queryTransferlListAuto", controller.TrxTransferList)                          // 转账列表
 	rExplorer.POST("/transferl/queryPersonalTransferlListAuto", controller.TrxPersonalTransferList)          // 个人转账列表
-	rExplorer.POST("/transaction/queryPersonalTransactionByMethod", controller.TexPersonTransactionByMethod) // 根据方法名查询列表
+	rExplorer.POST("/transaction/queryPersonalTransactionByMethod", controller.TrxPersonTransactionByMethod) // 根据方法名查询列表
 
 	// Detail
 	rExplorer.POST("/block/queryBlockDetailAuto", controller.BlockDetail)          // 区块详情
@@ -33,9 +33,9 @@ func Routes(router *gin.Engine) {
 	rExplorer.POST("/cust/queryRigiterSummaryAuto", controller.StatisticAccount)          // account increase
 
 	// nodes
-	rExplorer.POST("/superNode/queryNodeListAuto", controller.NodeProductList)   // 生产节点
-	rExplorer.POST("/node/queryNodeRankAuto", controller.NodeServiceList)        // 服务节点
-	rExplorer.POST("/superNode/queryNodeDetailAuto", controller.NodeSuperDetail) // 服务节点
+	rExplorer.POST("/superNode/queryNodeListAuto", controller.NodeProductList)    // 生产节点
+	rExplorer.POST("/node/queryNodeRankAuto", controller.NodeServiceList)         // 服务节点
+	rExplorer.POST("/superNode/queryNodeDetailAuto", controller.NodeSuperDetail)  // 服务节点
 	rExplorer.POST("/superNode/queryNodeSummaryAuto", controller.NodeSummaryAuto) // 服务汇总
 
 }

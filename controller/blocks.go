@@ -7,9 +7,15 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+//BlockList for delegate or anyone
 func BlockList(c *gin.Context) {
 	var blockList []module.ResBlockList
 	var params module.ReqBlockList
+
+	type resStruct struct {
+		Data         interface{} `json:"data"`
+		TotalRecords int         `json:"iTotalDisplayRecords"`
+	}
 
 	if err := c.BindJSON(&params); err != nil {
 		common.ResponseErr(c, "params error", err)
@@ -30,15 +36,14 @@ func BlockList(c *gin.Context) {
 	start := params.Start
 	length := params.Length
 	start, length = paging(start, length, blockCount)
+	if length <= 0 {
+		common.ResponseSuccess(c, "selected block list success", resStruct{TotalRecords: blockCount})
+		return
+	}
 
 	if err := dbBlock.Find(bson.M{}).Select(selectInfo).Skip(start).Limit(length).All(&blockList); err != nil {
 		common.ResponseErr(c, "failed to select block list", err)
 		return
-	}
-
-	type resStruct struct {
-		Data         interface{} `json:"data"`
-		TotalRecords int         `json:"iTotalDisplayRecords"`
 	}
 
 	response := resStruct{
@@ -48,7 +53,7 @@ func BlockList(c *gin.Context) {
 	common.ResponseSuccess(c, "selected block list success", response)
 }
 
-// block detail
+//BlockDetail block detail
 func BlockDetail(c *gin.Context) {
 	var params module.ReqBlockDetail
 	var block module.ResBlockDetail
