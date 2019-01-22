@@ -82,7 +82,7 @@ import {queryTradeList} from '@/api/blockchain_transactions'
           }
           queryTradeList(para).then(response => {
             this.tableData = response.data
-            this.listQuery.iTotalDisplayRecords = response.data.iTotalDisplayRecords
+            this.listQuery.iTotalDisplayRecords = response.iTotalDisplayRecords
             this.listLoading = false
           }).catch(function(error){
             console.log('加载出错……');
