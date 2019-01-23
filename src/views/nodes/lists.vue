@@ -39,7 +39,7 @@
           </el-table-column>
           <el-table-column :label="$t('nodes.table1')" min-width="250" :show-overflow-tooltip="true">
             <template slot-scope="scope">
-              {{scope.row.node_type}}
+              {{scope.row.URL}}
               <!-- <router-link :to="'/nodes/detail/'+scope.row.table1">
               {{scope.row.table1}}
               </router-link>
@@ -52,12 +52,12 @@
          
           <el-table-column :label="$t('nodes.table2')" min-width="150">
             <template slot-scope="scope">
-              {{scope.row.node_country}}
+              {{scope.row.node_type}}
             </template>
           </el-table-column>
           <el-table-column :label="$t('nodes.table3')" min-width="150">
             <template slot-scope="scope">
-              {{scope.row.ip}}
+              {{scope.row.node_country}}
             </template>
           </el-table-column>
           <!-- <el-table-column :label="$t('nodes.table4')" min-width="100">
