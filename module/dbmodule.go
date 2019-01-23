@@ -63,7 +63,8 @@ type DBTransaction struct {
 type DBNodeService struct {
 	NodeType    string `bson:"node_type" json:"node_type"`
 	NodeCountry string `bson:"node_country" json:"node_country"`
-	Ip          string `bson:"ip" json:"ip"`
+	IP          string `bson:"service_api" json:"ip"`
+	URL         string `bson:"service_url" json:"serviceUrl"`
 }
 
 // bson.M{"country": "Europe-Germany", "nodeCount": 1},
