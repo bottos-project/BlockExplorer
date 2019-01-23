@@ -47,8 +47,8 @@ func NodeServiceSummary(c *gin.Context) {
 		return
 	}
 	res := module.ResServiceNodeSummary{
-		superNodeCount:   superNodeCount,
-		serviceNodeCount: serviceNodeCount,
+		DelegateCount: superNodeCount,
+		ServiceCount:  serviceNodeCount,
 	}
 
 	common.ResponseSuccess(c, "service node list search success", res)
