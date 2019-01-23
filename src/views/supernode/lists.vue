@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div class="border">
+    <!-- <div class="border">
       <div class="Stats">
         <el-row>
           <el-col :xs="24" :sm="8" :md="8" :lg="8" :xl="8">
@@ -23,7 +23,7 @@
           </el-col>
         </el-row>
       </div>
-    </div>
+    </div> -->
     <div class="border">
       <div class="title"><h3><span>{{$t('supernode.title')}}</span></h3></div>
       <div class="supernode">
@@ -44,10 +44,10 @@
                     {{item.nodeName}}
                     <!-- </router-link> -->
                   </div>
-                  <div class="progress">
+                  <!-- <div class="progress">
                     <span class="progress-bar" :style="'width:'+item.votesRate+'%'"></span>
                     <span class="text">{{item.votesRate}}%</span>
-                  </div>
+                  </div> -->
                 </div>
                 <div class="box">
                   <div class="url"><a :href="item.nodeUrl" target="_blank">{{item.nodeUrl}}</a></div>
@@ -95,7 +95,7 @@ import {queryNodeSummary,queryNodeList} from '@/api/supernode'
         statisticsData(){
           let para = {}
           queryNodeSummary(para).then(response => {
-            this.statistics = response.data
+            this.statistics = response
           }).catch(function(error){
             this.$message({
               message: this.$i18n.t('tips.error'),

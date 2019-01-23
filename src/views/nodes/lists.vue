@@ -29,10 +29,10 @@
       <div class="border">
         <div class="title">
           <h3><span>{{$t('nodes.title')}}</span></h3>
-          <div class="input-group">
+          <!-- <div class="input-group">
             <input type="text" v-model="searchVal" class="input" clearable :placeholder="$t('nodes.searchs')" value="">
             <a class="filterBtn" @click="fetchData">{{$t('nodes.searchsbtn')}}</a>
-          </div>
+          </div> -->
         </div>
         <el-table :data="tableData" size="medium" v-loading="listLoading" :row-class-name="tableRowClassName" class="tables">
           <el-table-column prop="" width="40">
@@ -79,7 +79,7 @@
           </el-table-column> -->
         </el-table>
 
-        <div v-show="!listLoading" class="pagination-container">
+        <!-- <div v-show="!listLoading" class="pagination-container">
           <el-pagination background
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
@@ -89,7 +89,7 @@
               layout="total, sizes, prev, pager, next, jumper"
               :total="listQuery.iTotalDisplayRecords">
           </el-pagination>
-        </div>
+        </div> -->
       </div>
 
     </div>
@@ -127,7 +127,7 @@
         statisticsData(){
           let para = {}
           queryTopNodeSummary(para).then(response => {
-            this.statistics = response.data
+            this.statistics = response
           }).catch(function(error){
             this.$message({
               message: this.$i18n.t('tips.error'),

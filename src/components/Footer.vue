@@ -1,6 +1,6 @@
 <template>
   <div class="footer cf">
-    <div class="inner cf">
+    <!-- <div class="inner cf">
       <h3>{{$t('footer.title')}}</h3>
       <div class="contact">
         <span><a href="https://github.com/bottos-project" target="_black"><img src="../assets/footer_github.png" /><div>GitHub</div></a></span>
@@ -22,7 +22,7 @@
         </span>
       </div>
       </ul>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
