@@ -1,7 +1,7 @@
 package db
 
 import (
-	mgo "gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2"
 )
 
 // const URL string = "mongodb://118.184.215.41:27018"
@@ -14,19 +14,14 @@ var session *mgo.Session
 var mongo *mgo.Database
 
 func GetMongoDB() *mgo.Database {
-	return InitMongoDB("blockchainbowser")
+	return mongo
 }
 
-func InitMongoDB(dbname string) *mgo.Database {
-	session, _ := mgo.Dial(URL)
-	//if err != nil {
-	//	log.Fatalf("InintMongoDb: mongodb connect err: %v", err)
-	//	return nil
-	//}
+func InitMongoDB(dbname string) {
+	session, _ = mgo.Dial(URL)
 	//切换到数据库
 	db := session.DB(dbname)
 	mongo = db
-	return db
 }
 
 // 切换collection
