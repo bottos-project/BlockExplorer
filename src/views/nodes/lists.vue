@@ -6,13 +6,13 @@
           <el-row>
             <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
               <div class="item">
-                <div class="con">{{statistics.nodeCount}}</div>
+                <div class="con">{{statistics.delegateCount}}</div>
                 <div class="tit">{{$t('nodes.stats1')}}</div>
               </div>
             </el-col>
             <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
               <div class="item">
-                <div class="con">{{statistics.country}}</div>
+                <div class="con">{{statistics.serviceNodeCount}}</div>
                 <div class="tit">{{$t('nodes.stats2')}}</div>
               </div>
             </el-col>
