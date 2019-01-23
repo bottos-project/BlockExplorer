@@ -34,8 +34,9 @@ func Routes(router *gin.Engine) {
 
 	// nodes
 	rExplorer.POST("/superNode/queryNodeListAuto", controller.NodeProductList)    // 生产节点
-	rExplorer.POST("/node/queryNodeRankAuto", controller.NodeServiceList)         // 服务节点
-	rExplorer.POST("/superNode/queryNodeDetailAuto", controller.NodeSuperDetail)  // 服务节点
-	rExplorer.POST("/superNode/queryNodeSummaryAuto", controller.NodeSummaryAuto) // 服务汇总
+	rExplorer.POST("/superNode/queryNodeDetailAuto", controller.NodeSuperDetail)  // 生产节点详情
+	rExplorer.POST("/superNode/queryNodeSummaryAuto", controller.NodeSummaryAuto) // 生产节点汇总
 
+	rExplorer.POST("/node/queryNodeRankAuto", controller.NodeServiceList)          // 服务节点
+	rExplorer.POST("/node/queryTopNodeSummaryAuto", controller.NodeServiceSummary) // 服务节点概要信息
 }

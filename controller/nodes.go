@@ -31,6 +31,29 @@ func NodeServiceList(c *gin.Context) {
 	common.ResponseSuccess(c, "service node list search success", nodes)
 }
 
+// NodeServiceSummary get nodes summary
+func NodeServiceSummary(c *gin.Context) {
+	var nodes []module.DBNodeService
+	nodeModule := module.NodeServiceCollection()
+	superNodeModule := module.NodeSuperCollection()
+	serviceNodeCount, err := nodeModule.Find(bson.M{}).Count()
+	if err != nil {
+		common.ResponseErr(c, "service node list search failed", err)
+		return
+	}
+	superNodeCount, err := superNodeModule.Find(bson.M{}).Count()
+	if err != nil {
+		common.ResponseErr(c, "super node list search failed", err)
+		return
+	}
+	res := module.ResServiceNodeSummary{
+		superNodeCount:   superNodeCount,
+		serviceNodeCount: serviceNodeCount,
+	}
+
+	common.ResponseSuccess(c, "service node list search success", res)
+}
+
 func NodeSuperDetail(c *gin.Context) {
 	var params module.ReqNodeSuperDetail
 	var node module.DBNodeSuper
