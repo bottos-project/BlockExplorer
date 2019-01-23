@@ -39,7 +39,7 @@
           </el-table-column>
           <el-table-column :label="$t('nodes.table1')" min-width="250" :show-overflow-tooltip="true">
             <template slot-scope="scope">
-              {{scope.row.URL}}
+              {{scope.row.serviceUrl}}
               <!-- <router-link :to="'/nodes/detail/'+scope.row.table1">
               {{scope.row.table1}}
               </router-link>
