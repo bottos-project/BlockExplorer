@@ -33,7 +33,6 @@ func NodeServiceList(c *gin.Context) {
 
 // NodeServiceSummary get nodes summary
 func NodeServiceSummary(c *gin.Context) {
-	var nodes []module.DBNodeService
 	nodeModule := module.NodeServiceCollection()
 	superNodeModule := module.NodeSuperCollection()
 	serviceNodeCount, err := nodeModule.Find(bson.M{}).Count()

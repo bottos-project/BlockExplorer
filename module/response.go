@@ -144,6 +144,6 @@ type ResNodeSuperSummary struct {
 }
 
 type ResServiceNodeSummary struct {
-	DelegateCount int32 `json:"delegateCount"`
-	ServiceCount  int32 `json:"serviceNodeCount"`
+	DelegateCount int `json:"delegateCount"`
+	ServiceCount  int `json:"serviceNodeCount"`
 }
