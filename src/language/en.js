@@ -9,8 +9,8 @@ const messagesEn = {
         accounts: 'Accounts',
         statistics: 'Statistics',
         contracts: 'Contracts',
-        nodes: 'Service Node',
-        supernode:'Production Node'
+        nodes: 'Service Nodes',
+        supernode:'Production Nodes'
     },
     footer:{
         title:'Contact Us'
@@ -59,7 +59,7 @@ const messagesEn = {
         time:"Time",
         TransactionNumber:"Transactions",
         ThePreviousBlockID:"Parent Block ID",
-        Chunk:"Chunk",
+        Chunk:"Producer",
         Size:"Size",
         tabs1:"Transactions",
         tabs2:"Transfers"
@@ -121,12 +121,12 @@ const messagesEn = {
     },
     accountsDetail:{
         title:"Account Detail",
-        accounts:"Accounts",
+        accounts:"Account",
         balance:"Balance",
         TransactionNumber:"Transactions",
         Transfer:"Transfer",
         tabs1:"Transactions",
-        AllReword:"AllReword",
+        AllReword:"Rewards",
         tabs2:"Transfers"
     },
     statistics:{

@@ -45,7 +45,7 @@
         <ul>
           <li><a href="#"></a></li>
         </ul>
-        <button class="languagebtn" @click="changeLanguage('en')">En</button>
+        <button class="languagebtn" @click="changeLanguage('en')">EN</button>
         <button class="languagebtn cn" @click="changeLanguage('zh-cn')">中文</button>
       </div>
       
