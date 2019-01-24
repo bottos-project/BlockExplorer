@@ -12,6 +12,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+type int
 // HomeGetTotalCount home page detail info
 func HomeGetTotalCount(c *gin.Context) {
 	mongoIns, err := db.NewDBCollection()
@@ -25,9 +26,16 @@ func HomeGetTotalCount(c *gin.Context) {
 	dbBlock := mongoIns.BlockCollection()
 	accountModule := mongoIns.AccountCollection()
 	transactionModule := mongoIns.TransactionCollection()
+	superNodeModule := mongoIns.NodeSuperCollection()
 	blockCount, err := dbBlock.Count()
 	if err != nil {
 		common.ResponseErr(c, "failed to find lastest block number", err)
+		return
+	}
+
+	nodeCount,err := superNodeModule.Count()
+	if err != nil {
+		common.ResponseErr(c,"failed to find super nodes",err)
 		return
 	}
 
@@ -40,7 +48,7 @@ func HomeGetTotalCount(c *gin.Context) {
 
 	totalCount := module.ResTotalCount{
 		BlockNumber:      uint64(blockCount),
-		NodeCount:        "49",
+		NodeCount:        nodeCount,
 		Accounts:         accounts,
 		TransactionCount: transactionCount,
 	}
