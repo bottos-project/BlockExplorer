@@ -10,7 +10,7 @@ export default {
     data(){
       return {
         listQuery:{
-          startDate:moment().subtract(90, 'days').format('YYYY-MM-DD'),
+          startDate:moment().subtract(14, 'days').format('YYYY-MM-DD'),
           endDate:moment().format('YYYY-MM-DD')
         },
         chartColumn: null,
@@ -35,7 +35,7 @@ export default {
             return item.regDate
           })
           this.chartData.totalRegCount = response.map(function (item) {
-            return item.totalRegCount
+            return item.dailyRegCount
           })
           this.drawColumnChart()
         }).catch(error => {
