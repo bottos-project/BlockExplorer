@@ -21,7 +21,7 @@ type ResDataStruct struct {
 // home statistic
 type ResTotalCount struct {
 	TransactionCount int    `json:"lastTradeCount"`
-	NodeCount        string `json:"nodeCount"`
+	NodeCount        int    `json:"nodeCount"`
 	BlockNumber      uint64 `json:"blockNum"`
 	Accounts         int    `json:"rtCustCount"`
 }

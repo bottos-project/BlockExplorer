@@ -12,7 +12,6 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type int
 // HomeGetTotalCount home page detail info
 func HomeGetTotalCount(c *gin.Context) {
 	mongoIns, err := db.NewDBCollection()
