@@ -21,7 +21,18 @@ func StatisticTransaction(c *gin.Context) {
 	defer db.CloseSession(mongoIns)
 
 	sModule := mongoIns.StatisticCollection()
-	if err := sModule.Find(bson.M{}).Limit(14).All(&trxStatistics); err != nil {
+	count, err := sModule.Find(bson.M{}).Count()
+	if err != nil {
+		common.ResponseErr(c, "transaction statistic failed", err)
+		return
+	}
+
+	start := count - 14
+	if start < 0 {
+		start = 0
+	}
+
+	if err := sModule.Find(bson.M{}).Skip(start).Limit(14).All(&trxStatistics); err != nil {
 		common.ResponseErr(c, "transaction statistic failed", err)
 		return
 	}
@@ -41,7 +52,18 @@ func StatisticAccount(c *gin.Context) {
 	defer db.CloseSession(mongoIns)
 
 	sModule := mongoIns.StatisticCollection()
-	if err := sModule.Find(bson.M{}).Limit(7).All(&accountStatistic); err != nil {
+	count, err := sModule.Find(bson.M{}).Count()
+	if err != nil {
+		common.ResponseErr(c, "account statistic failed", err)
+		return
+	}
+
+	start := count - 7
+	if start < 0 {
+		start = 0
+	}
+
+	if err := sModule.Find(bson.M{}).Skip(start).Limit(7).All(&accountStatistic); err != nil {
 		common.ResponseErr(c, "account statistic failed", err)
 		return
 	}
