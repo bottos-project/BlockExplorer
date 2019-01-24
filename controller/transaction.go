@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/bottos-project/BlockExplorer/common"
+	"github.com/bottos-project/BlockExplorer/db"
 	"github.com/bottos-project/BlockExplorer/module"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/mgo.v2/bson"
@@ -15,6 +16,14 @@ func TrxTransactionList(c *gin.Context) {
 		common.ResponseErr(c, "params error", err)
 		return
 	}
+
+	mongoIns, err := db.NewDBCollection()
+	if err != nil {
+		common.ResponseErr(c, "connect mongoDB error", err)
+		return
+	}
+
+	defer db.CloseSession(mongoIns)
 
 	res := module.ResPageList{
 		Data:          &transactions,
@@ -33,7 +42,7 @@ func TrxTransactionList(c *gin.Context) {
 		findInfo["sender"] = params.AccountName
 	}
 
-	trxModule := module.TransactionCollection()
+	trxModule := mongoIns.TransactionCollection()
 
 	trxCount, err := trxModule.Find(findInfo).Count()
 	res.TotalRecordes = trxCount
@@ -71,6 +80,14 @@ func TrxTransferList(c *gin.Context) {
 		return
 	}
 
+	mongoIns, err := db.NewDBCollection()
+	if err != nil {
+		common.ResponseErr(c, "connect mongoDB error", err)
+		return
+	}
+
+	defer db.CloseSession(mongoIns)
+
 	blockNum, _ := common.String2Int(params.BlockNum)
 	start := params.Start
 	length := params.Length
@@ -80,7 +97,7 @@ func TrxTransferList(c *gin.Context) {
 		findInfo["block_number"] = blockNum
 	}
 
-	transferModule := module.TransactionCollection()
+	transferModule := mongoIns.TransactionCollection()
 
 	transferCount, err := transferModule.Find(findInfo).Count()
 	if err != nil {
@@ -126,7 +143,15 @@ func TrxTransactionDetail(c *gin.Context) {
 		return
 	}
 
-	trxModule := module.TransactionCollection()
+	mongoIns, err := db.NewDBCollection()
+	if err != nil {
+		common.ResponseErr(c, "connect mongoDB error", err)
+		return
+	}
+
+	defer db.CloseSession(mongoIns)
+
+	trxModule := mongoIns.TransactionCollection()
 	if err := trxModule.Find(bson.M{"transaction_id": params.TransactionID}).One(&trx); err != nil {
 		common.ResponseErr(c, "transaction detail find failed", err)
 		return
@@ -158,10 +183,18 @@ func TrxPersonalTransferList(c *gin.Context) {
 		return
 	}
 
+	mongoIns, err := db.NewDBCollection()
+	if err != nil {
+		common.ResponseErr(c, "connect mongoDB error", err)
+		return
+	}
+
+	defer db.CloseSession(mongoIns)
+
 	start := params.Start
 	length := params.Length
 
-	trxModule := module.TransactionCollection()
+	trxModule := mongoIns.TransactionCollection()
 	findInfo := bson.M{
 		"method": "transfer",
 		"$or": []bson.M{
@@ -214,6 +247,14 @@ func TrxPersonTransactionByMethod(c *gin.Context) {
 		return
 	}
 
+	mongoIns, err := db.NewDBCollection()
+	if err != nil {
+		common.ResponseErr(c, "connect mongoDB error", err)
+		return
+	}
+
+	defer db.CloseSession(mongoIns)
+
 	start := params.Start
 	length := params.Length
 
@@ -221,7 +262,7 @@ func TrxPersonTransactionByMethod(c *gin.Context) {
 		params.Method = "transfer"
 	}
 
-	trxModule := module.TransactionCollection()
+	trxModule := mongoIns.TransactionCollection()
 	findInfo := bson.M{"method": params.Method, "sender": params.AccountName}
 
 	trxCount, err := trxModule.Find(findInfo).Count()

@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/bottos-project/BlockExplorer/db"
 	"github.com/bottos-project/BlockExplorer/routers"
 
 	"github.com/gin-contrib/cors"
@@ -23,7 +22,6 @@ func main() {
 	}
 
 	router.Use(cors.Default())
-	db.InitMongoDB("blockchainbowser")
 	routers.Routes(router)
 	err := s.ListenAndServe()
 	if err != nil {

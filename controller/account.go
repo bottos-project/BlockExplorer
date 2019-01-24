@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/bottos-project/BlockExplorer/common"
+	"github.com/bottos-project/BlockExplorer/db"
 	"github.com/bottos-project/BlockExplorer/module"
 
 	"github.com/gin-gonic/gin"
@@ -17,10 +18,18 @@ func AccountList(c *gin.Context) {
 		return
 	}
 
+	mongoIns, err := db.NewDBCollection()
+	if err != nil {
+		common.ResponseErr(c, "connect mongoDB error", err)
+		return
+	}
+
+	defer db.CloseSession(mongoIns)
+
 	start := params.Start
 	length := params.Length
 
-	accountModule := module.AccountCollection()
+	accountModule := mongoIns.AccountCollection()
 	totalCount, _ := accountModule.Count()
 	start, length = paging(start, length, totalCount)
 	if length <= 0 {
@@ -50,14 +59,22 @@ func AccountDetail(c *gin.Context) {
 		return
 	}
 
-	accountModule := module.AccountCollection()
+	mongoIns, err := db.NewDBCollection()
+	if err != nil {
+		common.ResponseErr(c, "connect mongoDB error", err)
+		return
+	}
+
+	defer db.CloseSession(mongoIns)
+
+	accountModule := mongoIns.AccountCollection()
 	if err := accountModule.Find(bson.M{"account_name": params.AccountName}).One(&account); err != nil {
 		common.ResponseErr(c, "account find failed", err)
 		return
 	}
 
 	// transactions
-	trxModule := module.TransactionCollection()
+	trxModule := mongoIns.TransactionCollection()
 	// transaction out count
 	out := bson.M{"method": "transfer", "param.from": params.AccountName}
 	send, _ := trxModule.Find(out).Count()
@@ -79,7 +96,14 @@ func AccountDetail(c *gin.Context) {
 
 // 查询账户实时总数
 func AccountTotal(c *gin.Context) {
-	accountModule := module.AccountCollection()
+	mongoIns, err := db.NewDBCollection()
+	if err != nil {
+		common.ResponseErr(c, "connect mongoDB error", err)
+		return
+	}
+
+	defer db.CloseSession(mongoIns)
+	accountModule := mongoIns.AccountCollection()
 	totalCount, err := accountModule.Count()
 	if err != nil {
 		common.ResponseErr(c, "account total search failed", err)

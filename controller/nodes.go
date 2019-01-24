@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"github.com/bottos-project/BlockExplorer/db"
 	"log"
 
 	"github.com/bottos-project/BlockExplorer/common"
@@ -12,7 +13,16 @@ import (
 //NodeProductList Node product list
 func NodeProductList(c *gin.Context) {
 	var nodes []module.DBNodeSuper
-	nodeModule := module.NodeSuperCollection()
+
+	mongoIns, err := db.NewDBCollection()
+	if err != nil {
+		common.ResponseErr(c, "connect mongoDB error", err)
+		return
+	}
+
+	defer db.CloseSession(mongoIns)
+
+	nodeModule := mongoIns.NodeSuperCollection()
 	if err := nodeModule.Find(bson.M{"node_name": bson.M{"$exists": true}}).Sort("-transit_votes").All(&nodes); err != nil {
 		log.Fatalf("product node list search failed: %v", err)
 		common.ResponseErr(c, "product nodes search failed", err)
@@ -23,7 +33,15 @@ func NodeProductList(c *gin.Context) {
 
 func NodeServiceList(c *gin.Context) {
 	var nodes []module.DBNodeService
-	nodeModule := module.NodeServiceCollection()
+	mongoIns, err := db.NewDBCollection()
+	if err != nil {
+		common.ResponseErr(c, "connect mongoDB error", err)
+		return
+	}
+
+	defer db.CloseSession(mongoIns)
+
+	nodeModule := mongoIns.NodeServiceCollection()
 	if err := nodeModule.Find(bson.M{}).All(&nodes); err != nil {
 		common.ResponseErr(c, "service node list search failed", err)
 		return
@@ -33,8 +51,16 @@ func NodeServiceList(c *gin.Context) {
 
 // NodeServiceSummary get nodes summary
 func NodeServiceSummary(c *gin.Context) {
-	nodeModule := module.NodeServiceCollection()
-	superNodeModule := module.NodeSuperCollection()
+	mongoIns, err := db.NewDBCollection()
+	if err != nil {
+		common.ResponseErr(c, "connect mongoDB error", err)
+		return
+	}
+
+	defer db.CloseSession(mongoIns)
+
+	nodeModule := mongoIns.NodeServiceCollection()
+	superNodeModule := mongoIns.NodeSuperCollection()
 	serviceNodeCount, err := nodeModule.Find(bson.M{}).Count()
 	if err != nil {
 		common.ResponseErr(c, "service node list search failed", err)
@@ -61,7 +87,15 @@ func NodeSuperDetail(c *gin.Context) {
 		return
 	}
 
-	nodeModule := module.NodeSuperCollection()
+	mongoIns, err := db.NewDBCollection()
+	if err != nil {
+		common.ResponseErr(c, "connect mongoDB error", err)
+		return
+	}
+
+	defer db.CloseSession(mongoIns)
+
+	nodeModule := mongoIns.NodeSuperCollection()
 	if err := nodeModule.Find(bson.M{"delegate": params.NodeName}).One(&node); err != nil {
 		log.Fatalf("super node detail search failed: %v", err)
 		common.ResponseErr(c, "super node detail search failed", err)
@@ -72,7 +106,16 @@ func NodeSuperDetail(c *gin.Context) {
 
 func NodeSummaryAuto(c *gin.Context) {
 	var nodes module.ResNodeSuperSummary
-	nodeModule := module.NodeSuperCollection()
+
+	mongoIns, err := db.NewDBCollection()
+	if err != nil {
+		common.ResponseErr(c, "connect mongoDB error", err)
+		return
+	}
+
+	defer db.CloseSession(mongoIns)
+
+	nodeModule := mongoIns.NodeSuperCollection()
 	count, err := nodeModule.Find(bson.M{"node_name": bson.M{"$exists": true}}).Count()
 	if err != nil {
 		log.Fatalf("product node list search failed: %v", err)
@@ -81,7 +124,7 @@ func NodeSummaryAuto(c *gin.Context) {
 	}
 	nodes.DelegateCount = int32(count)
 
-	accountModule := module.AccountCollection()
+	accountModule := mongoIns.AccountCollection()
 
 	voteAccountCount, err := accountModule.Find(bson.M{"vote.votes": bson.M{"$exists": true}}).Count()
 	if err != nil {

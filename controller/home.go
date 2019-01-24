@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+	"github.com/bottos-project/BlockExplorer/db"
 	"time"
 
 	"github.com/bottos-project/BlockExplorer/common"
@@ -13,9 +14,17 @@ import (
 
 // HomeGetTotalCount home page detail info
 func HomeGetTotalCount(c *gin.Context) {
-	dbBlock := module.BlockCollection()
-	accountModule := module.AccountCollection()
-	transactionModule := module.TransactionCollection()
+	mongoIns, err := db.NewDBCollection()
+	if err != nil {
+		common.ResponseErr(c, "connect mongoDB error", err)
+		return
+	}
+
+	defer db.CloseSession(mongoIns)
+
+	dbBlock := mongoIns.BlockCollection()
+	accountModule := mongoIns.AccountCollection()
+	transactionModule := mongoIns.TransactionCollection()
 	blockCount, err := dbBlock.Count()
 	if err != nil {
 		common.ResponseErr(c, "failed to find lastest block number", err)
@@ -55,6 +64,14 @@ func HomeSearch(c *gin.Context) {
 		return
 	}
 
+	mongoIns, err := db.NewDBCollection()
+	if err != nil {
+		common.ResponseErr(c, "connect mongoDB error", err)
+		return
+	}
+
+	defer db.CloseSession(mongoIns)
+
 	condition := params.Condition
 	length := len(condition)
 	fmt.Printf(condition)
@@ -62,8 +79,8 @@ func HomeSearch(c *gin.Context) {
 
 	if length == 64 {
 		// condition is hash
-		blockModule := module.BlockCollection()
-		transactionModule := module.TransactionCollection()
+		blockModule := mongoIns.BlockCollection()
+		transactionModule := mongoIns.TransactionCollection()
 		if err := blockModule.Find(bson.M{"block_hash": condition}).One(&blockDetail); err != nil {
 			if err := transactionModule.Find(bson.M{"transaction_id": condition}).One(&transactionDetail); err != nil {
 				common.ResponseErr(c, "search failed", err)
@@ -91,8 +108,8 @@ func HomeSearch(c *gin.Context) {
 		}
 	} else {
 		fmt.Printf("search account name or blockNum")
-		blockModule := module.BlockCollection()
-		accountModule := module.AccountCollection()
+		blockModule := mongoIns.BlockCollection()
+		accountModule := mongoIns.AccountCollection()
 		blockNum, _ := common.String2Int(condition)
 
 		if blockNum == 0 { // accountName

@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/bottos-project/BlockExplorer/common"
+	"github.com/bottos-project/BlockExplorer/db"
 	"github.com/bottos-project/BlockExplorer/module"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/mgo.v2/bson"
@@ -22,11 +23,19 @@ func BlockList(c *gin.Context) {
 		return
 	}
 
+	mongoIns, err := db.NewDBCollection()
+	if err != nil {
+		common.ResponseErr(c, "connect mongoDB error", err)
+		return
+	}
+
+	defer db.CloseSession(mongoIns)
+
 	selectInfo := bson.M{"block_hash": 1, "block_number": 1, "delegate": 1, "timestamp": 1, "transaction_count": 1}
 	if params.DelegateName != "" {
 		selectInfo["delegate"] = params.DelegateName
 	}
-	dbBlock := module.BlockCollection()
+	dbBlock := mongoIns.BlockCollection()
 	blockCount, err := dbBlock.Count()
 	if err != nil {
 		common.ResponseErr(c, "failed to select block list than get block count", err)
@@ -61,9 +70,17 @@ func BlockDetail(c *gin.Context) {
 		common.ResponseErr(c, "params error", err)
 		return
 	}
+
+	mongoIns, err := db.NewDBCollection()
+	if err != nil {
+		common.ResponseErr(c, "connect mongoDB error", err)
+		return
+	}
+
+	defer db.CloseSession(mongoIns)
 	// string to int
 	blockNumInt, _ := common.String2Int(params.BlockNum)
-	blockModule := module.BlockCollection()
+	blockModule := mongoIns.BlockCollection()
 	if err := blockModule.Find(bson.M{"block_number": blockNumInt}).One(&block); err != nil {
 		common.ResponseErr(c, "block detail find failed ", err)
 		return
