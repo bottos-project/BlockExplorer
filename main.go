@@ -14,7 +14,7 @@ import (
 func main() {
 	router := gin.Default()
 	s := &http.Server{
-		Addr:           ":8088",
+		Addr:           ":8080",
 		Handler:        router,
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,

@@ -53,7 +53,7 @@ func TrxTransactionList(c *gin.Context) {
 
 	start, length = paging(start, length, trxCount)
 	if length <= 0 {
-		common.ResponseSuccess(c, "transfer list find success", module.ResPageList{TotalRecordes: trxCount})
+		common.ResponseSuccess(c, "transfer list find success", res)
 		return
 	}
 	if err := trxModule.Find(findInfo).Skip(start).Limit(length).All(&transactions); err != nil {
