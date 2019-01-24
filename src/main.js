@@ -30,6 +30,9 @@ const i18n = new VueI18n({
 })
 
 window.sortData = function(dataArr){
+  if (dataArr == null){
+    return null
+  }
   let tempArr = []
   let length = dataArr.length
   for(let i = 0;i<length;i++){
