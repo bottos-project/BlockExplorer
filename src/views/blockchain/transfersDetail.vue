@@ -81,7 +81,8 @@ import {queryTradeDetail} from '@/api/blockchain_transfers'
       data() {
         return {
           custId:this.$route.params && this.$route.params.id,
-          Detail:{}
+          Detail:{},
+          inputdata:{}
         }
       },
       watch:{
@@ -100,7 +101,9 @@ import {queryTradeDetail} from '@/api/blockchain_transfers'
           }
           queryTradeDetail(para).then(response => {
             this.Detail = response.data
-            this.inputdata = this.syntaxHighlight(response.data.param)
+            let param = response.data.param
+            param.value = (param.value / Math.pow(10,8)) + 'BTO'
+            this.inputdata = this.syntaxHighlight(param)
           }).catch(error => {
             this.$message({
                 message: this.$i18n.t('tips.error'),
