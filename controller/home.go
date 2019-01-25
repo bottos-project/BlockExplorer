@@ -26,17 +26,24 @@ func HomeGetTotalCount(c *gin.Context) {
 	accountModule := mongoIns.AccountCollection()
 	transactionModule := mongoIns.TransactionCollection()
 	superNodeModule := mongoIns.NodeSuperCollection()
+	ServiceModule := mongoIns.NodeServiceCollection()
 	blockCount, err := dbBlock.Count()
 	if err != nil {
 		common.ResponseErr(c, "failed to find lastest block number", err)
 		return
 	}
 
-	nodeCount,err := superNodeModule.Count()
+	superNodeCount, err := superNodeModule.Count()
 	if err != nil {
-		common.ResponseErr(c,"failed to find super nodes",err)
+		common.ResponseErr(c, "failed to find super nodes", err)
 		return
 	}
+	serviceNodeCount, err := ServiceModule.Count()
+	if err != nil {
+		common.ResponseErr(c, "failed to find service nodes", err)
+		return
+	}
+	nodeCount := superNodeCount + serviceNodeCount
 
 	accounts, _ := accountModule.Count()
 	timeDate := time.Now()
