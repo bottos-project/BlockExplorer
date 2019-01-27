@@ -34,7 +34,7 @@ export default {
             return item.regDate
           })
           this.chartData.totalRegCount = response.map(function (item) {
-            return item.totalRegCount
+            return item.dailyRegCount
           })
           this.drawColumnChart()
         }).catch(error => {
