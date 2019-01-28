@@ -31,10 +31,11 @@ export default {
         }
         queryLastFTTradeSummary(para).then(response => {
           this.chartData.tradeDate = response.map(function (item) {
-            return item.tradeDate
+            var date = new Date(item.tradeDate)
+            return date.toLocaleDateString()
           })
           this.chartData.dailyTransCount = response.map(function (item) {
-            return item.dailyTransCount
+            return item.totalTrxCount
           })
           this.drawColumnChart()
         }).catch(error => {

@@ -31,10 +31,11 @@ export default {
         }
         queryRigiterSummary(para).then(response => {
           this.chartData.regDate = response.map(function (item) {
-            return item.regDate
+            var date = new Date(item.regDate)
+            return date.toLocaleDateString()
           })
           this.chartData.totalRegCount = response.map(function (item) {
-            return item.dailyRegCount
+            return item.totalRegCount
           })
           this.drawColumnChart()
         }).catch(error => {

@@ -32,7 +32,8 @@ export default {
         queryRigiterSummary(para).then(response => {
           console.log({queryRigiterSummary:response})
           this.chartData.regDate = response.map(function (item) {
-            return item.regDate
+            var date = new Date(item.regDate)
+            return date.toLocaleDateString()
           })
           this.chartData.totalRegCount = response.map(function (item) {
             return item.totalRegCount
