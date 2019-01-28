@@ -34,7 +34,7 @@ export default {
             return item.tradeDate
           })
           this.chartData.dailyTransCount = response.map(function (item) {
-            return item.dailyTransCount
+            return item.totalTrxCount
           })
           this.drawColumnChart()
         }).catch(error => {
