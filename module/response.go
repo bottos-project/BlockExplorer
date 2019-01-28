@@ -1,5 +1,7 @@
 package module
 
+import "time"
+
 // response success
 type ResSuccess struct {
 	Data    interface{} `json:"data"`
@@ -109,15 +111,16 @@ type ResTransferDetail struct {
 
 // transaction statistic
 type ResStatisticTransaction struct {
-	DailyTransCount int    `bson:"trx_count" json:"dailyTransCount"`
-	TradeDate       string `bson:"day" json:"tradeDate"`
+	DailyTransCount int       `bson:"trx_count" json:"dailyTransCount"`
+	TradeDate       time.Time `bson:"day" json:"tradeDate"`
+	TotalTransCount int       `bson:"total_trx_count" json:"totalTrxCount"`
 }
 
 // account statistic
 type ResStatisticAccount struct {
-	DailyRegCount int    `bson:"account_count" json:"dailyRegCount"`
-	RegDate       string `bson:"day" json:"regDate"`
-	TotalRegCount int    `json:"totalRegCount"`
+	DailyRegCount int       `bson:"account_count" json:"dailyRegCount"`
+	RegDate       time.Time `bson:"day" json:"regDate"`
+	TotalRegCount int       `bson:"total_account_count" json:"totalRegCount"`
 }
 
 type ResPersonalTransactionByMethod struct {
