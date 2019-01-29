@@ -86,14 +86,29 @@ type ResBlockDetail struct {
 
 // account detail
 type ResAccountDetail struct {
-	AccountName     string `bson:"account_name" json:"accountName"`
-	ReceiveCount    int    `json:"receiveCount"`
-	SendCount       int    `json:"sendCount"`
-	TradeCount      int    `json:"tradeCount"`
-	Balance         string `bson:"balance" json:"balance"`
-	StakedBalance   string `bson:"staked_balance" json:"stakedBalance"`
-	ResultType      string `json:"resultType"`
-	UnClaimedReward string `bson:"un_claimed_reward" json:"unClaimedReward"`
+	AccountName           string `bson:"account_name" json:"accountName"`
+	ReceiveCount          int    `json:"receiveCount"`
+	SendCount             int    `json:"sendCount"`
+	TradeCount            int    `json:"tradeCount"`
+	Balance               string `bson:"balance" json:"balance"`
+	StakedBalance         string `bson:"staked_balance" json:"stakedBalance"`
+	UnStakedBalance       string `bson:"unStaking_balance" json:"unStakingBalance"`
+	ResultType            string `json:"resultType"`
+	UnClaimedReward       string `bson:"un_claimed_reward" json:"unClaimedReward"`
+	AvailableSpaceBalance string `bson:"available_space_balance" json:"availableSpaceBalance"`
+	AvailableTimeBalance  string `bson:"available_time_balance" json:"availableTimeBalance"`
+
+	Resource DBResource `bson:"resource" json:"resource"`
+}
+type DBResource struct {
+	FreeAvailableSpace  uint64 `bson:"free_available_space" json:"free_available_space"`
+	FreeUsedSpace       uint64 `bson:"free_used_space" json:"free_used_space"`
+	StakeAvailableSpace uint64 `bson:"stake_available_space" json:"stake_available_space"`
+	StakeUsedSpace      uint64 `bson:"stake_used_space" json:"stake_used_space"`
+	FreeAvailableTime   uint64 `bson:"free_available_time" json:"free_available_time"`
+	FreeUsedTime        uint64 `bson:"free_used_time" json:"free_used_time"`
+	StakeAvailableTime  uint64 `bson:"stake_available_time" json:"stake_available_time"`
+	StakeUsedTime       uint64 `bson:"stake_used_time" json:"stake_used_time"`
 }
 
 // transfer detail
