@@ -10,7 +10,7 @@
             </router-link>
           </template>
         </el-table-column>
-        <el-table-column prop="contract" :label="$t('transactions.table4')">
+        <el-table-column prop="contract" :label="$t('transactions.table5')">
         </el-table-column>
       </el-table>
 

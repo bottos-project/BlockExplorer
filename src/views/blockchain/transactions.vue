@@ -26,16 +26,21 @@
             {{scope.row.tradeDate | dateformat}}
           </template>
         </el-table-column>
-        <el-table-column prop="contract" :label="$t('transactions.table4')" min-width="100">
+        <el-table-column prop="tradeDate" :label="$t('transactions.table4')" min-width="110">
+          <template slot-scope="scope">
+            {{scope.row.sender}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="contract" :label="$t('transactions.table5')" min-width="110">
         </el-table-column>
         <!-- <el-table-column prop="method" :label="$t('transactions.method_name')" min-width="100">
         </el-table-column> -->
-        <el-table-column :label="$t('transactions.time_resource')" min-width="100">
+        <el-table-column :label="$t('transactions.time_resource')" min-width="90">
           <template slot-scope="scope">
             {{scope.row.time_token_cost}} µs
           </template>
         </el-table-column>
-        <el-table-column :label="$t('transactions.space_resource')" min-width="100">
+        <el-table-column :label="$t('transactions.space_resource')" min-width="90">
           <template slot-scope="scope">
             {{scope.row.space_token_cost}} B
           </template>

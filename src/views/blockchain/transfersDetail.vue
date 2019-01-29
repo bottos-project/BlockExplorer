@@ -101,8 +101,12 @@ import {queryTradeDetail} from '@/api/blockchain_transfers'
           }
           queryTradeDetail(para).then(response => {
             this.Detail = response.data
+            console.log({data:response.data})
+            
             let param = response.data.param
-            param.value = (param.value / Math.pow(10,8)) + 'BTO'
+            if (param && param.value ){
+                param.value = (param.value / Math.pow(10,8)) + 'BTO'
+            }
             this.inputdata = this.syntaxHighlight(param)
           }).catch(error => {
             this.$message({
@@ -115,6 +119,7 @@ import {queryTradeDetail} from '@/api/blockchain_transfers'
           if (typeof json != 'string') {
               json = JSON.stringify(json, undefined, 2);
           }
+          console.log(json)
           json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
           return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {
               var cls = 'number';

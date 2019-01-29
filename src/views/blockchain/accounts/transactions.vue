@@ -22,7 +22,7 @@
             {{scope.row.tradeDate | dateformat}}
           </template>
         </el-table-column>
-        <el-table-column prop="contract" :label="$t('transactions.table4')" min-width="110" >
+        <el-table-column prop="contract" :label="$t('transactions.table5')" min-width="110" >
         </el-table-column>
       </el-table>
 

@@ -43,9 +43,9 @@ const messagesEn = {
     blocks:{
         title:"Blocks",
         table1:"Height",
-        table2:"Time",
-        table3:"Volume",
-        table4:"Produced By	",
+        table2:"Age",
+        table3:"Txn",
+        table4:"Miner",
         table5:"Size",
         table6:"Reward"
     },
@@ -59,7 +59,7 @@ const messagesEn = {
         time:"Time",
         TransactionNumber:"Transactions",
         ThePreviousBlockID:"Parent Block Hash",
-        Chunk:"Producer",
+        Chunk:"Miner",
         Size:"Size",
         tabs1:"Transactions",
         tabs2:"Transfers"
@@ -69,7 +69,8 @@ const messagesEn = {
         table1:"Transaction Hash",
         table2:"Block",
         table3:"Time",
-        table4:"Contract Name",
+        table4:"Sender",
+        table5:"Contract Name",
         method_name:"Method Name",
         time_resource:"Time Res",
         space_resource:"Space Res",
@@ -94,7 +95,7 @@ const messagesEn = {
         table1:"Transaction Hash",
         table2:"Block",
         table3:"Time",
-        table4:"Sender->Recipient",
+        table4:"From->To",
         table5:"Value"
     },
     transfersDetail:{
@@ -115,7 +116,7 @@ const messagesEn = {
     accounts:{
         title:"Accounts",
         title_statistics:"Total Accounts",
-        table1:"Accounts",
+        table1:"Transfers",
         table2:"Balance",
         table3:"Possession"
     },

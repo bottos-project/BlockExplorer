@@ -43,7 +43,7 @@ const messagesCn = {
     blocks:{
         title:"区块",
         table1:"高度",
-        table2:"时间",
+        table2:"块龄",
         table3:"交易数",
         table4:"出块者",
         table5:"大小",
@@ -69,7 +69,8 @@ const messagesCn = {
         table1:"交易Hash",
         table2:"区块",
         table3:"时间",
-        table4:"合约名称",
+        table4:"发起者",
+        table5:"合约名称",
         method_name:"方法名称",
         time_resource:"时间资源",
         space_resource:"空间资源",
@@ -94,7 +95,7 @@ const messagesCn = {
         table1:"交易Hash",
         table2:"区块",
         table3:"时间",
-        table4:"发送人->接收人",
+        table4:"发送方->接收方",
         table5:"转账金额"
     },
     transfersDetail:{
