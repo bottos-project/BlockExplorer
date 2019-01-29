@@ -101,14 +101,14 @@ type ResAccountDetail struct {
 	Resource DBResource `bson:"resource" json:"resource"`
 }
 type DBResource struct {
-	FreeAvailableSpace  uint64 `bson:"free_available_space" json:"free_available_space"`
-	FreeUsedSpace       uint64 `bson:"free_used_space" json:"free_used_space"`
-	StakeAvailableSpace uint64 `bson:"stake_available_space" json:"stake_available_space"`
-	StakeUsedSpace      uint64 `bson:"stake_used_space" json:"stake_used_space"`
-	FreeAvailableTime   uint64 `bson:"free_available_time" json:"free_available_time"`
-	FreeUsedTime        uint64 `bson:"free_used_time" json:"free_used_time"`
-	StakeAvailableTime  uint64 `bson:"stake_available_time" json:"stake_available_time"`
-	StakeUsedTime       uint64 `bson:"stake_used_time" json:"stake_used_time"`
+	FreeAvailableSpace  uint64 `bson:"free_available_space" json:"freeAvailableSpace"`
+	FreeUsedSpace       uint64 `bson:"free_used_space" json:"freeUsedSpace"`
+	StakeAvailableSpace uint64 `bson:"stake_available_space" json:"stakeAvailableSpace"`
+	StakeUsedSpace      uint64 `bson:"stake_used_space" json:"stakeUsedSpace"`
+	FreeAvailableTime   uint64 `bson:"free_available_time" json:"freeAvailableTime"`
+	FreeUsedTime        uint64 `bson:"free_used_time" json:"freeUsedTime"`
+	StakeAvailableTime  uint64 `bson:"stake_available_time" json:"stakeAvailableTime"`
+	StakeUsedTime       uint64 `bson:"stake_used_time" json:"stakeUsedTime"`
 }
 
 // transfer detail
