@@ -11,7 +11,7 @@
               <li class="row">
                   <div class="tit">{{$t('accountsDetail.balance')}}</div>
                   <div class="con">
-                    {{Detail.balance / Math.pow(10,8)}}
+                    {{Detail.balance / Math.pow(10,8)}} BTO
                     <!--{{currencyAmount}}-->
                     <!-- <select v-model="currencyAmount" class="select">
                       <option v-for="option in currencyAmountOptions" v-bind:value="option.availableAmount">
@@ -21,10 +21,71 @@
                   </div>
               </li>
               <li>
+                  <div class="tit">{{$t('accountsDetail.stakedBalance')}}</div>
+                  <div class="con">
+                    {{Detail.stakedBalance / Math.pow(10,8)}} BTO
+                  </div>
+              </li>
+              <li class="row">
+                  <div class="tit">{{$t('accountsDetail.unStakingBalance')}}</div>
+                  <div class="con">
+                    {{Detail.unStakingBalance / Math.pow(10,8)}} BTO
+                  </div>
+              </li>
+              <li>
+                  <div class="tit">{{$t('accountsDetail.freeAvailableSpace')}}</div>
+                  <div class="con">
+                    {{Detail.resource.freeAvailableSpace}}
+                  </div>
+              </li>
+              <li class="row">
+                  <div class="tit">{{$t('accountsDetail.freeUsedSpace')}}</div>
+                  <div class="con">
+                    {{Detail.resource.freeUsedSpace}}
+                  </div>
+              </li>
+              <li>
+                  <div class="tit">{{$t('accountsDetail.stakeAvailableSpace')}}</div>
+                  <div class="con">
+                    {{Detail.resource.stakeAvailableSpace}}
+                  </div>
+              </li>
+              <li class="row">
+                  <div class="tit">{{$t('accountsDetail.stakeUsedSpace')}}</div>
+                  <div class="con">
+                    {{Detail.resource.stakeUsedSpace}}
+                  </div>
+              </li>
+              <li>
+                  <div class="tit">{{$t('accountsDetail.freeAvailableTime')}}</div>
+                  <div class="con">
+                    {{Detail.resource.freeAvailableTime}}
+                  </div>
+              </li>
+              <li class="row">
+                  <div class="tit">{{$t('accountsDetail.freeUsedTime')}}</div>
+                  <div class="con">
+                    {{Detail.resource.freeUsedTime}}
+                  </div>
+              </li>
+                 <li>
+                  <div class="tit">{{$t('accountsDetail.stakeAvailableTime')}}</div>
+                  <div class="con">
+                    {{Detail.resource.stakeAvailableTime}}
+                  </div>
+              </li>
+              <li class="row">
+                  <div class="tit">{{$t('accountsDetail.stakeUsedTime')}}</div>
+                  <div class="con">
+                    {{Detail.resource.stakeUsedTime}}
+                  </div>
+              </li>
+              
+              <li>
                   <div class="tit">{{$t('accountsDetail.TransactionNumber')}}</div>
                   <div class="con">{{Detail.tradeCount}}</div>
               </li>
-              <li>
+              <li class="row">
                   <div class="tit">{{$t('accountsDetail.Transfer')}}</div>
                   <div class="con">
                     <img src="../../assets/arrow_r.png" width="16" /> {{Detail.receiveCount}}
@@ -33,8 +94,16 @@
                   </div>
               </li>
               <li>
-                  <div class="tit">{{$t('accountsDetail.AllReword')}}</div>
-                  <div class="con">{{Detail.unClaimedReward / Math.pow(10,8)}}</div>
+                  <div class="tit">{{$t('accountsDetail.AllBlockReward')}}</div>
+                  <div class="con">{{Detail.unClaimedBlockReward / Math.pow(10,8)}} BTO</div>
+              </li>
+              <li class="row">
+                  <div class="tit">{{$t('accountsDetail.AllVoteReward')}}</div>
+                  <div class="con">{{Detail.unClaimedVoteReward / Math.pow(10,8)}} BTO</div>
+              </li>
+              <li>
+                  <div class="tit">{{$t('accountsDetail.AllReward')}}</div>
+                  <div class="con">{{Detail.unClaimedReward / Math.pow(10,8)}} BTO</div>
               </li>
           </ul>
         </div>
@@ -108,6 +177,8 @@ select{
   background: url("../../assets/select_arrow.png") no-repeat scroll right center transparent;
   padding: 3px 15px 3px 8px;
   margin-left: 10px;
+ 
 }
 select::-ms-expand { display: none; }
+
 </style>
