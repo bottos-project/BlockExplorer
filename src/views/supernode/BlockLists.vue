@@ -62,7 +62,7 @@ export default {
         };
         queryBlockList(para).then(response => {
           console.log({response})
-          this.tableData = response.data
+          this.tableData = window.sortData(response.data)
           this.listQuery.iTotalDisplayRecords = response.data.iTotalDisplayRecords
           this.listLoading = false
         }).catch(function(error){

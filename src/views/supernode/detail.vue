@@ -20,7 +20,7 @@
               <div class="box">
                 <dl>
                   <dd><label>{{$t('supernodeDetail.ranking')}}</label> {{Detail.voteRank}}</dd>
-                  <dd><label>{{$t('supernodeDetail.got_vote')}}</label> {{Detail.voteCount}} {{$t('supernodeDetail.ticket')}}（{{Detail.votesRate}}%）</dd>
+                  <dd><label>{{$t('supernodeDetail.got_vote')}}</label> {{Detail.voteCount/ Math.pow(10,8)}} {{$t('supernodeDetail.ticket')}}（{{(Detail.voteCount/Detail.allTransitVotes*100).toFixed(8)}}%）</dd>
                   <dd><label>{{$t('supernodeDetail.cast_vote')}}</label> {{Detail.voteCustCount}} {{$t('supernodeDetail.people')}}</dd>
                 </dl>
               </div>
@@ -37,22 +37,23 @@
             <li class="row">
                 <div class="tit">{{$t('supernodeDetail.account')}}</div>
                 <div class="con">
-                  <router-link :to="'/blockchain/accountsDetail/'+Detail.accountName">
-                    {{Detail.accountName}}
+                  <router-link :to="'/blockchain/accountsDetail/'+Detail.delegate">
+                    {{Detail.delegate}}
                   </router-link>
                 </div>
             </li>
             <li>
                 <div class="tit">{{$t('supernodeDetail.quality_deposit')}}</div>
-                <div class="con">1,230  BTO</div>
+                <div class="con">{{Detail.stakedBalance / Math.pow(10,8)}}  BTO</div>
             </li>
             <li class="row">
                 <div class="tit">{{$t('supernodeDetail.number_of_blocks')}}</div>
-                <div class="con">{{Detail.blockCount}}</div>
+                <div class="con">{{Detail.producedBlocksCount}}</div>
             </li>
             <li>
                 <div class="tit">{{$t('supernodeDetail.block_success_rate')}}</div>
-                <div class="con">{{Detail.successRate}} %</div>
+                <!-- <div class="con">{{Detail.successRate}} %</div> -->
+                <div class="con">100%</div> 
             </li>
         </ul>
       </div>
@@ -67,7 +68,7 @@
           </el-tab-pane>
           <el-tab-pane :label="$t('supernodeDetail.tabs2')">
               <keep-alive>
-                  <Voters></Voters>
+                  <!-- <Voters></Voters> -->
               </keep-alive>
           </el-tab-pane>
         </el-tabs>
