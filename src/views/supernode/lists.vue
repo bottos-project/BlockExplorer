@@ -27,12 +27,12 @@
     <div class="border">
       <div class="title"><h3><span>{{$t('supernode.title')}}</span></h3></div>
       <div class="supernode">
-        <!-- <div class="searchs">
+        <div class="searchs">
           <div class="input-group">
             <input type="text" v-model="searchVal" class="input" clearable :placeholder="$t('supernode.searchs')" value="">
             <a class="clearInput" @click="clearInput">X</a>
           </div>
-        </div> -->
+        </div>
         <div class="lists">
           <el-row :gutter="20" v-if="list.length > 0">
             <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" v-for="item in list" key="item.id">
@@ -124,7 +124,7 @@ import {queryNodeSummary,queryNodeList} from '@/api/supernode'
             var arrByZM = [];
             for (var i=0;i<this.tableData.length;i++){
                 //for循环数据中的每一项（根据name值）
-                if(this.tableData[i].nodeName.search(this.searchVal) != -1){
+                if(this.tableData[i].delegate.search(this.searchVal) != -1){
                     //判断输入框中的值是否可以匹配到数据，如果匹配成功
                     arrByZM.push(this.tableData[i]);
                 }
