@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"log"
+
 	"github.com/bottos-project/BlockExplorer/common"
 	"github.com/bottos-project/BlockExplorer/db"
 	"github.com/bottos-project/BlockExplorer/module"
@@ -31,12 +33,13 @@ func BlockList(c *gin.Context) {
 
 	defer db.CloseSession(mongoIns)
 
-	selectInfo := bson.M{"block_hash": 1, "block_number": 1, "delegate": 1, "timestamp": 1, "transaction_count": 1}
+	selectInfo := bson.M{}
 	if params.DelegateName != "" {
 		selectInfo["delegate"] = params.DelegateName
 	}
 	dbBlock := mongoIns.BlockCollection()
-	blockCount, err := dbBlock.Count()
+	blockCount, err := dbBlock.Find(selectInfo).Count()
+	log.Print(blockCount)
 	if err != nil {
 		common.ResponseErr(c, "failed to select block list than get block count", err)
 		return
@@ -50,7 +53,7 @@ func BlockList(c *gin.Context) {
 		return
 	}
 
-	if err := dbBlock.Find(bson.M{}).Select(selectInfo).Skip(start).Limit(length).All(&blockList); err != nil {
+	if err := dbBlock.Find(selectInfo).Skip(start).Limit(length).All(&blockList); err != nil {
 		common.ResponseErr(c, "failed to select block list", err)
 		return
 	}
