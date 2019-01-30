@@ -95,8 +95,10 @@ const messagesEn = {
         table1:"Transaction Hash",
         table2:"Block",
         table3:"Time",
-        table4:"From->To",
-        table5:"Value"
+        table4:"From",
+        table5:"To",
+        table6:"Value",
+        table7:"->",
     },
     transfersDetail:{
         title:"Transfer Detail",

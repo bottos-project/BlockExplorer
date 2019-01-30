@@ -95,8 +95,10 @@ const messagesCn = {
         table1:"交易Hash",
         table2:"区块",
         table3:"时间",
-        table4:"发送方->接收方",
-        table5:"转账金额"
+        table4:"发送方",
+        table5:"接收方",
+        table6:"转账金额",
+        table7:"->",
     },
     transfersDetail:{
         title:"转账详情",

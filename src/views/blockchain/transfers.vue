@@ -33,21 +33,26 @@
             {{scope.row.tradeDate | dateformat}}
           </template>
         </el-table-column>
-        <el-table-column :label="$t('transfers.table4')" min-width="180">
+        <el-table-column :label="$t('transfers.table4')" min-width="120">
           <template slot-scope="scope">
-            <span class="vh">
               <router-link :to="'/blockchain/accountsDetail/'+scope.row.sender">
               {{scope.row.sender}}
               </router-link>
-            </span> -> 
-            <span class="vh">
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('transfers.table7')" min-width="40">
+          <template slot-scope="scope">
+              <b>-></b>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('transfers.table5')" min-width="120">
+          <template slot-scope="scope">   
               <router-link :to="'/blockchain/accountsDetail/'+scope.row.receiver">
               {{scope.row.receiver}}
               </router-link>
-            </span>
           </template>
         </el-table-column>
-        <el-table-column prop="tradeAmount" :label="$t('transfers.table5')" min-width="130">
+        <el-table-column prop="tradeAmount" :label="$t('transfers.table6')" min-width="130">
           <template slot-scope="scope">
             {{scope.row.tradeAmount / Math.pow(10,8)}} {{scope.row.currency}}
           </template>
