@@ -105,7 +105,7 @@ func NodeSuperDetail(c *gin.Context) {
 		return
 	}
 
-	if err := nodeModule.Find(bson.M{"delegate": bson.M{"$exists": true}}).Sort("-transit_votes").All(&nodes); err != nil {
+	if err := nodeModule.Find(bson.M{"delegate": bson.M{"$exists": true}}).Sort("transit_votes").All(&nodes); err != nil {
 		log.Fatalf("product node list search failed: %v", err)
 		common.ResponseErr(c, "product nodes search failed", err)
 		return
