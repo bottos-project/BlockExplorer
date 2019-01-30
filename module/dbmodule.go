@@ -79,4 +79,5 @@ type DBNodeSuper struct {
 	ProducedBlocksCount string `bson:"produced_blocks" json:"producedBlocksCount"`
 	StateOfDelegate     bool   `bson:"state_of_delegate" json:"stateOfDelegate"`
 	AllTransitVotes     string `bson:"all_transit_votes" json:"allTransitVotes"`
+	VoteRank            int    `bson:"vote_rank" json:"voteRank"`
 }

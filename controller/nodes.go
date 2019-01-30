@@ -1,8 +1,9 @@
 package controller
 
 import (
-	"github.com/bottos-project/BlockExplorer/db"
 	"log"
+
+	"github.com/bottos-project/BlockExplorer/db"
 
 	"github.com/bottos-project/BlockExplorer/common"
 	"github.com/bottos-project/BlockExplorer/module"
@@ -23,11 +24,12 @@ func NodeProductList(c *gin.Context) {
 	defer db.CloseSession(mongoIns)
 
 	nodeModule := mongoIns.NodeSuperCollection()
-	if err := nodeModule.Find(bson.M{"node_name": bson.M{"$exists": true}}).Sort("-transit_votes").All(&nodes); err != nil {
+	if err := nodeModule.Find(bson.M{"delegate": bson.M{"$exists": true}}).Sort("-transit_votes").All(&nodes); err != nil {
 		log.Fatalf("product node list search failed: %v", err)
 		common.ResponseErr(c, "product nodes search failed", err)
 		return
 	}
+
 	common.ResponseSuccess(c, "product node list search success", nodes)
 }
 
@@ -82,6 +84,7 @@ func NodeServiceSummary(c *gin.Context) {
 func NodeSuperDetail(c *gin.Context) {
 	var params module.ReqNodeSuperDetail
 	var node module.DBNodeSuper
+	var nodes []module.DBNodeSuper
 	if err := c.BindJSON(&params); err != nil {
 		common.ResponseErr(c, "params error", err)
 		return
@@ -101,6 +104,19 @@ func NodeSuperDetail(c *gin.Context) {
 		common.ResponseErr(c, "super node detail search failed", err)
 		return
 	}
+
+	if err := nodeModule.Find(bson.M{"delegate": bson.M{"$exists": true}}).Sort("-transit_votes").All(&nodes); err != nil {
+		log.Fatalf("product node list search failed: %v", err)
+		common.ResponseErr(c, "product nodes search failed", err)
+		return
+	}
+
+	for index, value := range nodes {
+		if node.Delegate == value.Delegate {
+			node.VoteRank = index + 1
+		}
+	}
+
 	common.ResponseSuccess(c, "super node detail search success", node)
 }
 
