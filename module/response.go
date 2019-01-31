@@ -50,19 +50,21 @@ type ResTransactions struct {
 	Contract       string `bson:"contract" json:"contract"`
 	Method         string `bson:"method" json:"method"`
 	TimeStamp      int64  `bson:"timestamp" json:"tradeDate"`
-	SpaceTokenCost int32  `bson:"space_token_cost" json:"space_token_cost"`
-	TimeTokenCost  int32  `bson:"time_token_cost" json:"time_token_cost"`
+	SpaceTokenCost int32  `bson:"space_token_cost" json:"spaceTokenCost"`
+	TimeTokenCost  int32  `bson:"time_token_cost" json:"timeTokenCost"`
 }
 
 // transfers
 type ResTransfers struct {
-	BlockNumber   uint64  `bson:"block_number" json:"blockNum"`
-	From          string  `json:"sender"`
-	To            string  `json:"receiver"`
-	Value         float64 `json:"tradeAmount"`
-	CoinType      string  `json:"currency"`
-	TransactionID string  `bson:"transaction_id" json:"transactionId"`
-	TimeStamp     int64   `bson:"timestamp" json:"tradeDate"`
+	BlockNumber    uint64  `bson:"block_number" json:"blockNum"`
+	From           string  `json:"sender"`
+	To             string  `json:"receiver"`
+	Value          float64 `json:"tradeAmount"`
+	CoinType       string  `json:"currency"`
+	TransactionID  string  `bson:"transaction_id" json:"transactionId"`
+	TimeStamp      int64   `bson:"timestamp" json:"tradeDate"`
+	SpaceTokenCost int32   `bson:"space_token_cost" json:"spaceTokenCost"`
+	TimeTokenCost  int32   `bson:"time_token_cost" json:"timeTokenCost"`
 }
 
 // account list
