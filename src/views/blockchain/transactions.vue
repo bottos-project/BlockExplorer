@@ -37,12 +37,12 @@
         </el-table-column> -->
         <el-table-column :label="$t('transactions.time_resource')" min-width="90">
           <template slot-scope="scope">
-            {{scope.row.time_token_cost}} µs
+            {{scope.row.timeTokenCost}} µs
           </template>
         </el-table-column>
         <el-table-column :label="$t('transactions.space_resource')" min-width="90">
           <template slot-scope="scope">
-            {{scope.row.space_token_cost}} B
+            {{scope.row.spaceTokenCost}} B
           </template>
         </el-table-column>
       </el-table>
