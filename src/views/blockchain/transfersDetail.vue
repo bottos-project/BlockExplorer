@@ -33,13 +33,13 @@
                 <li>
                     <div class="tit">{{$t('transactionsDetail.time_resource')}}</div>
                     <div class="con">
-                         1 ms 760 µs
+                         {{Detail.timeTokenCost}} µs
                     </div>
                 </li>
                 <li class="row">
                     <div class="tit">{{$t('transactionsDetail.space_resource')}}</div>
                     <div class="con">
-                        18 B
+                        {{Detail.spaceTokenCost}} B
                     </div>
                 </li>
             </ul>
