@@ -156,9 +156,9 @@ type ResPersonalTransactionByMethod struct {
 }
 
 type ResNodeSuperSummary struct {
-	DelegateCount   int32  `json:"delegateCount"`
-	VoteCustCount   int32  `json:"voteCustCount"`
-	AllTransitVotes string `json:"allTransitVotes"`
+	DelegateCount   int32 `json:"delegateCount"`
+	VoteCustCount   int32 `json:"voteCustCount"`
+	AllTransitVotes int64 `json:"allTransitVotes"`
 }
 
 type ResServiceNodeSummary struct {

@@ -67,10 +67,9 @@ type DBNodeService struct {
 	URL         string `bson:"service_url" json:"serviceUrl"`
 }
 
-// bson.M{"country": "Europe-Germany", "nodeCount": 1},
 type DBNodeSuper struct {
 	NodeName            string `bson:"node_name" json:"nodeName"`
-	VoteCount           string `bson:"transit_votes" json:"voteCount"`
+	VoteCount           int64  `bson:"transit_votes" json:"voteCount"`
 	VoteCustCount       int32  `bson:"voted_account_num" json:"voteCustCount"`
 	NodeDesc            string `bson:"node_desc" json:"nodeDesc"`
 	HomePage            string `bson:"homepage" json:"homepage"`
@@ -78,6 +77,6 @@ type DBNodeSuper struct {
 	StakedBalance       string `bson:"staked_balance" json:"stakedBalance"`
 	ProducedBlocksCount string `bson:"produced_blocks" json:"producedBlocksCount"`
 	StateOfDelegate     bool   `bson:"state_of_delegate" json:"stateOfDelegate"`
-	AllTransitVotes     string `bson:"all_transit_votes" json:"allTransitVotes"`
+	AllTransitVotes     int64  `bson:"all_transit_votes" json:"allTransitVotes"`
 	VoteRank            int    `bson:"vote_rank" json:"voteRank"`
 }
