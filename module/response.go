@@ -56,15 +56,13 @@ type ResTransactions struct {
 
 // transfers
 type ResTransfers struct {
-	BlockNumber    uint64  `bson:"block_number" json:"blockNum"`
-	From           string  `json:"sender"`
-	To             string  `json:"receiver"`
-	Value          float64 `json:"tradeAmount"`
-	CoinType       string  `json:"currency"`
-	TransactionID  string  `bson:"transaction_id" json:"transactionId"`
-	TimeStamp      int64   `bson:"timestamp" json:"tradeDate"`
-	SpaceTokenCost int32   `bson:"space_token_cost" json:"spaceTokenCost"`
-	TimeTokenCost  int32   `bson:"time_token_cost" json:"timeTokenCost"`
+	BlockNumber   uint64  `bson:"block_number" json:"blockNum"`
+	From          string  `json:"sender"`
+	To            string  `json:"receiver"`
+	Value         float64 `json:"tradeAmount"`
+	CoinType      string  `json:"currency"`
+	TransactionID string  `bson:"transaction_id" json:"transactionId"`
+	TimeStamp     int64   `bson:"timestamp" json:"tradeDate"`
 }
 
 // account list
@@ -97,6 +95,8 @@ type ResAccountDetail struct {
 	UnStakedBalance       string `bson:"unStaking_balance" json:"unStakingBalance"`
 	ResultType            string `json:"resultType"`
 	UnClaimedReward       string `bson:"un_claimed_reward" json:"unClaimedReward"`
+	UnClaimedVoteReward   string `bson:"un_claimed_vote_reward" json:"unClaimedVoteReward"`
+	UnClaimedBlockReward  string `bson:"un_claimed_block_reward" json:"unClaimedBlockReward"`
 	AvailableSpaceBalance string `bson:"available_space_balance" json:"availableSpaceBalance"`
 	AvailableTimeBalance  string `bson:"available_time_balance" json:"availableTimeBalance"`
 
@@ -115,15 +115,17 @@ type DBResource struct {
 
 // transfer detail
 type ResTransferDetail struct {
-	BlockNumber   uint64                 `bson:"block_number" json:"blockNum"`
-	TransactionID string                 `bson:"transaction_id" json:"transactionId"`
-	Sender        string                 `bson:"sender" json:"sender"`
-	Contract      string                 `bson:"contract" json:"contract"`
-	Method        string                 `bson:"method" json:"method"`
-	Param         map[string]interface{} `bson:"param" json:"param"`
-	TimeStamp     int64                  `bson:"timestamp" json:"tradeDate"`
-	TradeStatus   string                 `json:"tradeStatus"`
-	ResultType    string                 `json:"resultType"`
+	BlockNumber    uint64                 `bson:"block_number" json:"blockNum"`
+	TransactionID  string                 `bson:"transaction_id" json:"transactionId"`
+	Sender         string                 `bson:"sender" json:"sender"`
+	Contract       string                 `bson:"contract" json:"contract"`
+	Method         string                 `bson:"method" json:"method"`
+	Param          map[string]interface{} `bson:"param" json:"param"`
+	TimeStamp      int64                  `bson:"timestamp" json:"tradeDate"`
+	TradeStatus    string                 `json:"tradeStatus"`
+	ResultType     string                 `json:"resultType"`
+	SpaceTokenCost int32                  `bson:"space_token_cost" json:"spaceTokenCost"`
+	TimeTokenCost  int32                  `bson:"time_token_cost" json:"timeTokenCost"`
 }
 
 // transaction statistic
