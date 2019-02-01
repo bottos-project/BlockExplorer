@@ -2,7 +2,7 @@
   <div class="main">
     <div class="border">
         <div class="title"><h3><span>{{$t('accountsDetail.title')}}</span></h3></div>
-        <div class="detail">
+        <div class="detail-left">
           <ul>
               <li>
                   <div class="tit">{{$t('accountsDetail.accounts')}}</div>
@@ -32,6 +32,35 @@
                     {{Detail.unStakingBalance / Math.pow(10,8)}} BTO
                   </div>
               </li>
+              
+              <li>
+                  <div class="tit">{{$t('accountsDetail.TransactionNumber')}}</div>
+                  <div class="con">{{Detail.tradeCount}}</div>
+              </li>
+              <li class="row">
+                  <div class="tit">{{$t('accountsDetail.Transfer')}}</div>
+                  <div class="con">
+                    <img src="../../assets/arrow_r.png" width="16" /> {{Detail.receiveCount}}
+                    &nbsp;&nbsp;
+                    <img src="../../assets/arrow_s.png" width="16" /> {{Detail.sendCount}}
+                  </div>
+              </li>
+              <li>
+                  <div class="tit">{{$t('accountsDetail.AllBlockReward')}}</div>
+                  <div class="con">{{Detail.unClaimedBlockReward / Math.pow(10,8)}} BTO</div>
+              </li>
+              <li class="row">
+                  <div class="tit">{{$t('accountsDetail.AllVoteReward')}}</div>
+                  <div class="con">{{Detail.unClaimedVoteReward / Math.pow(10,8)}} BTO</div>
+              </li>
+              <li>
+                  <div class="tit">{{$t('accountsDetail.AllReward')}}</div>
+                  <div class="con">{{Detail.unClaimedReward / Math.pow(10,8)}} BTO</div>
+              </li>
+          </ul>
+        </div>
+        <div class="detail-right">
+          <ul>
               <li>
                   <div class="tit">{{$t('accountsDetail.freeAvailableSpace')}}</div>
                   <div class="con">
@@ -80,32 +109,7 @@
                     {{Detail.resource.stakeUsedTime}}
                   </div>
               </li>
-              
-              <li>
-                  <div class="tit">{{$t('accountsDetail.TransactionNumber')}}</div>
-                  <div class="con">{{Detail.tradeCount}}</div>
-              </li>
-              <li class="row">
-                  <div class="tit">{{$t('accountsDetail.Transfer')}}</div>
-                  <div class="con">
-                    <img src="../../assets/arrow_r.png" width="16" /> {{Detail.receiveCount}}
-                    &nbsp;&nbsp;
-                    <img src="../../assets/arrow_s.png" width="16" /> {{Detail.sendCount}}
-                  </div>
-              </li>
-              <li>
-                  <div class="tit">{{$t('accountsDetail.AllBlockReward')}}</div>
-                  <div class="con">{{Detail.unClaimedBlockReward / Math.pow(10,8)}} BTO</div>
-              </li>
-              <li class="row">
-                  <div class="tit">{{$t('accountsDetail.AllVoteReward')}}</div>
-                  <div class="con">{{Detail.unClaimedVoteReward / Math.pow(10,8)}} BTO</div>
-              </li>
-              <li>
-                  <div class="tit">{{$t('accountsDetail.AllReward')}}</div>
-                  <div class="con">{{Detail.unClaimedReward / Math.pow(10,8)}} BTO</div>
-              </li>
-          </ul>
+            </ul>
         </div>
     </div>
     <div class="border">
@@ -181,4 +185,102 @@ select{
 }
 select::-ms-expand { display: none; }
 
+/*详情*/
+.detail-left {
+  float: left;
+  width: 49%;
+  border:2px ;
+  border-radius:5px;
+	ul {
+		li {
+			overflow: hidden;
+			line-height: 28px;
+			padding: 10px 30px;
+			.tit {float: left; width: 40%;}
+			.con {
+        float: left;
+				word-break:break-all;
+				padding-left: 40%;
+				.confirm {
+					color: #27ce00;
+					padding: 3px 10px;
+					border: solid 1px #27ce00;
+					border-radius: 15px;
+				}
+				.Unconfirm {
+					color: #eb0000;
+					padding: 3px 10px;
+					border: solid 1px #eb0000;
+					border-radius: 15px;
+				}
+				pre {outline: 1px solid #f6f6f6; background:#f6f6f6; padding: 15px 20px; margin-bottom:20px;
+				  .string { color: green;word-break:normal; white-space:pre-wrap;word-wrap : break-word ;overflow: hidden ; }
+				  .number { color: darkorange; }
+				  .boolean { color: blue; }
+				  .null { color: magenta; }
+				  .key { color: red; }
+				}
+			}
+		}
+		.row {
+			background-color: #f6f6f6;
+		}
+		li:last-child {
+			border-bottom: 0;
+		}
+		a {
+			color: #0099CC;
+    }
+	}
+}
+
+
+/*详情*/
+.detail-right {
+  float: right;
+  width: 49%;
+  border:2px ;
+  border-radius:5px;
+	ul {
+		li {
+			overflow: hidden;
+			line-height: 28px;
+			padding: 10px 30px;
+			.tit {float: left; width: 40%;}
+			.con {
+        float: left;
+				word-break:break-all;
+				padding-left: 40%;
+				.confirm {
+					color: #27ce00;
+					padding: 3px 10px;
+					border: solid 1px #27ce00;
+					border-radius: 15px;
+				}
+				.Unconfirm {
+					color: #eb0000;
+					padding: 3px 10px;
+					border: solid 1px #eb0000;
+					border-radius: 15px;
+				}
+				pre {outline: 1px solid #f6f6f6; background:#f6f6f6; padding: 15px 20px; margin-bottom:20px;
+				  .string { color: green;word-break:normal; white-space:pre-wrap;word-wrap : break-word ;overflow: hidden ; }
+				  .number { color: darkorange; }
+				  .boolean { color: blue; }
+				  .null { color: magenta; }
+				  .key { color: red; }
+				}
+			}
+		}
+		.row {
+			background-color: #f6f6f6;
+		}
+		li:last-child {
+			border-bottom: 0;
+		}
+		a {
+			color: #0099CC;
+    }
+	}
+}
 </style>
