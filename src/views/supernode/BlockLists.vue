@@ -56,14 +56,14 @@ export default {
     methods: {
       fetchData() {
         let para = {
-          nodeName:this.custId,
+          delegateName:this.custId,
           start:this.listQuery.start,
           length:this.listQuery.length
         };
         queryBlockList(para).then(response => {
           console.log({response})
-          this.tableData = response.data
-          this.listQuery.iTotalDisplayRecords = response.data.iTotalDisplayRecords
+          this.tableData = window.sortData(response.data)
+          this.listQuery.iTotalDisplayRecords = response.iTotalDisplayRecords
           this.listLoading = false
         }).catch(function(error){
           this.$message({

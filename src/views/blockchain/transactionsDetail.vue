@@ -107,6 +107,12 @@ import {queryTradeDetail} from '@/api/blockchain_transactions'
             if (param && param.value ){
                 param.value = (param.value / Math.pow(10,8)) + 'BTO'
             }
+            if (param && param.memo){
+                console.log(param.memo)
+                let memoValue = param.memo
+                delete param.memo
+                param["memo"] = memoValue
+            }
             this.inputdata = this.syntaxHighlight(response.data.param)
           }).catch(error => {
             this.$message({
