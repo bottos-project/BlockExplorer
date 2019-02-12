@@ -38,7 +38,8 @@ const messagesCn = {
         card3_reward:'区块奖励',
         card4:'转账',
         card4_transactions:'交易',
-        card_btn:'查看全部'
+        card_btn:'查看全部',
+        testnet:'测试网',
     },
     blocks:{
         title:"区块",

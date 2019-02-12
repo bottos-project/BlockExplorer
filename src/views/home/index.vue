@@ -2,7 +2,8 @@
   <div class="home">
     <div class="banner">
       <div class="inner cf">
-        <h1>{{$t('home.banner_title')}}</h1>
+        <h1 v-if="isMainnet">{{$t('home.banner_title')}}</h1> 
+        <h1 v-else>{{$t('home.banner_title')}}{{'('}}{{ $t('home.testnet')}}{{ ')'}}</h1>
         <div class="input-group" :class="{shake:isShake}">
           <input type="text" v-model="searchInput" class="input" :placeholder="$t('home.searchs')" value="" @keyup.13="searchData">
           <div class="input-btn">
@@ -118,7 +119,8 @@ export default {
           blockNum:null,//区块高度
           lastTradeCount:null,//过去一天交易数
           rtCustCount:null//实时总账户数
-        }
+        },
+        isMainnet:false,
       }
     },
     created(){
@@ -126,6 +128,9 @@ export default {
     },        
     methods: {
       searchData(){
+        if (window.location.host.includes("mainnet")){
+          this.isMainnet=true
+        }
         let para = {
           condition:this.searchInput !== ""? this.searchInput : "null"
         };
@@ -166,6 +171,9 @@ export default {
       },
       PrimarySummaryData() {
         let para = {}
+        if (window.location.host.includes("mainnet")){
+          this.isMainnet=true
+        }
         PrimarySummary(para).then(response => {
           console.log({PrimarySummary:response})
           this.PrimarySummary = response.data
