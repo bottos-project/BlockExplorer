@@ -38,7 +38,8 @@ const messagesEn = {
         card3_reward:'Block Reward',
         card4:'Transfers',
         card4_transactions:'Transactions',
-        card_btn:'View All'
+        card_btn:'View All',
+        testnet:'Testnet',
     },
     blocks:{
         title:"Blocks",
