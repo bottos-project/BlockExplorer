@@ -200,7 +200,7 @@ select::-ms-expand { display: none; }
 			.con {
         float: left;
 				word-break:break-all;
-				padding-left: 40%;
+				padding-left: 30%;
 				.confirm {
 					color: #27ce00;
 					padding: 3px 10px;
