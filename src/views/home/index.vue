@@ -120,7 +120,7 @@ export default {
           lastTradeCount:null,//过去一天交易数
           rtCustCount:null//实时总账户数
         },
-        isMainnet:false,
+        isMainnet:true,
       }
     },
     created(){
@@ -128,8 +128,8 @@ export default {
     },        
     methods: {
       searchData(){
-        if (window.location.host.includes("mainnet")){
-          this.isMainnet=true
+        if (window.location.host.includes("testnet")){
+          this.isMainnet=false
         }
         let para = {
           condition:this.searchInput !== ""? this.searchInput : "null"
