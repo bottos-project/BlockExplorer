@@ -12,6 +12,11 @@ const messagesEn = {
         nodes: 'Service Nodes',
         supernode:'Production Nodes'
     },
+    network:{
+        network:"network",
+        mainnet:"mainnet",
+        testnet:"testnet"
+    },
     footer:{
         title:'Contact Us'
     },

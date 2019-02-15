@@ -10,7 +10,12 @@ const messagesCn = {
         statistics: '统计',
         contracts: '合约',
         nodes: '服务节点',
-        supernode:'生产节点'
+        supernode:'生产节点',
+    },
+    network:{
+        network:"网络",
+        mainnet:"主网",
+        testnet:"测试网"
     },
     footer:{
         title:'联系我们'

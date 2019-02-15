@@ -38,6 +38,16 @@
           <li>
             <router-link to="/supernode">{{$t('menus.supernode')}}</router-link>
           </li>
+
+          <li>
+            <router-link to="/network">{{$t('network.network')}}</router-link>
+            <ul>
+              <li>
+                  <a v-bind:href="mainnet">{{$t('network.mainnet')}}</a>
+                  <a v-bind:href="testnet">{{$t('network.testnet')}}</a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </div>
       <a class="Mbtn" @click="Mmenus=!Mmenus">菜单</a>
@@ -88,7 +98,9 @@
     export default {
         data(){
           return {
-            Mmenus:false
+            Mmenus:false,
+            testnet:'http://explorer.testnet.botfans.org',
+            mainnet:'http://explorer.chainbottos.com',
           }
         },
         props:{
