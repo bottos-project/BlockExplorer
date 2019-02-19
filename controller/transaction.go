@@ -263,8 +263,13 @@ func TrxPersonTransactionByMethod(c *gin.Context) {
 	}
 
 	trxModule := mongoIns.TransactionCollection()
-	findInfo := bson.M{"method": params.Method, "sender": params.AccountName}
-
+	findInfo := bson.M{
+		"method": params.Method,
+		"$or": []bson.M{
+			bson.M{"param.from": params.AccountName},
+			bson.M{"param.to": params.AccountName},
+		},
+	}
 	trxCount, err := trxModule.Find(findInfo).Count()
 	if err != nil {
 		common.ResponseErr(c, "transactions search error", err)
