@@ -255,6 +255,11 @@ func TrxPersonTransactionByMethod(c *gin.Context) {
 
 	defer db.CloseSession(mongoIns)
 
+	res := module.ResPageList{
+		Data:          &transferList,
+		TotalRecordes: 0,
+	}
+
 	start := params.Start
 	length := params.Length
 
@@ -276,9 +281,11 @@ func TrxPersonTransactionByMethod(c *gin.Context) {
 		return
 	}
 
+	res.TotalRecordes = trxCount
+
 	start, length = paging(start, length, trxCount)
 	if length <= 0 {
-		common.ResponseSuccess(c, "transfer list find success", transferList)
+		common.ResponseSuccess(c, "transfer list find success", res)
 		return
 	}
 	if err := trxModule.Find(findInfo).Skip(start).Limit(length).All(&transferList); err != nil {
@@ -286,6 +293,6 @@ func TrxPersonTransactionByMethod(c *gin.Context) {
 		return
 	}
 
-	common.ResponseSuccess(c, "find personal transfers success", transferList)
+	common.ResponseSuccess(c, "find personal transfers success", res)
 
 }
