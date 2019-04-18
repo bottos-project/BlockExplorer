@@ -119,3 +119,36 @@ func AccountTotal(c *gin.Context) {
 	}
 	common.ResponseSuccess(c, "success", res)
 }
+
+func Msignaccount(c *gin.Context) {
+	var params module.DBMsignAccountModule
+	if err := c.BindJSON(&params); err != nil {
+		common.ResponseErr(c, "params error", err)
+		return
+	}
+	res := []bson.M{}
+	mongoIns, _ := db.NewDBCollection()
+	msignAccountModule := mongoIns.MsignaccountCollection()
+	if error := msignAccountModule.Find(bson.M{"param.authority.author_account": params.AuthorAccount}).All(&res); error != nil {
+		common.ResponseErr(c, "account find failed", error)
+		return
+	}
+
+	common.ResponseSuccess(c, "success", res)
+}
+
+func MsignProposal(c *gin.Context) {
+	var params module.DBMsignAccountModule
+	if err := c.BindJSON(&params); err != nil {
+		common.ResponseErr(c, "params error", err)
+		return
+	}
+	res := []bson.M{}
+	mongoIns, _ := db.NewDBCollection()
+	transactionModule := mongoIns.TransactionCollection()
+	if error := transactionModule.Find(bson.M{"method": "pushmsignproposal"}).All(&res); error != nil {
+		common.ResponseErr(c, "account find failed", error)
+		return
+	}
+	common.ResponseSuccess(c, "success", res)
+}

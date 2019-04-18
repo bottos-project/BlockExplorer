@@ -80,3 +80,7 @@ type DBNodeSuper struct {
 	AllTransitVotes     int64  `bson:"all_transit_votes" json:"allTransitVotes"`
 	VoteRank            int    `bson:"vote_rank" json:"voteRank"`
 }
+
+type DBMsignAccountModule struct {
+	AuthorAccount string `bson:"author_account" json:"author_account"`
+}
