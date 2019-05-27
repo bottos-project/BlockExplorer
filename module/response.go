@@ -99,7 +99,10 @@ type ResAccountDetail struct {
 	UnClaimedBlockReward  string `bson:"un_claimed_block_reward" json:"unClaimedBlockReward"`
 	AvailableSpaceBalance string `bson:"available_space_balance" json:"availableSpaceBalance"`
 	AvailableTimeBalance  string `bson:"available_time_balance" json:"availableTimeBalance"`
-
+	Vote                  struct {
+		Delegate string `bson:"delegate" json:"delegate"`
+		Votes    string `bson:"votes" json:"votes"`
+	} `bson:"vote" json:"vote"`
 	Resource DBResource `bson:"resource" json:"resource"`
 }
 type DBResource struct {
@@ -130,9 +133,9 @@ type ResTransferDetail struct {
 
 // transaction statistic
 type ResStatisticTransaction struct {
-	DailyTransCount int       `bson:"trx_count" json:"dailyTransCount"`
-	TradeDate       time.Time `bson:"day" json:"tradeDate"`
-	TotalTransCount int       `bson:"total_trx_count" json:"totalTrxCount"`
+	DailyTransCount int    `bson:"trx_count" json:"dailyTransCount"`
+	TradeDate       string `bson:"day" json:"tradeDate"`
+	TotalTransCount int    `bson:"total_trx_count" json:"totalTrxCount"`
 }
 
 // account statistic

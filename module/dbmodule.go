@@ -68,19 +68,50 @@ type DBNodeService struct {
 }
 
 type DBNodeSuper struct {
-	NodeName            string `bson:"node_name" json:"nodeName"`
-	VoteCount           int64  `bson:"transit_votes" json:"voteCount"`
-	VoteCustCount       int32  `bson:"voted_account_num" json:"voteCustCount"`
-	NodeDesc            string `bson:"node_desc" json:"nodeDesc"`
-	HomePage            string `bson:"homepage" json:"homepage"`
-	Delegate            string `bson:"delegate" json:"delegate"`
-	StakedBalance       string `bson:"staked_balance" json:"stakedBalance"`
-	ProducedBlocksCount string `bson:"produced_blocks" json:"producedBlocksCount"`
-	StateOfDelegate     bool   `bson:"state_of_delegate" json:"stateOfDelegate"`
-	AllTransitVotes     int64  `bson:"all_transit_votes" json:"allTransitVotes"`
-	VoteRank            int    `bson:"vote_rank" json:"voteRank"`
+	// NodeName            string `bson:"node_name" json:"nodeName"`
+	// VoteCount           int64  `bson:"transit_votes" json:"voteCount"`
+	// VoteCustCount       int32  `bson:"voted_account_num" json:"voteCustCount"`
+	// NodeDesc            string `bson:"node_desc" json:"nodeDesc"`
+	// HomePage            string `bson:"homepage" json:"homepage"`
+	Delegate string `bson:"delegate" json:"delegate"`
+	// StakedBalance       string `bson:"staked_balance" json:"stakedBalance"`
+	// ProducedBlocksCount string `bson:"produced_blocks" json:"producedBlocksCount"`
+	// StateOfDelegate     bool   `bson:"state_of_delegate" json:"stateOfDelegate"`
+	AllTransitVotes int64  `bson:"all_transit_votes" json:"allTransitVotes"`
+	VoteRank        int    `bson:"vote_rank" json:"voteRank"`
+	Votes           string `bson:"votes" json:"votes"`
+	Description     string `bson:"description" json:"description"`
+	Active          bool   `bson:"active" json:"active"`
+	TransitVotes    string `bson:"transit_votes" json:"transit_votes"`
+	Location        string `bson:"location" json:"location"`
+	PubKey          string `bson:"public_key" json:"public_key"`
 }
 
 type DBMsignAccountModule struct {
 	AuthorAccount string `bson:"author_account" json:"author_account"`
+}
+
+type AuthorAccountModule struct {
+	Contract string `bson:"contract" json:"contract"`
+	Method   string `bson:"method" json:"method"`
+	Param    struct {
+		Account   string `bson:"account" json:"account"`
+		Authority []struct {
+			AuthorAccount string `bson:"author_account" json:"author_account"`
+			weight        int32  `bson:"weight" json:"weight"`
+		} `bson:"authority" json:"authority"`
+		Threshold int32 `bson:"threshold" json:"threshold"`
+	} `bson:"param" json:"param"`
+	Sender string `bson:"sender" json:"sender"`
+}
+
+type Param struct {
+	Account   string      `bson:"account" json:"account"`
+	Authority []Authority `bson:"authority" json:"authority"`
+	Threshold int32       `bson:"threshold" json:"threshold"`
+}
+
+type Authority struct {
+	AuthorAccount string `bson:"author_account" json:"author_account"`
+	weight        int32  `bson:"weight" json:"weight"`
 }

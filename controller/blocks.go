@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/bottos-project/BlockExplorer/common"
@@ -38,6 +39,7 @@ func BlockList(c *gin.Context) {
 		selectInfo["delegate"] = params.DelegateName
 	}
 	dbBlock := mongoIns.BlockCollection()
+	fmt.Println(selectInfo)
 	blockCount, err := dbBlock.Find(selectInfo).Count()
 	log.Print(blockCount)
 	if err != nil {
@@ -47,16 +49,21 @@ func BlockList(c *gin.Context) {
 
 	start := params.Start
 	length := params.Length
-	start, length = paging(start, length, blockCount)
+	// start, length = paging(start, length, blockCount)
 	if length <= 0 {
 		common.ResponseSuccess(c, "selected block list success", resStruct{TotalRecords: blockCount})
 		return
 	}
 
-	if err := dbBlock.Find(selectInfo).Skip(start).Limit(length).All(&blockList); err != nil {
+	if err := dbBlock.Find(selectInfo).Sort("-_id").Skip(start).Limit(length).All(&blockList); err != nil {
 		common.ResponseErr(c, "failed to select block list", err)
 		return
 	}
+
+	// if err := dbBlock.Find(selectInfo).Skip(start).Limit(length).All(&blockList); err != nil {
+	// 	common.ResponseErr(c, "failed to select block list", err)
+	// 	return
+	// }
 
 	response := resStruct{
 		Data:         blockList,

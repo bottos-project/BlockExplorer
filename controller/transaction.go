@@ -285,7 +285,8 @@ func TrxPersonTransactionByMethod(c *gin.Context) {
 
 	start, length = paging(start, length, trxCount)
 	if length <= 0 {
-		common.ResponseSuccess(c, "transfer list find success", res)
+		// common.ResponseSuccess(c, "transfer list find success", res)
+		common.ResponseSuccess(c, "transfer list find success", transferList)
 		return
 	}
 	if err := trxModule.Find(findInfo).Skip(start).Limit(length).All(&transferList); err != nil {
@@ -293,6 +294,7 @@ func TrxPersonTransactionByMethod(c *gin.Context) {
 		return
 	}
 
-	common.ResponseSuccess(c, "find personal transfers success", res)
+	// common.ResponseSuccess(c, "find personal transfers success", res)
+	common.ResponseSuccess(c, "find personal transfers success", transferList)
 
 }

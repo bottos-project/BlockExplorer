@@ -1,9 +1,9 @@
 package controller
 
 import (
-	"fmt"
-	"github.com/bottos-project/BlockExplorer/db"
 	"time"
+
+	"github.com/bottos-project/BlockExplorer/db"
 
 	"github.com/bottos-project/BlockExplorer/common"
 	"github.com/bottos-project/BlockExplorer/module"
@@ -88,8 +88,6 @@ func HomeSearch(c *gin.Context) {
 
 	condition := params.Condition
 	length := len(condition)
-	fmt.Printf(condition)
-	fmt.Println(length)
 
 	if length == 64 {
 		// condition is hash
@@ -121,7 +119,6 @@ func HomeSearch(c *gin.Context) {
 			common.ResponseSuccess(c, "搜索成功", res)
 		}
 	} else {
-		fmt.Printf("search account name or blockNum")
 		blockModule := mongoIns.BlockCollection()
 		accountModule := mongoIns.AccountCollection()
 		blockNum, _ := common.String2Int(condition)

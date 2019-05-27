@@ -3,8 +3,8 @@ package module
 // GetBlockList
 type ReqBlockList struct {
 	DelegateName string `json:"delegateName"`
-	Start  int `json:"start"`
-	Length int `json:"length"`
+	Start        int    `json:"start"`
+	Length       int    `json:"length"`
 }
 
 type ReqAccountList struct {
@@ -48,11 +48,13 @@ type ReqHomeSearch struct {
 // super node detail
 type ReqNodeSuperDetail struct {
 	NodeName string `json:"nodeName"`
+	Start    int    `json:"start"`
+	Length   int    `json:"length"`
 }
 
-type ReqQueryStaticInfo struct{
+type ReqQueryStaticInfo struct {
 	StartTime string `json:"startDate"`
-	EndTime string `json:"EndDate"`
+	EndTime   string `json:"EndDate"`
 }
 
 // person transaction search list

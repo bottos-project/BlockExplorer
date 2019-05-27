@@ -126,8 +126,10 @@ func Msignaccount(c *gin.Context) {
 		common.ResponseErr(c, "params error", err)
 		return
 	}
-	res := []bson.M{}
+	// res := []bson.M{}
+	var res []module.AuthorAccountModule
 	mongoIns, _ := db.NewDBCollection()
+	defer db.CloseSession(mongoIns)
 	msignAccountModule := mongoIns.MsignaccountCollection()
 	if error := msignAccountModule.Find(bson.M{"param.authority.author_account": params.AuthorAccount}).All(&res); error != nil {
 		common.ResponseErr(c, "account find failed", error)
@@ -143,10 +145,27 @@ func MsignProposal(c *gin.Context) {
 		common.ResponseErr(c, "params error", err)
 		return
 	}
-	res := []bson.M{}
+
 	mongoIns, _ := db.NewDBCollection()
+	defer db.CloseSession(mongoIns)
+
+	var authorRes []module.AuthorAccountModule
+	msignAccountModule := mongoIns.MsignaccountCollection()
+	if error := msignAccountModule.Find(bson.M{"param.authority.author_account": params.AuthorAccount}).All(&authorRes); error != nil {
+		common.ResponseErr(c, "account find failed", error)
+		return
+	}
+
+	var authAccounts []string
+	for index := 0; index < len(authorRes); index++ {
+		a := authorRes[index]
+		authAccounts = append(authAccounts, a.Param.Account)
+	}
+
+	res := []bson.M{}
 	transactionModule := mongoIns.TransactionCollection()
-	if error := transactionModule.Find(bson.M{"method": "pushmsignproposal"}).All(&res); error != nil {
+	if error := transactionModule.Find(bson.M{"method": "pushmsignproposal", "param.account": bson.M{"$in": authAccounts}}).All(&res); error != nil {
+		// if error := transactionModule.Find(bson.M{"method": "pushmsignproposal"}).All(&res); error != nil {
 		common.ResponseErr(c, "account find failed", error)
 		return
 	}

@@ -7,9 +7,11 @@ import (
 )
 
 // const URL string = "mongodb://118.184.215.41:27018"
+
 const URL string = "mongodb://125.94.34.23:27018"
 
-//const URL string = "mongodb://114.67.80.209:27018"
+// const URL string = "mongodb://114.67.80.209:27018"
+
 // const URL string = "mongodb://127.0.0.1:27017"
 
 type MongoDB struct {
@@ -76,4 +78,8 @@ func (d *MongoDB) NodeSuperCollection() *mgo.Collection {
 //GetCollectionByName is get collection by name param
 func (d *MongoDB) GetCollectionByName(collectionName string) *mgo.Collection {
 	return d.mongo.C(collectionName)
+}
+
+func (d *MongoDB) MsignaccountCollection() *mgo.Collection {
+	return d.mongo.C("msignAccount")
 }

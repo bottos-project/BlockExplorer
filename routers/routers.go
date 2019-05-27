@@ -27,6 +27,8 @@ func Routes(router *gin.Engine) {
 	rExplorer.POST("/block/queryBlockDetailAuto", controller.BlockDetail)          // 区块详情
 	rExplorer.POST("/trade/queryTradeDetailAuto", controller.TrxTransactionDetail) // 交易详情
 	rExplorer.POST("/cust/queryCustDetailAuto", controller.AccountDetail)          // 账户详情
+	rExplorer.POST("/getMsignaccount", controller.Msignaccount)
+	rExplorer.POST("/getMsignProposal", controller.MsignProposal)
 
 	// Statistics
 	rExplorer.POST("/trade/queryLastFTTradeSummaryAuto", controller.StatisticTransaction) // transaction statistic
@@ -36,7 +38,12 @@ func Routes(router *gin.Engine) {
 	rExplorer.POST("/superNode/queryNodeListAuto", controller.NodeProductList)    // 生产节点
 	rExplorer.POST("/superNode/queryNodeDetailAuto", controller.NodeSuperDetail)  // 生产节点详情
 	rExplorer.POST("/superNode/queryNodeSummaryAuto", controller.NodeSummaryAuto) // 生产节点汇总
+	rExplorer.POST("/superNode/queryVoteListAuto", controller.NodeVoterList)      // 生产节点汇总
 
 	rExplorer.POST("/node/queryNodeRankAuto", controller.NodeServiceList)          // 服务节点
 	rExplorer.POST("/node/queryTopNodeSummaryAuto", controller.NodeServiceSummary) // 服务节点概要信息
+
+	// history
+	rExplorer.GET("/api/historys/stake", controller.StakeHistory)
+	rExplorer.GET("/api/historys/vote", controller.VoteHistory)
 }

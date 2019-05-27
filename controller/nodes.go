@@ -11,27 +11,27 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-//NodeProductList Node product list
-func NodeProductList(c *gin.Context) {
-	var nodes []module.DBNodeSuper
+// //NodeProductList Node product list
+// func NodeProductList(c *gin.Context) {
+// 	var nodes []module.DBNodeSuper
 
-	mongoIns, err := db.NewDBCollection()
-	if err != nil {
-		common.ResponseErr(c, "connect mongoDB error", err)
-		return
-	}
+// 	mongoIns, err := db.NewDBCollection()
+// 	if err != nil {
+// 		common.ResponseErr(c, "connect mongoDB error", err)
+// 		return
+// 	}
 
-	defer db.CloseSession(mongoIns)
+// 	defer db.CloseSession(mongoIns)
 
-	nodeModule := mongoIns.NodeSuperCollection()
-	if err := nodeModule.Find(bson.M{"delegate": bson.M{"$exists": true}}).Sort("-transit_votes").All(&nodes); err != nil {
-		log.Fatalf("product node list search failed: %v", err)
-		common.ResponseErr(c, "product nodes search failed", err)
-		return
-	}
+// 	nodeModule := mongoIns.NodeSuperCollection()
+// 	if err := nodeModule.Find(bson.M{"delegate": bson.M{"$exists": true}}).Sort("-votes").All(&nodes); err != nil {
+// 		log.Fatalf("product node list search failed: %v", err)
+// 		common.ResponseErr(c, "product nodes search failed", err)
+// 		return
+// 	}
 
-	common.ResponseSuccess(c, "product node list search success", nodes)
-}
+// 	common.ResponseSuccess(c, "product node list search success", nodes)
+// }
 
 func NodeServiceList(c *gin.Context) {
 	var nodes []module.DBNodeService
@@ -83,8 +83,6 @@ func NodeServiceSummary(c *gin.Context) {
 
 func NodeSuperDetail(c *gin.Context) {
 	var params module.ReqNodeSuperDetail
-	var node module.DBNodeSuper
-	var nodes []module.DBNodeSuper
 	if err := c.BindJSON(&params); err != nil {
 		common.ResponseErr(c, "params error", err)
 		return
@@ -99,25 +97,30 @@ func NodeSuperDetail(c *gin.Context) {
 	defer db.CloseSession(mongoIns)
 
 	nodeModule := mongoIns.NodeSuperCollection()
-	if err := nodeModule.Find(bson.M{"delegate": params.NodeName}).One(&node); err != nil {
-		log.Fatalf("super node detail search failed: %v", err)
+	accountModule := mongoIns.AccountCollection()
+	trxModule := mongoIns.TransactionCollection()
+	blockModule := mongoIns.BlockCollection()
+	res := bson.M{}
+	account := bson.M{}
+	// node info
+	if err := nodeModule.Find(bson.M{"delegate": params.NodeName}).One(&res); err != nil {
 		common.ResponseErr(c, "super node detail search failed", err)
 		return
 	}
 
-	if err := nodeModule.Find(bson.M{"delegate": bson.M{"$exists": true}}).Sort("-transit_votes").All(&nodes); err != nil {
-		log.Fatalf("product node list search failed: %v", err)
-		common.ResponseErr(c, "product nodes search failed", err)
-		return
-	}
+	// account info
+	accountModule.Find(bson.M{"account_name": params.NodeName}).One(&account)
+	res["detail"] = account
 
-	for index, value := range nodes {
-		if node.Delegate == value.Delegate {
-			node.VoteRank = index + 1
-		}
-	}
+	// blocks
+	blockCount, _ := blockModule.Find(bson.M{"delegate": params.NodeName}).Count()
+	res["produce_block_count"] = blockCount
 
-	common.ResponseSuccess(c, "super node detail search success", node)
+	// voters
+	voteCount, _ := trxModule.Find(bson.M{"method": "votedelegate", "param.delegate": params.NodeName}).Count()
+	res["voters"] = voteCount
+
+	common.ResponseSuccess(c, "super node detail search success", res)
 }
 
 func NodeSummaryAuto(c *gin.Context) {
@@ -158,4 +161,82 @@ func NodeSummaryAuto(c *gin.Context) {
 	}
 	nodes.AllTransitVotes = node.AllTransitVotes
 	common.ResponseSuccess(c, "product node summary search success", nodes)
+}
+
+//NodeProductList Node product list
+func NodeProductList(c *gin.Context) {
+	mongoIns, err := db.NewDBCollection()
+	if err != nil {
+		common.ResponseErr(c, "connect mongoDB error", err)
+		return
+	}
+
+	defer db.CloseSession(mongoIns)
+
+	selector := []bson.M{
+		{
+			"$lookup": bson.M{
+				"from":         "Accounts",
+				"localField":   "delegate",
+				"foreignField": "account_name",
+				"as":           "account_info",
+			},
+		},
+		{
+			"$replaceRoot": bson.M{ // 文档替换
+				"newRoot": bson.M{
+					"$mergeObjects": []interface{}{ // 文档合并
+						bson.M{"$arrayElemAt": []interface{}{"$account_info", 0}},
+						"$$ROOT",
+					},
+				},
+			},
+		},
+		{ // 过滤有效字段
+			"$project": bson.M{"account_info": 0},
+		},
+	}
+	nodeModule := mongoIns.NodeSuperCollection()
+
+	var res []bson.M
+
+	if err := nodeModule.Pipe(selector).All(&res); err != nil {
+		common.ResponseErr(c, "product nodes search failed", err)
+		return
+	}
+	common.ResponseSuccess(c, "product node list search success", res)
+}
+
+func NodeVoterList(c *gin.Context) {
+	var params module.ReqNodeSuperDetail
+	if err := c.BindJSON(&params); err != nil {
+		common.ResponseErr(c, "params error", err)
+		return
+	}
+	mongoIns, err := db.NewDBCollection()
+	if err != nil {
+		common.ResponseErr(c, "connect mongoDB error", err)
+		return
+	}
+
+	defer db.CloseSession(mongoIns)
+	data := []bson.M{}
+
+	start := params.Start
+	length := params.Length
+
+	trxModule := mongoIns.TransactionCollection()
+	if err := trxModule.Find(bson.M{"method": "votedelegate", "param.delegate": params.NodeName}).Sort("-_id").Skip(start).Limit(length).All(&data); err != nil {
+		common.ResponseErr(c, "super node voters search failed", err)
+		return
+	}
+
+	count, _ := trxModule.Find(bson.M{"method": "votedelegate", "param.delegate": params.NodeName}).Count()
+
+	res := bson.M{
+		"data":                 data,
+		"iTotalDisplayRecords": count,
+	}
+
+	common.ResponseSuccess(c, "super node voters search success", res)
 }
