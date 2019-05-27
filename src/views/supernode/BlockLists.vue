@@ -17,8 +17,8 @@
         </el-table-column>
         <el-table-column prop="transCount" :label="$t('supernodeDetail.table3')" min-width="120">
         </el-table-column>
-        <el-table-column prop="bytes" :label="$t('supernodeDetail.table4')" min-width="120">
-        </el-table-column>
+        <!-- <el-table-column prop="bytes" :label="$t('supernodeDetail.table4')" min-width="120">
+        </el-table-column> -->
       </el-table>
 
       <div v-show="!listLoading" class="pagination-container">
@@ -61,8 +61,8 @@ export default {
           length:this.listQuery.length
         };
         queryBlockList(para).then(response => {
-          console.log({response})
-          this.tableData = window.sortData(response.data)
+          // this.tableData = window.sortData(response.data)
+          this.tableData = response.data
           this.listQuery.iTotalDisplayRecords = response.iTotalDisplayRecords
           this.listLoading = false
         }).catch(function(error){

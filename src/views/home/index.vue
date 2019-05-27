@@ -68,18 +68,18 @@
     <div class="row">
       <div class="inner cf">
         <el-row :gutter="20">
-          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
+          <!-- <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
             <div class="card">
               <div class="card-header"><div class="icon"><img src="../../assets/home_card_1.png" height="42" /></div><h3>{{$t('home.card1')}}</h3></div>
               <transactions></transactions>
             </div>
-          </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
+          </el-col> -->
+          <!-- <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
             <div class="card">
               <div class="card-header"><div class="icon"><img src="../../assets/home_card_2.png" height="42" /></div><h3>{{$t('home.card2')}}</h3></div>
               <accounts></accounts>
             </div>
-          </el-col>
+          </el-col> -->
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
             <div class="card">
               <div class="card-header"><div class="icon"><img src="../../assets/home_card_3.png" height="42" /></div><h3>{{$t('home.card3')}}</h3></div>
@@ -164,7 +164,7 @@ export default {
               
         }).catch(error => {
           this.$message({
-            message: this.$i18n.t('tips.error'),
+            message: this.$i18n.t('tips.nodata'),
             type: 'error'
           });
         })

@@ -32,7 +32,7 @@ const messagesEn = {
         stats2:'Block Height',
         stats3:'Transactions Last Day',
         stats4:'Total Accounts',
-        card1:'Past 14 days of transactions',
+        card1:'Past 14 days of total transactions',
         card1_series_name:'Total Transactions',
         card2:'Accounts Growth',
         card2_series_name:'Total Accounts',
@@ -226,7 +226,10 @@ const messagesEn = {
         table5:"Voter People",
         table6:"Cast Vote Number",
         table7:"This Node Voting Ratio",
-        table8:"Overall Voting Share"
+        table8:"Overall Voting Share",
+        table9:"Vote Time",
+        table10:"Un Claimed Reward",
+        table11:"Public Key"
     },
     aboutUS:{
         weChat:"WeChat",

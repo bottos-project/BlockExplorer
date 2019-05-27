@@ -2,31 +2,43 @@
   <div>
     <el-table :data="tableData" size="medium" v-loading="listLoading" :row-class-name="tableRowClassName" class="tables">
       <el-table-column prop="" width="40">
-        </el-table-column>
-      <el-table-column prop="transactionId" :label="$t('transfers.table1')"  :show-overflow-tooltip="true" min-width="200">
+      </el-table-column>
+      <el-table-column prop="transactionId" :label="$t('transfers.table1')"  :show-overflow-tooltip="true" min-width="300">
         <template slot-scope="scope">
           <router-link :to="'/blockchain/transfersDetail/'+scope.row.transactionId">
             {{scope.row.transactionId}}
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('transfers.table4')" min-width="100">
+      <el-table-column prop="blockNum" :label="$t('transfers.table2')" width="110">
         <template slot-scope="scope">
-          <span class="vh">
-            <router-link :to="'/blockchain/accountsDetail/'+scope.row.sender">
-            {{scope.row.sender}}
-            </router-link>
-          </span> -> 
-          <span class="vh">
-            <router-link :to="'/blockchain/accountsDetail/'+scope.row.receiver">
-            {{scope.row.receiver}}
-            </router-link>
-          </span>
+          <router-link :to="'/blockchain/blocksDetail/'+scope.row.blockNum">
+            {{scope.row.blockNum}}
+          </router-link>
         </template>
       </el-table-column>
-      <el-table-column prop="tradeAmount" :label="$t('transfers.table5')" width="160">
+       <el-table-column :label="$t('transfers.table4')" min-width="80">
+          <template slot-scope="scope">
+              <router-link :to="'/blockchain/accountsDetail/'+scope.row.sender">
+              {{scope.row.sender}}
+              </router-link>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('transfers.table7')" min-width="40">
+          <template slot-scope="scope">
+              <b>-></b>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('transfers.table5')" min-width="80">
+          <template slot-scope="scope">   
+              <router-link :to="'/blockchain/accountsDetail/'+scope.row.receiver">
+              {{scope.row.receiver}}
+              </router-link>
+          </template>
+        </el-table-column>
+      <el-table-column prop="tradeAmount" :label="$t('transfers.table6')" width="130">
         <template slot-scope="scope">
-          {{scope.row.tradeAmount / Math.pow(10,8)}}
+          {{scope.row.tradeAmount / Math.pow(10,8)}} BTO
         </template>
       </el-table-column>
     </el-table>

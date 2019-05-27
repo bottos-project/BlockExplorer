@@ -6,16 +6,26 @@
         <el-table-column prop="accountName" :label="$t('supernodeDetail.table5')" min-width="120">
           <template slot-scope="scope">
             <router-link :to="'/blockchain/accountsDetail/'+scope.row.accountName">
-              {{scope.row.accountName}}
+              {{scope.row.param.voter}}
             </router-link>
           </template>
         </el-table-column>
-        <el-table-column prop="voteCount" :label="$t('supernodeDetail.table6')" min-width="120">
+        <el-table-column prop="blockHeight" :label="$t('supernodeDetail.table1')" min-width="120">
+          <template slot-scope="scope">
+              {{scope.row.block_number}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="voteTime" :label="$t('supernodeDetail.table9')" min-width="120">
+          <template slot-scope="scope">
+              {{scope.row.timestamp | dateformatNow}}
+          </template>
+        </el-table-column>
+        <!-- <el-table-column prop="voteCount" :label="$t('supernodeDetail.table6')" min-width="120">
         </el-table-column>
         <el-table-column prop="currRate" :label="$t('supernodeDetail.table7')" min-width="120">
         </el-table-column>
         <el-table-column prop="totalRate" :label="$t('supernodeDetail.table8')" min-width="120">
-        </el-table-column>
+        </el-table-column> -->
       </el-table>
 
       <div v-show="!listLoading" class="pagination-container">
@@ -58,8 +68,9 @@ export default {
           length:this.listQuery.length
         };
         queryVoteList(para).then(response => {
-          this.tableData = response.data.data
-          this.listQuery.iTotalDisplayRecords = response.data.iTotalDisplayRecords
+          console.log({queryVoteList:response})
+          this.tableData = response.data
+          this.listQuery.iTotalDisplayRecords = response.iTotalDisplayRecords
           this.listLoading = false
         }).catch(function(error){
           this.$message({

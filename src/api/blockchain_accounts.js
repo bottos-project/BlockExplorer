@@ -46,5 +46,21 @@ export function queryTransferlList(data) {
   })
 }
 
+export function queryMsignAccount(data) {
+  return request({
+    url:"getMsignaccount",
+    method:"post",
+    data
+  })
+}
+
+export function queryMsignProposal(data) {
+  return request({
+    url:"getMsignProposal",
+    method:"post",
+    data
+  })
+}
+
 
 

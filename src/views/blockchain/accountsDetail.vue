@@ -38,6 +38,14 @@
                   <div class="con">{{Detail.tradeCount}}</div>
               </li>
               <li class="row">
+                  <div class="tit">{{"delegate"}}</div>
+                  <div class="con">{{Detail.vote && Detail.vote.delegate || ""}}</div>
+              </li>
+              <li>
+                  <div class="tit">{{"vote"}}</div>
+                  <div class="con">{{Detail.vote && Detail.vote.votes / Math.pow(10,8) || 0}}</div>
+              </li>
+              <li class="row">
                   <div class="tit">{{$t('accountsDetail.Transfer')}}</div>
                   <div class="con">
                     <img src="../../assets/arrow_r.png" width="16" /> {{Detail.receiveCount}}
@@ -45,7 +53,7 @@
                     <img src="../../assets/arrow_s.png" width="16" /> {{Detail.sendCount}}
                   </div>
               </li>
-              <li>
+              <!-- <li>
                   <div class="tit">{{$t('accountsDetail.AllBlockReward')}}</div>
                   <div class="con">{{Detail.unClaimedBlockReward / Math.pow(10,8)}} BTO</div>
               </li>
@@ -56,7 +64,7 @@
               <li>
                   <div class="tit">{{$t('accountsDetail.AllReward')}}</div>
                   <div class="con">{{Detail.unClaimedReward / Math.pow(10,8)}} BTO</div>
-              </li>
+              </li> -->
           </ul>
         </div>
         <div class="detail-right">
@@ -106,8 +114,12 @@
               <li class="row">
                   <div class="tit">{{$t('accountsDetail.stakeUsedTime')}}</div>
                   <div class="con">
-                    {{Detail.resource.stakeUsedTime}}
+                    {{Detail.resource.stakeUsedTime || ""}}
                   </div>
+              </li>
+              <li>
+                <div class="tit">{{"多签账户授权列表"}}</div>
+                <div class="con">{{msignAccounts.param && msignAccounts.param.authority || ""}}</div>
               </li>
           </ul>
         </div>
@@ -133,7 +145,7 @@
 <script>
     import transactions from './accounts/transactions'
     import transfers from './accounts/transfers'
-    import { queryCustDetail } from '@/api/blockchain_accounts'
+    import { queryCustDetail,queryMsignAccount,queryMsignProposal } from '@/api/blockchain_accounts'
     export default {
       components: { transactions,transfers},
       data() {
@@ -141,7 +153,9 @@
           custId:this.$route.params && this.$route.params.id,
           Detail:{},
           currencyAmount: '',
-          currencyAmountOptions: []
+          currencyAmountOptions: [],
+          msignAccounts:{},
+          msignProposal:{}
         }
       },
       watch:{
@@ -152,6 +166,8 @@
       },
       created(){
         this.fetchData()
+        this.getMsignAccount()
+        this.getMsignProposal()
       },
       methods:{
         fetchData() {
@@ -159,7 +175,9 @@
             accountName:this.custId
           }
           queryCustDetail(para).then(response => {
+            console.log({queryCustDetail:response})
             this.Detail = response.data
+            console.log({Detail:this.Detail})
             this.currencyAmountOptions = response.data.currencyList
             this.currencyAmount = response.balance
           }).catch(error => {
@@ -169,6 +187,26 @@
             });
           })
         },
+        getMsignAccount(){
+          queryMsignAccount({author_account:this.custId}).then(response=>{
+            console.log({queryMsignAccount:response})
+            if(response){
+              this.msignAccounts = response[0]
+            }
+          }).catch(error=>{
+            console.log({error})
+          })
+        },
+        getMsignProposal(){
+          queryMsignProposal({author_account:this.custId}).then(response=>{
+            console.log({queryMsignProposal:response})
+            if(response){
+              this.msignProposal = response && response[0]
+            }
+          }).catch(error=>{
+            console.log({error})
+          })
+        }
       }
     }
 </script>

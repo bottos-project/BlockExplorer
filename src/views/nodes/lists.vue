@@ -138,7 +138,7 @@
         fetchData() {
           let para = {}
           queryNodeRank(para).then(response => {
-            console.log({response})
+            console.log({queryNodeRank:response})
             this.tableData = response
             this.listLoading = false
           }).catch(function(error){

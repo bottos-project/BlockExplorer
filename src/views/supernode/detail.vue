@@ -2,7 +2,7 @@
   <div class="main">
     <div class="border">
       <div class="detail">
-        <div class="information">
+        <!-- <div class="information">
           <div class="horn">
             <img src="../../assets/supernode_detail_horn.png" />
           </div>
@@ -20,7 +20,7 @@
               <div class="box">
                 <dl>
                   <dd><label>{{$t('supernodeDetail.ranking')}}</label> {{Detail.voteRank}}</dd>
-                  <dd><label>{{$t('supernodeDetail.got_vote')}}</label> {{Detail.voteCount/ Math.pow(10,8)}} {{$t('supernodeDetail.ticket')}}（{{(Detail.voteCount/Detail.allTransitVotes*100).toFixed(8)}}%）</dd>
+                  <dd><label>{{$t('supernodeDetail.got_vote')}}</label> {{Detail.votes/ Math.pow(10,8)}} {{$t('supernodeDetail.ticket')}}（{{(Detail.voteCount/Detail.allTransitVotes*100).toFixed(8)}}%）</dd>
                   <dd><label>{{$t('supernodeDetail.cast_vote')}}</label> {{Detail.voteCustCount}} {{$t('supernodeDetail.people')}}</dd>
                 </dl>
               </div>
@@ -32,7 +32,7 @@
             </div>
             <a class="open" @click="openDes" v-if="showall == false">{{$t('supernodeDetail.expand')}}</a>
           </div>
-        </div>
+        </div> -->
         <ul>
             <li class="row">
                 <div class="tit">{{$t('supernodeDetail.account')}}</div>
@@ -43,17 +43,28 @@
                 </div>
             </li>
             <li>
-                <div class="tit">{{$t('supernodeDetail.quality_deposit')}}</div>
-                <div class="con">{{Detail.stakedBalance / Math.pow(10,8)}}  BTO</div>
+              <div class="tit">{{$t('supernodeDetail.table11')}}</div>
+              <div class="con">{{Detail.public_key}}</div>
             </li>
             <li class="row">
-                <div class="tit">{{$t('supernodeDetail.number_of_blocks')}}</div>
-                <div class="con">{{Detail.producedBlocksCount}}</div>
+              <div class="tit">{{$t('supernodeDetail.quality_deposit')}}</div>
+              <div class="con">{{Detail.detail.staked_balance / Math.pow(10,8)}} BTO</div>
             </li>
             <li>
-                <div class="tit">{{$t('supernodeDetail.block_success_rate')}}</div>
-                <!-- <div class="con">{{Detail.successRate}} %</div> -->
-                <div class="con">100%</div> 
+              <div class="tit">{{$t('supernodeDetail.quality_deposit')}}</div>
+              <div class="con">{{Detail.votes / Math.pow(10,8)}}</div>
+            </li>
+            <li class="row">
+              <div class="tit">{{$t('supernodeDetail.tabs2')}}</div>
+              <div class="con">{{Detail.voters}}</div>
+            </li>
+            <li>
+              <div class="tit">{{$t('supernodeDetail.number_of_blocks')}}</div>
+              <div class="con">{{Detail.produce_block_count}}</div>
+            </li>
+            <li class="row">
+              <div class="tit">{{$t('supernodeDetail.table10')}}</div>
+              <div class="con">{{Detail.detail.un_claimed_reward / Math.pow(10,8)}} BTO</div>
             </li>
         </ul>
       </div>
@@ -68,7 +79,7 @@
           </el-tab-pane>
           <el-tab-pane :label="$t('supernodeDetail.tabs2')">
               <keep-alive>
-                  <!-- <Voters></Voters> -->
+                  <Voters></Voters>
               </keep-alive>
           </el-tab-pane>
         </el-tabs>
@@ -107,7 +118,6 @@
             nodeName:this.custId
           }
           queryNodeDetail(para).then(response => {
-            console.log({response})
             this.Detail = response
           }).catch(error => {
             this.$message({

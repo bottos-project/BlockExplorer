@@ -32,7 +32,7 @@ const messagesCn = {
         stats2:'最新区块',
         stats3:'过去一天交易数',
         stats4:'总账户数',
-        card1:'过去14天交易数',
+        card1:'过去14天总交易数',
         card1_series_name:'交易数',
         card2:'账户增长',
         card2_series_name:'总账户数',
@@ -219,14 +219,17 @@ const messagesCn = {
         serviceApi:"服务API",
         tabs1:"出块详情",
         tabs2:"投票人",
-        table1:"高度",
+        table1:"区块高度",
         table2:"块龄",
         table3:"交易数",
         table4:"大小",
         table5:"投票人",
         table6:"投票数",
         table7:"本节点投票占比",
-        table8:"整网投票占比"
+        table8:"整网投票占比",
+        table9:"投票时间",
+        table10:"未领取奖励",
+        table11:"公钥"
     },
     aboutUS:{
         weChat:"官方微信",
