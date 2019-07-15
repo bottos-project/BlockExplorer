@@ -3,23 +3,34 @@
       <el-table :data="tableData" size="medium" v-loading="listLoading" :row-class-name="tableRowClassName" class="tables">
         <el-table-column prop="" width="40">
         </el-table-column>
-        <el-table-column prop="accountName" :label="$t('supernodeDetail.table5')" min-width="120">
+		
+        <el-table-column prop="voter" :label="$t('supernodeDetail.table5')" min-width="120">
           <template slot-scope="scope">
-            <router-link :to="'/blockchain/accountsDetail/'+scope.row.accountName">
-              {{scope.row.param.voter}}
+            <router-link :to="'/blockchain/accountsDetail/'+scope.row.account_name">
+              {{scope.row.account_name}}
             </router-link>
           </template>
         </el-table-column>
+		
+		<el-table-column prop="voter" :label="$t('supernodeDetail.table6')" min-width="120">
+          <template slot-scope="scope">
+              {{scope.row.vote.votes/Math.pow(10,8)}}
+          </template>
+        </el-table-column>
+		
+		
         <el-table-column prop="blockHeight" :label="$t('supernodeDetail.table1')" min-width="120">
           <template slot-scope="scope">
               {{scope.row.block_number}}
           </template>
         </el-table-column>
+		
         <el-table-column prop="voteTime" :label="$t('supernodeDetail.table9')" min-width="120">
           <template slot-scope="scope">
               {{scope.row.timestamp | dateformatNow}}
           </template>
         </el-table-column>
+		
         <!-- <el-table-column prop="voteCount" :label="$t('supernodeDetail.table6')" min-width="120">
         </el-table-column>
         <el-table-column prop="currRate" :label="$t('supernodeDetail.table7')" min-width="120">
@@ -42,7 +53,7 @@
   </div>
 </template>
 <script>
-import {queryVoteList} from '@/api/supernode'
+import {queryVoterList} from '@/api/supernode'
 
 export default {
     data(){
@@ -67,9 +78,9 @@ export default {
           start:this.listQuery.start,
           length:this.listQuery.length
         };
-        queryVoteList(para).then(response => {
+        queryVoterList(para).then(response => {
           console.log({queryVoteList:response})
-          this.tableData = response.data
+          this.tableData = response
           this.listQuery.iTotalDisplayRecords = response.iTotalDisplayRecords
           this.listLoading = false
         }).catch(function(error){

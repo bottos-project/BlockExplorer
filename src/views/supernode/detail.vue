@@ -51,11 +51,11 @@
               <div class="con">{{Detail.detail.staked_balance / Math.pow(10,8)}} BTO</div>
             </li>
             <li>
-              <div class="tit">{{$t('supernodeDetail.quality_deposit')}}</div>
+              <div class="tit">{{$t('supernodeDetail.table6')}}</div>
               <div class="con">{{Detail.votes / Math.pow(10,8)}}</div>
             </li>
             <li class="row">
-              <div class="tit">{{$t('supernodeDetail.tabs2')}}</div>
+              <div class="tit">{{$t('supernodeDetail.voter_counts')}}</div>
               <div class="con">{{Detail.voters}}</div>
             </li>
             <li>
@@ -82,6 +82,11 @@
                   <Voters></Voters>
               </keep-alive>
           </el-tab-pane>
+          <el-tab-pane :label="$t('supernodeDetail.tabs3')">
+            <keep-alive>
+              <History></History>
+            </keep-alive>
+          </el-tab-pane>
         </el-tabs>
       </div>
     </div>
@@ -90,9 +95,10 @@
 <script>
     import BlockLists from './BlockLists'
     import Voters from './Voters'
+    import History from './History'
     import { queryNodeDetail } from '@/api/supernode'
     export default {
-      components: { BlockLists,Voters},
+      components: { BlockLists,Voters,History},
       data() {
         return {
           custId:this.$route.params && this.$route.params.id,

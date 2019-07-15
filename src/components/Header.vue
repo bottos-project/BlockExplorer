@@ -24,9 +24,9 @@
               <li>
                 <router-link to="/blockchain/accounts">{{$t('menus.accounts')}}</router-link>
               </li>
-              <li>
+             <!--<li>
                 <router-link to="/blockchain/statistics">{{$t('menus.statistics')}}</router-link>
-              </li>
+              </li>-->
             </ul>
           </li>
           <!-- <li>

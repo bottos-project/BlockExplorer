@@ -37,8 +37,8 @@ export function queryBlockList(data) {
   })
 }
 
-//投票人列表
-export function queryVoteList(data) {
+//投票记录列表
+export function queryVoterTransaction(data) {
   return request({
     url: 'superNode/queryVoteListAuto',
     method: 'post',
@@ -46,5 +46,13 @@ export function queryVoteList(data) {
   })
 }
 
+
+export function queryVoterList(data){
+  return request({
+    url: 'superNode/queryVoterList',
+    method: 'post',
+    data
+  })
+}
 
 
