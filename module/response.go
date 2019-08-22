@@ -1,6 +1,9 @@
 package module
 
-import "time"
+import (
+	"time"
+	"gopkg.in/mgo.v2/bson"
+)
 
 // response success
 type ResSuccess struct {
@@ -54,6 +57,11 @@ type ResTransactions struct {
 	TimeTokenCost  int32  `bson:"time_token_cost" json:"timeTokenCost"`
 }
 
+type TransferHistory struct {
+	Account string `bson:"_id" json:"account_name"`
+	Block string `bson:"block_number" json:"block_number"`
+}
+
 // transfers
 type ResTransfers struct {
 	BlockNumber   uint64  `bson:"block_number" json:"blockNum"`
@@ -63,12 +71,19 @@ type ResTransfers struct {
 	CoinType      string  `json:"currency"`
 	TransactionID string  `bson:"transaction_id" json:"transactionId"`
 	TimeStamp     int64   `bson:"timestamp" json:"tradeDate"`
+	Method        string   `bson:"method" json:"method"`
 }
 
 // account list
 type ResAccountList struct {
 	AccountName string `bson:"account_name" json:"accountName"`
-	Balance     string `bson:"balance" json:"availableAmount"`
+	StakeBalance int64`bson:"staked_balance" json:"staked_balance"`
+	StakedTimeBalance int64`bson:"staked_time_balance" json:"staked_time_balance"`
+	StakedSpaceBalance int64`bson:"staked_space_balance" json:"staked_space_balance"`
+	Balance     int64 `bson:"balance" json:"balance"`
+	UnClaimedReward int64 `bson:"un_claimed_reward" json:"un_claimed_reward"`
+	TotalBalance int64  `bson:"total_balance" json:"total_balance"`
+
 }
 
 // block detail
@@ -90,21 +105,24 @@ type ResAccountDetail struct {
 	ReceiveCount          int    `json:"receiveCount"`
 	SendCount             int    `json:"sendCount"`
 	TradeCount            int    `json:"tradeCount"`
-	Balance               string `bson:"balance" json:"balance"`
-	StakedBalance         string `bson:"staked_balance" json:"stakedBalance"`
-	UnStakedBalance       string `bson:"unStaking_balance" json:"unStakingBalance"`
+	Balance               interface{} `bson:"balance" json:"balance"`
+	StakedBalance         interface{} `bson:"staked_balance" json:"stakedBalance"`
+	StakedTimeBalance	  interface{}  `bson:"staked_time_balance" json:"staked_time_balance"`
+	StakedSpaceBalance	  interface{}  `bson:"staked_space_balance" json:"staked_space_balance"`
+	UnStakedBalance       interface{} `bson:"unStaking_balance" json:"unStakingBalance"`
 	ResultType            string `json:"resultType"`
 	UnClaimedReward       string `bson:"un_claimed_reward" json:"unClaimedReward"`
-	UnClaimedVoteReward   string `bson:"un_claimed_vote_reward" json:"unClaimedVoteReward"`
-	UnClaimedBlockReward  string `bson:"un_claimed_block_reward" json:"unClaimedBlockReward"`
-	AvailableSpaceBalance string `bson:"available_space_balance" json:"availableSpaceBalance"`
-	AvailableTimeBalance  string `bson:"available_time_balance" json:"availableTimeBalance"`
+	UnClaimedVoteReward   interface{} `bson:"un_claimed_vote_reward" json:"unClaimedVoteReward"`
+	UnClaimedBlockReward  interface{} `bson:"un_claimed_block_reward" json:"unClaimedBlockReward"`
+	AvailableSpaceBalance interface{} `bson:"available_space_balance" json:"availableSpaceBalance"`
+	AvailableTimeBalance  interface{} `bson:"available_time_balance" json:"availableTimeBalance"`
 	Vote                  struct {
 		Delegate string `bson:"delegate" json:"delegate"`
-		Votes    string `bson:"votes" json:"votes"`
+		Votes    interface{} `bson:"votes" json:"votes"`
 	} `bson:"vote" json:"vote"`
 	Resource DBResource `bson:"resource" json:"resource"`
 }
+
 type DBResource struct {
 	FreeAvailableSpace  uint64 `bson:"free_available_space" json:"freeAvailableSpace"`
 	FreeUsedSpace       uint64 `bson:"free_used_space" json:"freeUsedSpace"`
@@ -133,9 +151,9 @@ type ResTransferDetail struct {
 
 // transaction statistic
 type ResStatisticTransaction struct {
-	DailyTransCount int    `bson:"trx_count" json:"dailyTransCount"`
-	TradeDate       string `bson:"day" json:"tradeDate"`
-	TotalTransCount int    `bson:"total_trx_count" json:"totalTrxCount"`
+	DailyTransCount int    `bson:"trx_count" json:"trx_count"`
+	TradeDate       string `bson:"day" json:"day"`
+	TotalTransCount int    `bson:"account_count" json:"account_count"`
 }
 
 // account statistic
@@ -171,4 +189,42 @@ type ResNodeSuperSummary struct {
 type ResServiceNodeSummary struct {
 	DelegateCount int `json:"delegateCount"`
 	ServiceCount  int `json:"serviceNodeCount"`
+}
+
+type HomePageResponse struct {
+	LastestBlockInfo int    `bson:"lastest_block_info" json:"lastest_block_info"`
+	NodeCount        int    `bson:"node_count" json:"node_count"`
+	TransactionCount int	`bson:"transaction_count" json:"transaction_count"`
+	BlockNumber      int64 `bson:"block_number" json:"block_number"`
+	AccountCount     int    `bson:"account_count" json:"account_count"`
+	Stake            StakeSum
+	Tps              TpsCount
+	StatisticData    []StatisticData
+	Time             time.Time
+}
+
+type StakeSum struct {
+	StakeTimeAmount int64 `json:"stake_time_amount"`
+	StakeSpaceAmount int64 `json:"stake_space_amount"`
+	StakeVoteAmount int64 `json:"stake_vote_amount"`
+}
+
+type TpsCount struct {
+	TpsPeak   int32 `bson:"tps_peak" json:"tps_peak"`
+	Tps       int32 `json:"tps"`
+}
+
+type BlockTps struct {
+	TransactionCount int32 `bson:"transaction_count" json:"transaction_count"`
+}
+
+type StatisticData struct {
+	Day string `bson:"day" json:"day"`
+	AccountCount int32 `bson:"account_count" json:"account_count"`
+	TrxCount int32 `bson:"trx_count" json:"trx_count"`
+}
+
+type StakeData struct{
+	Id  bson.ObjectId `json:"_id"`
+	Total int64 	`json:"total"`
 }

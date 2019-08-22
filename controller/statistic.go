@@ -70,3 +70,56 @@ func StatisticAccount(c *gin.Context) {
 
 	common.ResponseSuccess(c, "account statistic success", accountStatistic)
 }
+
+func StatisticStake(c *gin.Context)  {
+	stakeStatistic := StakeSum()
+	common.ResponseSuccess(c,"stake statistic success",stakeStatistic)
+}
+
+func StakeSum()(StakeRes module.StakeSum)  {
+	collection,_ := db.NewDBCollection()
+	defer db.CloseSession(collection)
+	stakeSpaceAmount := StakeSpaceSum()
+	stakeTimeAmount  := StakeTimeSum()
+	stakeVoteAmount  := StakeVoteSum()
+	StakeRes.StakeSpaceAmount = stakeSpaceAmount
+	StakeRes.StakeTimeAmount = stakeTimeAmount
+	StakeRes.StakeVoteAmount = stakeVoteAmount
+	return StakeRes
+}
+
+func StakeSpaceSum()int64  {
+	SpaceMap := []bson.M{
+		{"$match":bson.M{"method":"stake","param.target":"space"}},
+		{"$group":bson.M{"_id":"block_number","total":bson.M{"$sum":"$param.amount"}}},
+	}
+	collection,_ := db.NewDBCollection()
+	defer db.CloseSession(collection)
+	var data module.StakeData
+	collection.TransactionCollection().Pipe(SpaceMap).One(&data)
+	return  data.Total
+}
+
+func StakeTimeSum()int64  {
+	TimeMap := []bson.M{
+		{"$match":bson.M{"method":"stake","param.target":"time"}},
+		{"$group":bson.M{"_id":"block_number","total":bson.M{"$sum":"$param.amount"}}},
+	}
+	collection,_ := db.NewDBCollection()
+	defer db.CloseSession(collection)
+	var data module.StakeData
+	collection.TransactionCollection().Pipe(TimeMap).One(&data)
+	return  data.Total
+}
+
+func StakeVoteSum()int64 {
+	VoteMap := []bson.M{
+		{"$match":bson.M{"method":"stake","param.target":"vote"}},
+		{"$group":bson.M{"_id":"block_number","total":bson.M{"$sum":"$param.amount"}}},
+	}
+	collection,_ := db.NewDBCollection()
+	defer db.CloseSession(collection)
+	var data module.StakeData
+	collection.TransactionCollection().Pipe(VoteMap).One(&data)
+	return  data.Total
+}

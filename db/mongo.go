@@ -10,9 +10,9 @@ import (
 
 const URL string = "mongodb://125.94.34.23:27018"
 
-// const URL string = "mongodb://114.67.80.209:27018"
+//const URL string = "mongodb://114.67.80.209:27018"
 
-// const URL string = "mongodb://127.0.0.1:27017"
+//const URL string = "mongodb://127.0.0.1:27017"
 
 type MongoDB struct {
 	session *mgo.Session
@@ -29,7 +29,7 @@ func NewDBCollection() (*MongoDB, error) {
 	dbCollection := MongoDB{
 		session: s,
 	}
-	dbCollection.mongo = dbCollection.session.DB("blockchainbowser")
+	dbCollection.mongo = dbCollection.session.DB("blockchainbowser-bak")
 	return &dbCollection, nil
 }
 

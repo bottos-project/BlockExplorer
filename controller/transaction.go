@@ -6,6 +6,7 @@ import (
 	"github.com/bottos-project/BlockExplorer/module"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/mgo.v2/bson"
+	"fmt"
 )
 
 //TrxTransactionList transaction list
@@ -167,6 +168,88 @@ func TrxTransactionDetail(c *gin.Context) {
 	common.ResponseSuccess(c, "transaction detail find success", res)
 }
 
+func TransferAccountHistory(c *gin.Context)  {
+	var params module.ReqTransactionList
+	var transferList []module.TransferHistory
+	//var transferList []string
+	//var resTransferList []module.ResTransfers
+	if err := c.BindJSON(&params); err != nil {
+		common.ResponseErr(c, "params error", err)
+		return
+	}
+	//start := params.Start
+	//length := params.Length
+	//res := module.ResPageList{
+	//	Data:          &resTransferList,
+	//	TotalRecordes: 0,
+	//}
+	//findInfo := bson.M{
+	//	"method": "transfer",
+	//	"param.from":params.AccountName,
+	//	//"$or": []bson.M{
+	//	//	bson.M{"param.from": params.AccountName},
+	//	//	//bson.M{"param.to": params.AccountName},
+	//	//},
+	//}
+
+	p := []bson.M{
+		{"$match":bson.M{
+			//"method":"transfer",
+			"$or":[]bson.M{
+				bson.M{"param.from": params.AccountName},
+				//bson.M{"param.to": params.AccountName},
+			},
+		}},
+
+		{
+			"$group":bson.M{"_id":"$param.to"},
+		},
+
+
+
+
+		{
+			"$sort":bson.M{"_id":1},
+		},
+	}
+
+
+
+	mongoIns, err := db.NewDBCollection()
+	if err != nil {
+		common.ResponseErr(c, "connect mongoDB error", err)
+		return
+	}
+	defer db.CloseSession(mongoIns)
+	trxModule := mongoIns.TransactionCollection()
+	//trxCount, err := trxModule.Find(findInfo).Count()
+	//if err != nil {
+	//	common.ResponseErr(c, "transactions search error", err)
+	//	return
+	//}
+	//res.TotalRecordes = trxCount
+	//start, length = paging(start, length, trxCount)
+	//if length <= 0 {
+	//	common.ResponseSuccess(c, "transfer list find success", res)
+	//	return
+	//}
+	//if err := trxModule.Find(findInfo).Skip(start).Limit(length).All(&transferList); err != nil {
+	//	common.ResponseErr(c, "find personal transfers failed", err)
+	//	return
+	//}
+	//trxModule.Find(findInfo).Sort("block_number").Distinct("param.to",&transferList)
+
+	trxModule.Pipe(p).All(&transferList)
+	common.ResponseSuccess(c, "find personal transfer success", transferList)
+	fmt.Printf("%+v",transferList)
+
+
+
+}
+
+
+
+
 //TrxPersonalTransferList personal transfer list
 func TrxPersonalTransferList(c *gin.Context) {
 	var params module.ReqTransactionList
@@ -196,7 +279,11 @@ func TrxPersonalTransferList(c *gin.Context) {
 
 	trxModule := mongoIns.TransactionCollection()
 	findInfo := bson.M{
-		"method": "transfer",
+		//
+		//"$or":[]bson.M{
+		//	bson.M{"method":"transfer"},
+		//	bson.M{"method":"execmsignproposal"},
+		//},
 		"$or": []bson.M{
 			bson.M{"param.from": params.AccountName},
 			bson.M{"param.to": params.AccountName},
@@ -230,6 +317,7 @@ func TrxPersonalTransferList(c *gin.Context) {
 			CoinType:      "BTO",
 			TransactionID: t.TransactionID,
 			TimeStamp:     t.TimeStamp,
+			Method:        t.Method,
 		}
 		resTransferList = append(resTransferList, tempT)
 	}

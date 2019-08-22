@@ -25,10 +25,24 @@ type DBAccounts struct {
 	DeployContractList    string    `bson:"deploy_contract_list"`
 	Vote                  DBVote    `bson:"vote"`
 }
+type LastBlockNum struct {
+	BlockNumber int64 `bson:"block_number" json:"block_number"`
+}
 
 type DBVote struct {
 	Delegate string `bson:"delegate"`
 	Votes    string `bson:"votes"`
+}
+
+type SuperNodeInfo struct {
+	Description string `bson:"description" json:"description"`
+	Avatar string `bson:"avatar" json:"avatar"`
+	AvatarThumb string `bson:"avatar_thumb" json:"avatar_thumb"`
+}
+
+type VoteDelegateParam struct {
+	Delegate string `bson:"delegate" json:"delegate"`
+	Voter    string  `bson:"voter" json:"voter"`
 }
 
 type DBBlocks struct {
@@ -60,6 +74,37 @@ type DBTransaction struct {
 	TimeStamp     int64                  `bson:"timestamp"`
 }
 
+type DBTransactions struct {
+	ID            bson.ObjectId          `bson:"_id" json:"_id"`
+	BlockNumber   uint64                 `bson:"block_number" json:"block_number"`
+	TransactionID string                 `bson:"transaction_id" json:"transaction_id"`
+	//SequenceNum   int32                  `bson:"sequence_num" json:"sequence_num"`
+	BlockHash     string                 `bson:"block_hash" json:"block_hash"`
+	CursorNum     uint32                 `bson:"cursor_num" json:"cursor_num"`
+	CursorLabel   uint32                 `bson:"cursor_label" json:"cursor_label"`
+	LifeTime      uint64                 `bson:"lifetime" json:"life_time"`
+	Sender        string                 `bson:"sender" json:"sender"`
+	Contract      string                 `bson:"contract" json:"contract"`
+	Method        string                 `bson:"method" json:"method"`
+	Param         struct{
+		Account string `bson:"account" json:"account"`
+		Proposal string `bson:"proposal" json:"proposal"`
+		Proposer string `bson:"proposer" json:"proposer"`
+		Transfer  string `bson:"transfer" json:"transfer"`
+	}
+	Space_token_cost int32				`bson:"space_token_cost" json:"space_token_cost"`
+	Time_token_cost int32				`bson:"time_token_cost" json:"time_token_cost"`
+	SigAlg        uint32                 `bson:"sig_alg" json:"sig_alg"`
+	Signature     string                 `bson:"signature" json:"signature"`
+	TimeStamp     int64                  `bson:"timestamp" json:"time_stamp"`
+}
+type ProposalParam struct {
+	Account string `bson:"account" json:"account"`
+	Proposal string `bson:"proposal" json:"proposal"`
+	Proposer string `bson:"proposer" json:"proposer"`
+	Transfer string `bson:"transfer" json:"transfer"`
+}
+
 type DBNodeService struct {
 	NodeType    string `bson:"node_type" json:"node_type"`
 	NodeCountry string `bson:"node_country" json:"node_country"`
@@ -87,6 +132,49 @@ type DBNodeSuper struct {
 	PubKey          string `bson:"public_key" json:"public_key"`
 }
 
+type NodeSuper struct {
+	Avatar string `bson:"avatar" json:"avatar"`
+	AvatarThumb string `bson:"avatar_thumb" json:"avatar_thumb"`
+	Delegate string `bson:"delegate" json:"delegate"`
+	Description string `bson:"description" json:"description"`
+}
+
+type PubKey struct {
+	Pkey string `bson:"pubkey" json:"pubkey"`
+}
+
+type PushProposal struct {
+	Sender string `bson:"sender" json:"sender"`
+	Res    string `bson:"res" json:"res"`
+	Param struct{
+		Account string `bson:"account" json:"account"`
+		Proposal string `bson:"proposal" json:"proposal"`
+		Proposer string `bson:"proposer" json:"proposer"`
+		Transfer string `bson:"transfer" json:"transfer"`
+		From     string `bson:"from" json:"from"`
+		To 		 string `bson:"to" json:"to"`
+		Value    float64 `bson:"value" json:"value"`
+		Memo     string `bson:"memo" json:"memo"`
+	}
+}
+
+type ExecProposal struct {
+	Sender string `bson:"sender" json:"sender"`
+	Method string `bson:"method" json:"method"`
+	Param struct{
+		Proposal string `bson:"proposal" json:"proposal"`
+		Proposer string `bson:"proposer" json:"proposer"`
+		From     string `bson:"from" json:"from"`
+		To 		 string `bson:"to" json:"to"`
+		Value    float64 `bson:"value" json:"value"`
+		Memo     string `bson:"memo" json:"memo"`
+	}
+}
+
+
+
+
+
 type DBMsignAccountModule struct {
 	AuthorAccount string `bson:"author_account" json:"author_account"`
 }
@@ -98,7 +186,8 @@ type AuthorAccountModule struct {
 		Account   string `bson:"account" json:"account"`
 		Authority []struct {
 			AuthorAccount string `bson:"author_account" json:"author_account"`
-			weight        int32  `bson:"weight" json:"weight"`
+			Weight        int32  `bson:"weight" json:"weight"`
+			Transfer      TransferDetail
 		} `bson:"authority" json:"authority"`
 		Threshold int32 `bson:"threshold" json:"threshold"`
 	} `bson:"param" json:"param"`
@@ -114,4 +203,11 @@ type Param struct {
 type Authority struct {
 	AuthorAccount string `bson:"author_account" json:"author_account"`
 	weight        int32  `bson:"weight" json:"weight"`
+}
+
+type TransferDetail struct{
+	From string `bson:"from" json:"from"`
+	To string	`json:"to"`
+	Amount string `json:"amount"`
+	Memo string	`json:"memo"`
 }

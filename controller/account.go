@@ -4,9 +4,10 @@ import (
 	"github.com/bottos-project/BlockExplorer/common"
 	"github.com/bottos-project/BlockExplorer/db"
 	"github.com/bottos-project/BlockExplorer/module"
-
 	"github.com/gin-gonic/gin"
 	"gopkg.in/mgo.v2/bson"
+	"encoding/json"
+	"fmt"
 )
 
 func AccountList(c *gin.Context) {
@@ -26,19 +27,33 @@ func AccountList(c *gin.Context) {
 
 	defer db.CloseSession(mongoIns)
 
-	start := params.Start
+	start := params.Start -4
 	length := params.Length
+	order := params.Order
+	by := params.By
+	if(order == ""){
+		order = "total_balance"
 
+	}
+	if(by == ""){
+		by = ""
+	}
+	fmt.Println(start)
+	fmt.Println(length)
 	accountModule := mongoIns.AccountCollection()
 	totalCount, _ := accountModule.Count()
 	start, length = paging(start, length, totalCount)
+	//fmt.Println(totalCount)
+	//fmt.Println(start)
+	//fmt.Println(length)
 	if length <= 0 {
 		common.ResponseSuccess(c, "accounts find success", module.ResPageList{TotalRecordes: totalCount})
 		return
 	}
 
-	if err := accountModule.Find(bson.M{}).Skip(start).Limit(length).All(&accounts); err != nil {
-		common.ResponseErr(c, "accounts find failed", err)
+	fmt.Println(by+order)
+	if err := accountModule.Find(bson.M{}).Skip(start).Limit(length).Sort(by+order).All(&accounts); err != nil {
+		common.ResponseErr(c, "accounts fdfind failed", err)
 		return
 	}
 
@@ -139,8 +154,12 @@ func Msignaccount(c *gin.Context) {
 	common.ResponseSuccess(c, "success", res)
 }
 
+
+
+
 func MsignProposal(c *gin.Context) {
 	var params module.DBMsignAccountModule
+	//fmt.Println(params.AuthorAccount)
 	if err := c.BindJSON(&params); err != nil {
 		common.ResponseErr(c, "params error", err)
 		return
@@ -148,26 +167,129 @@ func MsignProposal(c *gin.Context) {
 
 	mongoIns, _ := db.NewDBCollection()
 	defer db.CloseSession(mongoIns)
-
+	//fmt.Println(bson.M{"param.authority.author_account": params.AuthorAccount})
 	var authorRes []module.AuthorAccountModule
 	msignAccountModule := mongoIns.MsignaccountCollection()
 	if error := msignAccountModule.Find(bson.M{"param.authority.author_account": params.AuthorAccount}).All(&authorRes); error != nil {
 		common.ResponseErr(c, "account find failed", error)
 		return
 	}
-
+	//fmt.Println(authorRes)
 	var authAccounts []string
 	for index := 0; index < len(authorRes); index++ {
 		a := authorRes[index]
 		authAccounts = append(authAccounts, a.Param.Account)
 	}
 
-	res := []bson.M{}
+	//var res []module.DBTransactions
+	res := []bson.M{};
 	transactionModule := mongoIns.TransactionCollection()
 	if error := transactionModule.Find(bson.M{"method": "pushmsignproposal", "param.account": bson.M{"$in": authAccounts}}).All(&res); error != nil {
 		// if error := transactionModule.Find(bson.M{"method": "pushmsignproposal"}).All(&res); error != nil {
 		common.ResponseErr(c, "account find failed", error)
 		return
 	}
+	//transfer结构
+	for _,v := range res{
+		for key,val := range v{
+			if key =="param"{
+				for kk,vv := range val.(bson.M){
+					if kk == "transfer"{
+						data := make(map[string]string)
+						if err:=json.Unmarshal([]byte(vv.(string)),&data);err !=nil{
+							//fmt.Println(err)
+							//return
+						}
+						 val.(bson.M)[kk] = data
+					}
+				}
+			}
+		}
+	}
+
 	common.ResponseSuccess(c, "success", res)
+}
+
+//func MsignProposalList(c *gin.Context)  {
+//	var params module.DBMsignAccountModule
+//	if err := c.BindJSON(&params); err != nil{
+//		common.ResponseErr(c, "params error", err)
+//		return
+//	}
+//	mongoIns,_ := db.NewDBCollection()
+//	defer db.CloseSession(mongoIns)
+//	var res []bson.M
+//	transaction := mongoIns.TransactionCollection()
+//	error := transaction.Find(bson.M{
+//		"$or":[]bson.M{
+//			bson.M{"method": "execmsignproposal","param.from":params.AuthorAccount},
+//			bson.M{"method": "pushmsignproposal","param.account":params.AuthorAccount},
+//		},
+//
+//	}).Sort("_id").All(&res)
+//	if error != nil{
+//		common.ResponseErr(c, "account find failed", error)
+//		return
+//	}
+//	common.ResponseSuccess(c,"find success",res)
+//}
+
+func MsignProposalList(c *gin.Context)  {
+	var params module.DBMsignAccountModule
+	if err := c.BindJSON(&params);err != nil{
+		common.ResponseErr(c,"params error",err)
+		return
+	}
+	mongoIns,_ := db.NewDBCollection()
+	defer db.CloseSession(mongoIns)
+	var Pushres []module.PushProposal
+	TransferCollection := mongoIns.TransactionCollection()
+	err := TransferCollection.Find(bson.M{"method":"pushmsignproposal","param.account":params.AuthorAccount}).All(&Pushres)
+	if err != nil{
+		common.ResponseErr(c,"no proposal",err)
+		return
+	}
+
+	var Execres module.ExecProposal
+	for k,v := range Pushres{
+		err := TransferCollection.Find(bson.M{
+			"$or":[]bson.M{
+				bson.M{"method":"execmsignproposal"},
+				bson.M{"method":"cancelmsignproposal"},
+			},
+			"param.proposal":v.Param.Proposal,
+			}).One(&Execres)
+		if err == nil{
+
+			Pushres[k].Param.From = Execres.Param.From
+			Pushres[k].Param.To = Execres.Param.To
+			Pushres[k].Param.Value = Execres.Param.Value
+			Pushres[k].Param.Memo = Execres.Param.Memo
+			Pushres[k].Res = Execres.Method
+		}
+	}
+	common.ResponseSuccess(c,"find success",Pushres)
+}
+
+
+
+
+func GetPubAccount(c *gin.Context)  {
+	var params module.PubKey
+	if err := c.BindJSON(&params); err != nil{
+		common.ResponseErr(c, "params error", err)
+		return
+	}
+	mongoIns,_ := db.NewDBCollection()
+	defer db.CloseSession(mongoIns)
+	var res bson.M
+	AccountCollection := mongoIns.AccountCollection()
+	error := AccountCollection.Find(bson.M{
+		"pubkey":params.Pkey,
+	}).One(&res)
+	if error != nil{
+		common.ResponseErr(c, "account find failed", error)
+		return
+	}
+	common.ResponseSuccess(c,"find success",res)
 }

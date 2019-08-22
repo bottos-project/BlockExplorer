@@ -4,11 +4,24 @@ import (
 	"log"
 
 	"github.com/bottos-project/BlockExplorer/db"
-
 	"github.com/bottos-project/BlockExplorer/common"
 	"github.com/bottos-project/BlockExplorer/module"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/mgo.v2/bson"
+	"os"
+	"io"
+	"github.com/nfnt/resize"
+	"image"
+	_ "image/gif"
+	_ "image/jpeg"
+	_ "image/png"
+	"image/png"
+	"fmt"
+	"crypto/md5"
+	"time"
+	"strconv"
+	"encoding/hex"
+	"path/filepath"
 )
 
 // //NodeProductList Node product list
@@ -98,7 +111,7 @@ func NodeSuperDetail(c *gin.Context) {
 
 	nodeModule := mongoIns.NodeSuperCollection()
 	accountModule := mongoIns.AccountCollection()
-	trxModule := mongoIns.TransactionCollection()
+	//trxModule := mongoIns.TransactionCollection()
 	blockModule := mongoIns.BlockCollection()
 	res := bson.M{}
 	account := bson.M{}
@@ -117,8 +130,12 @@ func NodeSuperDetail(c *gin.Context) {
 	res["produce_block_count"] = blockCount
 
 	// voters
-	voteCount, _ := trxModule.Find(bson.M{"method": "votedelegate", "param.delegate": params.NodeName}).Count()
+	/*voteCount, _ := trxModule.Find(bson.M{"method": "votedelegate", "param.delegate": params.NodeName}).Count()
+	res["voters"] = voteCount*/
+
+	voteCount, _ := accountModule.Find(bson.M{"vote.delegate": params.NodeName,"vote.votes":bson.M{"$ne":0}}).Count()
 	res["voters"] = voteCount
+
 
 	common.ResponseSuccess(c, "super node detail search success", res)
 }
@@ -176,7 +193,7 @@ func NodeProductList(c *gin.Context) {
 	selector := []bson.M{
 		{
 			"$lookup": bson.M{
-				"from":         "Accounts",
+				"from":         "Accounts",//同一个数据库下等待被Join的集合。
 				"localField":   "delegate",
 				"foreignField": "account_name",
 				"as":           "account_info",
@@ -240,3 +257,145 @@ func NodeVoterList(c *gin.Context) {
 
 	common.ResponseSuccess(c, "super node voters search success", res)
 }
+
+func NodeVoterHistory(c *gin.Context)  {
+	var params module.ReqNodeSuperDetail
+	if err := c.BindJSON(&params); err != nil {
+		common.ResponseErr(c, "params error", err)
+		return
+	}
+	coll,err :=db.NewDBCollection()
+	if err !=nil{
+		common.ResponseErr(c,"connect mongoDB error", err)
+	}
+	defer  db.CloseSession(coll)
+	data := []bson.M{}
+
+	start := params.Start
+	length := params.Length
+
+	collAccount := coll.AccountCollection()
+
+	if err := collAccount.Find(bson.M{"vote.delegate": params.NodeName,"vote.votes":bson.M{"$ne":0}}).Sort("-_id").Skip(start).Limit(length).All(&data);err != nil{
+		common.ResponseErr(c,"not found",err)
+	}
+	common.ResponseSuccess(c, "product node list search success", data)
+}
+
+
+
+
+
+
+func UpdateNodeInfo(c *gin.Context)  {
+	var url string = "explorerpic.botfans.org"
+	var path string  = "/var/www/explorerpic/"
+	var avatar_width uint = 150
+	var avatar_height uint
+	var superNodeInfo bson.M
+
+	node_name := c.Request.FormValue("node_name")
+	if(node_name ==""){
+		common.ResponseErr(c,"node_name miss",nil)
+		return
+	}
+
+	_,e :=c.FormFile("avatar")
+
+	if(e ==nil){
+		fmt.Println("filefilefilefilefilefile")
+		file, header, err := c.Request.FormFile("avatar") //image这个是uplaodify参数定义中的   'fileObjName':'image'
+		if err != nil {
+			common.ResponseErr(c,"params error",err)
+			return
+		}
+
+		filename :=   header.Filename
+		ext := filepath.Ext(header.Filename)
+		//fmt.Println(file, err, filename)
+		//创建文件
+
+		hashmd5 := md5.New()
+		timestamp :=  strconv.FormatInt(time.Now().Unix(),10)
+		hashmd5.Write([]byte(filename+timestamp))
+		mdname := hex.EncodeToString(hashmd5.Sum(nil))
+
+		//os.Exit(222)
+		out, err := os.Create(path+mdname+ext)
+		//注意此处的 static/uploadfile/ 不是/static/uploadfile/
+		if err != nil {
+			log.Println(err)
+		}
+		defer out.Close()
+		_, err = io.Copy(out, file)
+		if err != nil {
+			log.Println(err)
+		}
+		open_file,_ := os.Open(path+mdname+ext)
+		superNodeInfo = bson.M{
+			"avatar":url+"/"+mdname+ext,
+		}
+
+		//缩略图
+
+		//image.Decode(open_file)
+		//png.Decode(open_file)
+		temp_img,_,err := image.Decode(open_file)
+		if err != nil{
+			log.Println(err)
+
+		}
+		open_file.Close()
+
+		thumb_avatar := resize.Resize(avatar_width,avatar_height,temp_img,resize.NearestNeighbor)
+
+		out_thumb,err := os.Create(path+"thumb_"+mdname+ext)
+		defer out_thumb.Close()
+		png.Encode(out_thumb,thumb_avatar)
+		if err !=nil{
+			log.Println(err)
+
+		}
+		superNodeInfo = bson.M{
+			"avatar":url+"/"+mdname+ext,
+			"avatar_thumb":url+"/"+"thumb_"+mdname+ext,
+		}
+	}
+
+	description := c.Request.FormValue("description")
+	if(description !=""){
+		if(superNodeInfo == nil){
+			superNodeInfo =bson.M{"description":description}
+		}else {
+			superNodeInfo["description"] = description
+		}
+
+	}
+
+	fmt.Printf("%+v",superNodeInfo)
+	mongoIns, err := db.NewDBCollection()
+	if err != nil {
+		common.ResponseErr(c, "connect mongoDB error", err)
+		return
+	}
+
+	NodeSuperModule := mongoIns.NodeSuperCollection()
+	where := bson.M{"delegate":node_name}
+	update := bson.M{"$set": superNodeInfo}
+
+
+	errUpdate := NodeSuperModule.Update(where,update);if errUpdate != nil{
+		fmt.Println(errUpdate)
+	}
+	//c.String(http.StatusCreated, "upload successful")
+	common.ResponseSuccess(c, "upload successful", superNodeInfo)
+
+}
+
+
+//11000000000
+//true
+//a0123456789
+//Beijing,China
+//Bottos up up
+//04ce4936e88d161951023eba9eedacd4277ccb83490aff50b56343baa5b212ec8836a5a097ea73fea6f9bc4e0b3926b60611ecb43af21130ea349f01b1d562f6cc

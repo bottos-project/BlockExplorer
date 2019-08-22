@@ -27,7 +27,10 @@ func HomeGetTotalCount(c *gin.Context) {
 	transactionModule := mongoIns.TransactionCollection()
 	superNodeModule := mongoIns.NodeSuperCollection()
 	ServiceModule := mongoIns.NodeServiceCollection()
-	blockCount, err := dbBlock.Count()
+	//blockCount, err := dbBlock.Count()
+	var last module.LastBlockNum
+	dbBlock.Find(bson.M{}).Sort("-_id").One(&last)
+	//fmt.Println(last.BlockNumber)
 	if err != nil {
 		common.ResponseErr(c, "failed to find lastest block number", err)
 		return
@@ -52,8 +55,15 @@ func HomeGetTotalCount(c *gin.Context) {
 
 	transactionCount, _ := transactionModule.Find(bson.M{"timestamp": bson.M{"$gte": timestamp}}).Count()
 
+
+	//type ResTotalCount struct {
+	//	TransactionCount int    `json:"lastTradeCount"`
+	//	NodeCount        int    `json:"nodeCount"`
+	//	BlockNumber      uint64 `json:"blockNum"`
+	//	Accounts         int    `json:"rtCustCount"`
+	//}
 	totalCount := module.ResTotalCount{
-		BlockNumber:      uint64(blockCount),
+		BlockNumber:      uint64(last.BlockNumber),
 		NodeCount:        nodeCount,
 		Accounts:         accounts,
 		TransactionCount: transactionCount,

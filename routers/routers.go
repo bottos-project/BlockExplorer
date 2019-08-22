@@ -22,23 +22,35 @@ func Routes(router *gin.Engine) {
 	rExplorer.POST("/transferl/queryTransferlListAuto", controller.TrxTransferList)                          // 转账列表
 	rExplorer.POST("/transferl/queryPersonalTransferlListAuto", controller.TrxPersonalTransferList)          // 个人转账列表
 	rExplorer.POST("/transaction/queryPersonalTransactionByMethod", controller.TrxPersonTransactionByMethod) // 根据方法名查询列表
+	rExplorer.POST("/transaction/transferaccounthistory", controller.TransferAccountHistory) // 根据方法名查询列表
 
 	// Detail
 	rExplorer.POST("/block/queryBlockDetailAuto", controller.BlockDetail)          // 区块详情
 	rExplorer.POST("/trade/queryTradeDetailAuto", controller.TrxTransactionDetail) // 交易详情
 	rExplorer.POST("/cust/queryCustDetailAuto", controller.AccountDetail)          // 账户详情
-	rExplorer.POST("/getMsignaccount", controller.Msignaccount)
-	rExplorer.POST("/getMsignProposal", controller.MsignProposal)
+	rExplorer.POST("/getMsignaccount", controller.Msignaccount)//3.1
+	rExplorer.POST("/getMsignProposal", controller.MsignProposal)//3.2
+	rExplorer.POST("/getMsignProposalList", controller.MsignProposalList)//3.2
+	//rExplorer.POST("/getMsignProposalLists", controller.MsignProposalLists)//3.2
+	rExplorer.POST("/getPubAccount", controller.GetPubAccount)//3.2
+
 
 	// Statistics
 	rExplorer.POST("/trade/queryLastFTTradeSummaryAuto", controller.StatisticTransaction) // transaction statistic
 	rExplorer.POST("/cust/queryRigiterSummaryAuto", controller.StatisticAccount)          // account increase
+	rExplorer.POST("/cust/queryStakeSummaryAuto", controller.StatisticStake)          // account increase
+
 
 	// nodes
 	rExplorer.POST("/superNode/queryNodeListAuto", controller.NodeProductList)    // 生产节点
 	rExplorer.POST("/superNode/queryNodeDetailAuto", controller.NodeSuperDetail)  // 生产节点详情
 	rExplorer.POST("/superNode/queryNodeSummaryAuto", controller.NodeSummaryAuto) // 生产节点汇总
 	rExplorer.POST("/superNode/queryVoteListAuto", controller.NodeVoterList)      // 生产节点汇总
+	rExplorer.POST("/superNode/queryVoterList", controller.NodeVoterHistory)      // 生产节点汇总
+	//rExplorer.POST("/superNode/uploadNodeAvatar", controller.UploadNodeAvatar)      // 生产节点汇总
+	rExplorer.POST("/superNode/updateNodeInfo", controller.UpdateNodeInfo)      // 生产节点汇总
+
+
 
 	rExplorer.POST("/node/queryNodeRankAuto", controller.NodeServiceList)          // 服务节点
 	rExplorer.POST("/node/queryTopNodeSummaryAuto", controller.NodeServiceSummary) // 服务节点概要信息
@@ -46,4 +58,7 @@ func Routes(router *gin.Engine) {
 	// history
 	rExplorer.GET("/api/historys/stake", controller.StakeHistory)
 	rExplorer.GET("/api/historys/vote", controller.VoteHistory)
+
+
+
 }

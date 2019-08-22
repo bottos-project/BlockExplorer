@@ -10,6 +10,8 @@ type ReqBlockList struct {
 type ReqAccountList struct {
 	Start  int `json:"start"`
 	Length int `json:"length"`
+	Order  string `json:"order"`
+	By     string `json:"by"`
 }
 
 // GetBlockDetail
